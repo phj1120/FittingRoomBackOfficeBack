@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
+
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductDTO" id="ProductDTO">
+        <id column="pr_no" property="prNo"/>
+        <result column="pr_brand" property="prBrand"/>
+        <result column="pr_name" property="prName"/>
+        <result column="pr_price" property="prPrice"/>
+        <result column="pr_create_dt" property="prCreateDt"/>
+        <result column="pr_modify_dt" property="prModifyDt"/>
+    </resultMap>
+
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductDTO" id="ProductListResultMap" extends="ProductDTO">
+        <collection property="files" javaType="arrayList" resultMap="ProductFileDTOResultMap"/>
+        <collection property="options" javaType="arrayList" resultMap="ProductOptionDTO"/>
+        <collection property="pcNo" javaType="Long" resultMap="ProductCategoryDTO"/>
+    </resultMap>
+
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductFileDTO" id="ProductFileDTO">
+        <id column="prf_no" property="prfNo"/>
+        <result column="prf_name" property="prfName"/>
+        <result column="prf_uuid" property="prfUuid"/>
+        <result column="prf_type" property="prfType"/>
+        <result column="prf_status" property="prfStatus"/>
+        <result column="pr_no" property="prNo"/>
+    </resultMap>
+
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductOptionDTO" id="ProductOptionDTO">
+        <id column="sp_no" property="spNo"/>
+        <result column="sp_size" property="spSize"/>
+        <result column="sp_status" property="spStatus"/>
+        <result column="sp_create_dt" property="spCreateDt"/>
+        <result column="sp_modify_dt" property="spModifyDt"/>
+        <result column="pr_no" property="prNo"/>
+    </resultMap>
+
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductCategoryDTO" id="ProductCategoryDTO">
+        <id column="prc_no" property="prcNo"/>
+        <result column="prc_name" property="prcName"/>
+        <result column="prc_depth" property="prcDepth"/>
+        <result column="prc_position" property="prcPosition"/>
+        <result column="prc_status" property="prcStatus"/>
+        <result column="prc_create_dt" property="prcCreateDt"/>
+        <result column="prc-modify_dt" property="prcModifyDt"/>
+    </resultMap>
+
+    <!--  리스트 조회  -->
+    <select id="getProductList" resultMap="ProductDTO">
+        SELECT pr.pr_no, pr.pr_brand, pr.pr_name, pr.pr_price, pr.pr_create_dt, pr.pr_modify_dt,
+                sp.sp_status, (SELECT prf.prf_uuid
+                                FROM tbl_product_file prf
+                                WHERE prf_status = 1
+                                    and prf.pr_no = pr.pr_no
+                                    and prf_type = 'TOP')
+        FROM tbl_product pr
+            JOIN tbl_sell_product sp ON pr.pr_no = sp.pr_no
+        ORDER BY pr.pr_no DESC
+<!--        LIMIT #{skip}, #{size}-->
+    </select>
+
+</mapper>
