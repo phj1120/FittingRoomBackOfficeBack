@@ -3,83 +3,92 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
+    <select id="getProduct"
+            resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
+        select *
+        from tbl_product tp
+        where tp.pr_no = #{prNo} and tp.pr_status = true;
+    </select>
 
-    <!--    <sql id="search">-->
-    <!--        <bind name="pattern" value="'%' + _parameter.getKeyword() + '%'"/>-->
-    <!--        and-->
-    <!--        <foreach item="type" collection="types" open="(" close=")" separator="OR">-->
-    <!--            <if test="type.name() == 'TITLE'">-->
-    <!--                title like #{pattern}-->
-    <!--            </if>-->
-    <!--            <if test="type.name() == 'TARGET'">-->
-    <!--                target like #{pattern}-->
-    <!--            </if>-->
-    <!--        </foreach>-->
-    <!--    </sql>-->
+    <sql id="search">
+        <bind name="pattern" value="'%' + _parameter.productPageSearchRequestDTO.getKeyword() + '%'"/>
+        and
+        <foreach item="type" collection="productPageSearchRequestDTO.types" open="(" close=")" separator="OR">
+            <!--            NO, CATEGORY, BRAND, BRAND-->
+            <if test="type.name() == 'NO'">
+                pr_no like #{pattern}
+            </if>
+            <if test="type.name() == 'CATEGORY'">
+                prc_no like #{pattern}
+            </if>
+            <if test="type.name() == 'BRAND'">
+                pr_brand like #{pattern}
+            </if>
+            <if test="type.name() == 'NAME'">
+                pr_name like #{pattern}
+            </if>
+        </foreach>
+    </sql>
 
-    <!--    <select id="getList"-->
-    <!--            resultType="RollingDTO">-->
-    <!--        select *-->
-    <!--        from tbl_rolling-->
-    <!--        where del_flag = false-->
-    <!--        <if test="keyword != null and types != null">-->
-    <!--            <include refid="search"></include>-->
-    <!--        </if>-->
-    <!--        order by rolling_id desc limit #{skip}, #{size}-->
-    <!--    </select>-->
+    <select id="getProductList"
+            resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
+        select *
+        from tbl_product
+        where pr_status = true
+        <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
+            <include refid="search"></include>
+        </if>
+        order by pr_no desc limit #{productPageSearchRequestDTO.skip}, #{productPageSearchRequestDTO.size}
+    </select>
 
-    <!--    <select id="getCount"-->
-    <!--            resultType="int">-->
-    <!--        select-->
-    <!--        count(rolling_id)-->
-    <!--        from-->
-    <!--        tbl_rolling-->
-    <!--        where del_flag = false-->
-    <!--        <if test="keyword != null and types != null">-->
-    <!--            <include refid="search"></include>-->
-    <!--        </if>-->
-    <!--    </select>-->
+    <select id="getCount"
+            resultType="int">
+        select *
+        from tbl_product
+        where pr_status = true
+        <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
+            <include refid="search"></include>
+        </if>
+    </select>
 
-<!--    <select id="getProduct"-->
-<!--            resultType="ProductDTO">-->
-<!--        select *-->
-<!--        from tbl_-->
-<!--        where rolling_id = #{id} and del_flag = false-->
-<!--    </select>-->
+    <insert id="insertProduct"
+            useGeneratedKeys="true" keyProperty="prNo">
+        insert into tbl_product (pr_brand, pr_name, pr_price, prc_no, s_no, pr_create_dt, pr_status)
+        values(#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{sNo}, #{prCreateDt}, #{prStatus})
+    </insert>
 
-    <!--    <insert id="addRolling">-->
-    <!--        <selectKey keyProperty="rollingId" resultType="long" order="AFTER">-->
-    <!--            SELECT LAST_INSERT_ID()-->
-    <!--        </selectKey>-->
-    <!--        insert into tbl_rolling (title, target, img_src, create_dt, writer_member_id)-->
-    <!--        value (#{title}, #{target}, #{imgSrc}, #{createDt}, #{writerMemberId})-->
-    <!--    </insert>-->
+    <update id="updateProduct">
+        update tbl_product
+        <set>
+            <if test="true">
+                pr_modify_dt = #{prModifyDt},
+            </if>
+            <if test="prBrand != null">
+                pr_brand = #{prBrand},
+            </if>
+            <if test="prName != null">
+                pr_name = #{prName},
+            </if>
+            <if test="prPrice != null">
+                pr_price = #{prPrice},
+            </if>
+            <if test="prcNo != null">
+                prc_no = #{prcNo},
+            </if>
+            <if test="prStatus != null">
+                pr_status = #{prStatus},
+            </if>
+        </set>
+        where pr_no = #{prNo}
+    </update>
 
-    <!--    <update id="modifyRolling">-->
-    <!--        update tbl_rolling-->
-    <!--        <set>-->
-    <!--            <if test="title != null">-->
-    <!--                title = #{title},-->
-    <!--            </if>-->
-    <!--            <if test="target != null">-->
-    <!--                target = #{target},-->
-    <!--            </if>-->
-    <!--            img_src = #{imgSrc},-->
-    <!--            <if test="true">-->
-    <!--                update_dt = #{updateDt}-->
-    <!--            </if>-->
-    <!--        </set>-->
-    <!--        where rolling_id = #{rollingId}-->
-    <!--    </update>-->
-
-    <!--    <update id="deleteRolling">-->
-    <!--        UPDATE-->
-    <!--        tbl_rolling-->
-    <!--        SET-->
-    <!--        del_flag = true,-->
-    <!--        img_Src = ""-->
-    <!--        WHERE-->
-    <!--        rolling_id = #{id}-->
-    <!--    </update>-->
+    <update id="deleteProduct">
+        UPDATE
+        tbl_product
+        SET
+        pr_status = false
+        WHERE
+        pr_no = #{id}
+    </update>
 
 </mapper>

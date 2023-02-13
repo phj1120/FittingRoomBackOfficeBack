@@ -1,6 +1,7 @@
 package org.plateer.fittingroombo.product.mapper;
 
 import org.plateer.fittingroombo.product.dto.ProductDTO;
+import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface ProductMapper {
     ProductDTO getProduct(Long prNo); // 상품 번호
 
     // 목록 조회
-    List<ProductDTO> getProductList(Long sNo); // 판매자 번호
+    List<ProductDTO> getProductList(Long sNo, ProductPageSearchRequestDTO productPageSearchRequestDTO); // 판매자 번호
 
     // 상품 추가
     int insertProduct(ProductDTO productDTO); // 상품

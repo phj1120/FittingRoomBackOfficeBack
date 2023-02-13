@@ -18,7 +18,7 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public List<ProductDTO> getProductList(Long sNo) {
-        return productMapper.getProductList(sNo);
+        return productMapper.getProductList(sNo, null);
     }
 
 }

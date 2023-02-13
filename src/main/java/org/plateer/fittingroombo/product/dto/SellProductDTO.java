@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class SellProductDTO {
     private Long spNo;
     private String spSize;
-    private String spStatus;
+    private SellProductStatus spStatus;
     private LocalDateTime spCreateDt;
     private LocalDateTime spModifyDt;
     private Long prNo;
