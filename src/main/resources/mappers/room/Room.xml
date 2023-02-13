@@ -2,52 +2,53 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.saea.lms.admin.trading.mapper.TradingMapper">
-    <sql id="search">
-        AND
-        <foreach item="item" collection="type" open="(" close=")" separator="OR">
-            <if test="item.name() == 'IP'">
-                D.Ip LIKE CONCAT('%', #{ keyword }, '%')
-            </if>
-            <if test="item.name() == 'COMNAME'">
-                D.CompName LIKE CONCAT('%', #{ keyword }, '%')
-            </if>
-            <if test="item.name() == 'NAME'">
-                A.MemberName_kor LIKE CONCAT('%', #{ keyword }, '%')
-            </if>
-            <if test="item.name() == 'ID'">
-                A.MemberID LIKE CONCAT('%', #{ keyword }, '%')
-            </if>
-            <if test="item.name() == 'SAEAID'">
-                A.SAEA_ID LIKE CONCAT('%', #{ keyword }, '%')
-            </if>
-            <if test="item.name() == 'ALL'">
-                A.SAEA_ID LIKE CONCAT('%', #{ keyword }, '%')
-                OR  A.MemberID LIKE CONCAT('%', #{ keyword }, '%')
-                OR  A.MemberName_kor LIKE CONCAT('%', #{ keyword }, '%')
-                OR  D.CompName LIKE CONCAT('%', #{ keyword }, '%')
-                OR  D.Ip LIKE CONCAT('%', #{ keyword }, '%')
-            </if>
-        </foreach>
-    </sql>
+<mapper namespace="org.plateer.fittingroombo.room.mapper.RoomMapper">
+    <!--<mapper namespace="org.saea.lms.admin.trading.mapper.TradingMapper">-->
+    <!--    <sql id="search">-->
+    <!--        AND-->
+    <!--        <foreach item="item" collection="type" open="(" close=")" separator="OR">-->
+    <!--            <if test="item.name() == 'IP'">-->
+    <!--                D.Ip LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--            </if>-->
+    <!--            <if test="item.name() == 'COMNAME'">-->
+    <!--                D.CompName LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--            </if>-->
+    <!--            <if test="item.name() == 'NAME'">-->
+    <!--                A.MemberName_kor LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--            </if>-->
+    <!--            <if test="item.name() == 'ID'">-->
+    <!--                A.MemberID LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--            </if>-->
+    <!--            <if test="item.name() == 'SAEAID'">-->
+    <!--                A.SAEA_ID LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--            </if>-->
+    <!--            <if test="item.name() == 'ALL'">-->
+    <!--                A.SAEA_ID LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--                OR  A.MemberID LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--                OR  A.MemberName_kor LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--                OR  D.CompName LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--                OR  D.Ip LIKE CONCAT('%', #{ keyword }, '%')-->
+    <!--            </if>-->
+    <!--        </foreach>-->
+    <!--    </sql>-->
 
-    <select id="getCount" resultType="int">
-        SELECT
-            COUNT()
-        FROM
-            CD_Member AS A
-            LEFT JOIN CD_Rank AS C ON C.K_RankID = (SELECT TOP 1 B.K_RankID FROM CD_Member_Trace B WHERE B.MemberID = A.MemberID ORDER BY B.EndDate DESC)
-            LEFT JOIN NH70DB.dbo.UserInfo AS D ON A.SAEA_ID = D.UID
-        WHERE
-            ISNUMERIC(A.Email ) != 1
-            AND A.Email != ''
-            AND	A.SAEA_GName != '현지인'
-            <if test="type != null and keyword != null">
-                <include refid="search"></include>
-            </if>
-    </select>
+    <!--    <select id="getCount" resultType="int">-->
+    <!--        SELECT-->
+    <!--            COUNT()-->
+    <!--        FROM-->
+    <!--            CD_Member AS A-->
+    <!--            LEFT JOIN CD_Rank AS C ON C.K_RankID = (SELECT TOP 1 B.K_RankID FROM CD_Member_Trace B WHERE B.MemberID = A.MemberID ORDER BY B.EndDate DESC)-->
+    <!--            LEFT JOIN NH70DB.dbo.UserInfo AS D ON A.SAEA_ID = D.UID-->
+    <!--        WHERE-->
+    <!--            ISNUMERIC(A.Email ) != 1-->
+    <!--            AND A.Email != ''-->
+    <!--            AND	A.SAEA_GName != '현지인'-->
+    <!--            <if test="type != null and keyword != null">-->
+    <!--                <include refid="search"></include>-->
+    <!--            </if>-->
+    <!--    </select>-->
 
-    <select id="getRoomList" resultType="TradingDTO">
+    <!--    <select id="getRoomList" resultType="TradingDTO">-->
 
-    </select>
+    <!--    </select>-->
 </mapper>
