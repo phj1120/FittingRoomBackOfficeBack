@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
+
+    <!--    <sql id="search">-->
+    <!--        <bind name="pattern" value="'%' + _parameter.getKeyword() + '%'"/>-->
+    <!--        and-->
+    <!--        <foreach item="type" collection="types" open="(" close=")" separator="OR">-->
+    <!--            <if test="type.name() == 'TITLE'">-->
+    <!--                title like #{pattern}-->
+    <!--            </if>-->
+    <!--            <if test="type.name() == 'TARGET'">-->
+    <!--                target like #{pattern}-->
+    <!--            </if>-->
+    <!--        </foreach>-->
+    <!--    </sql>-->
+
+    <!--    <select id="getList"-->
+    <!--            resultType="RollingDTO">-->
+    <!--        select *-->
+    <!--        from tbl_rolling-->
+    <!--        where del_flag = false-->
+    <!--        <if test="keyword != null and types != null">-->
+    <!--            <include refid="search"></include>-->
+    <!--        </if>-->
+    <!--        order by rolling_id desc limit #{skip}, #{size}-->
+    <!--    </select>-->
+
+    <!--    <select id="getCount"-->
+    <!--            resultType="int">-->
+    <!--        select-->
+    <!--        count(rolling_id)-->
+    <!--        from-->
+    <!--        tbl_rolling-->
+    <!--        where del_flag = false-->
+    <!--        <if test="keyword != null and types != null">-->
+    <!--            <include refid="search"></include>-->
+    <!--        </if>-->
+    <!--    </select>-->
+
+<!--    <select id="getProduct"-->
+<!--            resultType="ProductDTO">-->
+<!--        select *-->
+<!--        from tbl_-->
+<!--        where rolling_id = #{id} and del_flag = false-->
+<!--    </select>-->
+
+    <!--    <insert id="addRolling">-->
+    <!--        <selectKey keyProperty="rollingId" resultType="long" order="AFTER">-->
+    <!--            SELECT LAST_INSERT_ID()-->
+    <!--        </selectKey>-->
+    <!--        insert into tbl_rolling (title, target, img_src, create_dt, writer_member_id)-->
+    <!--        value (#{title}, #{target}, #{imgSrc}, #{createDt}, #{writerMemberId})-->
+    <!--    </insert>-->
+
+    <!--    <update id="modifyRolling">-->
+    <!--        update tbl_rolling-->
+    <!--        <set>-->
+    <!--            <if test="title != null">-->
+    <!--                title = #{title},-->
+    <!--            </if>-->
+    <!--            <if test="target != null">-->
+    <!--                target = #{target},-->
+    <!--            </if>-->
+    <!--            img_src = #{imgSrc},-->
+    <!--            <if test="true">-->
+    <!--                update_dt = #{updateDt}-->
+    <!--            </if>-->
+    <!--        </set>-->
+    <!--        where rolling_id = #{rollingId}-->
+    <!--    </update>-->
+
+    <!--    <update id="deleteRolling">-->
+    <!--        UPDATE-->
+    <!--        tbl_rolling-->
+    <!--        SET-->
+    <!--        del_flag = true,-->
+    <!--        img_Src = ""-->
+    <!--        WHERE-->
+    <!--        rolling_id = #{id}-->
+    <!--    </update>-->
+
+</mapper>

@@ -1,8 +1,8 @@
-package org.plateer.fittingroombo.product;
+package org.plateer.fittingroombo.product.dto;
 
 import java.time.LocalDate;
 
-public class Product {
+public class ProductDTO {
     private Long prNo;
     private String prBrand;
     private String prName;
