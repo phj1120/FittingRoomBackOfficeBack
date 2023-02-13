@@ -1,4 +1,4 @@
-package org.plateer.fittingroombo.placeadmin;
+package org.plateer.fittingroombo.place;
 
 import java.time.LocalDate;
 
