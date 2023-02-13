@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper">
+
+<insert id="insertRequestHistory" keyProperty="rhNo" useGeneratedKeys="true">
+
+    insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,s_no)
+    values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{sNo})
+
+</insert>
+
+</mapper>
