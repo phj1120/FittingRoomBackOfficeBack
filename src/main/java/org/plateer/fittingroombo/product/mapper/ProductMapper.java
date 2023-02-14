@@ -8,7 +8,6 @@ import org.plateer.fittingroombo.product.dto.SellProductDTO;
 import java.util.List;
 
 public interface ProductMapper {
-
     // 상품
     int insertProduct(ProductDTO productDTO);
 

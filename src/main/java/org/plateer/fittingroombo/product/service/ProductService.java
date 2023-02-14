@@ -2,7 +2,6 @@ package org.plateer.fittingroombo.product.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.plateer.fittingroombo.common.dto.PageRequestDTO;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.mapper.ProductMapper;
@@ -30,6 +29,4 @@ public class ProductService {
     public List<ProductDTO> getProductList(Long sNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
         return productMapper.getProductList(sNo, productPageSearchRequestDTO);
     }
-
-
 }
