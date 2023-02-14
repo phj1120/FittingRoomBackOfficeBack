@@ -1,13 +1,12 @@
 package org.plateer.fittingroombo.room.service;
 
+import org.plateer.fittingroombo.common.dto.PageResultDTO;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
+
 public interface RoomService {
-//    PageResultDTO<RollingInfoDTO> getList(RollingPageRequestDTO rollingPageRequestDTO);
-//
-//    RollingWithImageNameDTO getRolling(Long id);
-//
-//    RollingInfoDTO addRolling(AddRollingDTO addRollingDTO);
-//
-//    RollingWithImageNameDTO modifyRolling(ModifyRollingDTO modifyRollingDTO);
-//
-//    void deleteRolling(Long id);
+    PageResultDTO<RequestHistoryDTO> getRoomRequestHistoryList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+
+    Long insertRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO);
 }

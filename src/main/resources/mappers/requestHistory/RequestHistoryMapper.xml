@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper">
+    <select id="getCount" resultType="int">
+        select
+            count(*)
+        from
+            tbl_request_history
+        where
+            pm_no = #{ id }
+    </select>
+
+    <select id="getRoomRequestHistoryList" resultType="RequestHistoryDTO">
+        select
+            *
+        from
+            tbl_request_history
+        where
+            pm_no = #{ id }
+        order by
+            pm_no desc
+        limit #{skip}, #{size}
+    </select>
+
+    <insert id="insertRequestHistoryPlace">
+        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt, pm_no)
+        values(#{rhStatus}, #{rhContent}, #{rhReason}, #{rhStartDt}, #{rhCreateDt}, #{pmNo})
+
+        <selectKey keyProperty="rhNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateRequestHistoryPlace">
+        update
+            tbl_request_history
+        set
+            rh_content = #{rhContent},
+            rh_reason = #{rhReason},
+            rh_start_dt = #{rhStartDt}
+        where
+            rh_no = #{rhNo}
+    </update>
+
+    <insert id="insertRequestHistorySeller">
+        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
+        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{seNo})
+
+        <selectKey keyProperty="rhNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateRequestHistorySeller">
+        update
+            tbl_request_history
+        set
+            rh_content = #{rhContent},
+            rh_reason = #{rhReason},
+            rh_start_dt = #{rhStartDt}
+        where
+            rh_no = #{rhNo}
+
+    </update>
+</mapper>

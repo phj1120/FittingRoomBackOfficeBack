@@ -17,21 +17,21 @@ import java.time.LocalDateTime;
 public class RoomDTO {
     private Long rNo;
 
-    private String rName;
-    private String rAddress;
-    private String rDetailAddress;
-    private String rPostcode;
+    private String roName;
+    private String roAddress;
+    private String roDetailAddress;
+    private String roPostcode;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime rCreateDt;
+    private LocalDateTime roCreateDt;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime rModifyDt;
+    private LocalDateTime roModifyDt;
 
-    public RoomDTO (String rName, String rAddress, String rDetailAddress, String rPostcode) {
-        this.rName = rName;
-        this.rAddress = rAddress;
-        this.rDetailAddress = rDetailAddress;
-        this.rPostcode = rPostcode;
-        this.rCreateDt = LocalDateTime.now();
+    public RoomDTO (String roName, String roAddress, String roDetailAddress, String roPostcode) {
+        this.roName = roName;
+        this.roAddress = roAddress;
+        this.roDetailAddress = roDetailAddress;
+        this.roPostcode = roPostcode;
+        this.roCreateDt = LocalDateTime.now();
     }
 }

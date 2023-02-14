@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.seller.mapper.SellerMapper">
+    <select id="getSellerList" resultType="org.plateer.fittingroombo.seller.dto.SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+            pm_no = #{ pmNo }
+    </select>
+
+    <select id="getSeller" resultType="org.plateer.fittingroombo.seller.dto.SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+            se_no = #{ seNo }
+    </select>
+</mapper>

@@ -9,7 +9,7 @@
         FROM
             tbl_place_member tpm
         WHERE
-            pm_status != '탈퇴';
+            pm_status != '탈퇴'
     </select>
 
     <select id="getPlace" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
@@ -19,11 +19,70 @@
             tbl_place_member tpm
         WHERE
                 pm_no = #{ pmNo }
-            AND pm_status != '탈퇴';
+            AND pm_status != '탈퇴'
+    </select>
+
+    <update id="updatePlaceInfo">
+        UPDATE
+            tbl_place_member
+        SET
+            pm_password = #{ pmPassword },
+            pm_email = #{ pmEmail },
+            pm_phone = #{ pmPhone },
+            pm_modify_dt = #{ pmModifyDt }
+        WHERE
+            pm_no = #{ pmNo }
+    </update>
+
+    <update id="updatePlaceStatus">
+        UPDATE
+            tbl_place_member
+        SET
+            pm_status = #{ pmStatus },
+            pm_modify_dt = #{ pmModifyDt }
+        WHERE
+            pm_no = #{ pmNo }
+    </update>
+
+    <select id="getPlaceRoomList" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
+        SELECT
+            tr.ro_no,
+            tr.ro_address,
+            tr.ro_detail_address,
+            tr.ro_postcode,
+            tr.ro_create_dt,
+            tpm.pm_name,
+            tpm.pm_status,
+            tpm.pm_phone,
+            tpm.pm_no
+        FROM
+            tbl_place_member tpm
+            LEFT JOIN tbl_room tr on tpm.ro_no = tr.ro_no
+        WHERE
+            pm_status != '탈퇴'
+    </select>
+
+    <select id="getPlaceRoom" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
+        SELECT
+            tr.ro_no,
+            tr.ro_address,
+            tr.ro_detail_address,
+            tr.ro_postcode,
+            tr.ro_create_dt,
+            tpm.pm_name,
+            tpm.pm_status,
+            tpm.pm_phone,
+            tpm.pm_no
+        FROM
+            tbl_place_member tpm
+            LEFT JOIN tbl_room tr on tpm.ro_no = tr.ro_no
+        WHERE
+                tpm.pm_no = #{ pmNo }
+            AND tpm.pm_status != '탈퇴'
     </select>
 
     <insert id="insertPlace" useGeneratedKeys="true">
-        insert into tbl_place_member (pm_name, pm_birth, pm_id, pm_password, pm_email, pm_phone, pm_status, pm_create_dt, r_no)
-        values(#{pmName}, #{pmBirth}, #{pmId}, #{pmPassword}, #{pmEmail}, #{pmPhone}, #{pmStatus}, #{pmCreateDt}, #{rNo});
+        insert into tbl_place_member (pm_name, pm_birth, pm_id, pm_password, pm_email, pm_phone, pm_status, pm_create_dt, ro_no)
+        values(#{pmName}, #{pmBirth}, #{pmId}, #{pmPassword}, #{pmEmail}, #{pmPhone}, #{pmStatus}, #{pmCreateDt}, #{rNo})
     </insert>
 </mapper>

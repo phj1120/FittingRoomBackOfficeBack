@@ -26,7 +26,7 @@ public class PlaceDTO {
     private String pmPhone;
     private String pmStatus;
 
-    private Long rNo;
+    private Long roNo;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime pmCreateDt;
@@ -34,7 +34,7 @@ public class PlaceDTO {
     private LocalDateTime pmModifyDt;
 
 
-    public PlaceDTO(String pmName, String pmBirth, String pmId, String pmPassword, String pmEmail, String pmPhone, String pmStatus, Long rNo) {
+    public PlaceDTO(String pmName, String pmBirth, String pmId, String pmPassword, String pmEmail, String pmPhone, String pmStatus, Long roNo) {
         this.pmName = pmName;
         this.pmBirth = pmBirth;
         this.pmId = pmId;
@@ -42,8 +42,24 @@ public class PlaceDTO {
         this.pmEmail = pmEmail;
         this.pmPhone = pmPhone;
         this.pmStatus = pmStatus;
-        this.rNo = rNo;
+        this.roNo = roNo;
 
         this.pmCreateDt = LocalDateTime.now();
+    }
+
+    public PlaceDTO(Long pmNo, String pmPassword, String pmEmail, String pmPhone) {
+        this.pmNo = pmNo;
+        this.pmPassword = pmPassword;
+        this.pmEmail = pmEmail;
+        this.pmPhone = pmPhone;
+
+        this.pmModifyDt = LocalDateTime.now();
+    }
+
+    public PlaceDTO(Long pmNo, String pmStatus) {
+        this.pmNo = pmNo;
+        this.pmStatus = pmStatus;
+
+        this.pmModifyDt = LocalDateTime.now();
     }
 }
