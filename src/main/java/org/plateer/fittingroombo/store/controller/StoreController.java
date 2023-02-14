@@ -20,11 +20,11 @@ public class StoreController {
     }
 
     @PutMapping("/status/{id}")
-    public Long updateRequestHistory(@PathVariable("id") Long rhNo,
+    public Long updateRequestHistorySeller(@PathVariable("id") Long rhNo,
                                      @RequestBody RequestHistoryDTO requestHistoryDTO) {
         RequestHistoryDTO updateHistoryObj = requestHistoryDTO;
         updateHistoryObj.setRhNo(rhNo);
-        return StoreService.updateRequestHistory(updateHistoryObj);
+        return StoreService.updateRequestHistorySeller(updateHistoryObj);
     }
 
     @GetMapping("/status/detail/{id}")
@@ -34,8 +34,8 @@ public class StoreController {
     }
 
     @PostMapping("/request")
-    public Long insertRequestHistory(@RequestBody RequestHistoryDTO requestHistoryDTO) {
-        return StoreService.insertRequestHistory(requestHistoryDTO);
+    public Long insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+        return StoreService.insertRequestHistorySeller(requestHistoryDTO);
     }
 
 

@@ -8,9 +8,9 @@ public interface StoreService {
 
     ResultDTO getStoreList(Long seNo);
 
-    Long insertRequestHistory(RequestHistoryDTO requestHistoryDTO);
+    Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO);
 
-    Long updateRequestHistory(RequestHistoryDTO updateHistoryObj);
+    Long updateRequestHistorySeller(RequestHistoryDTO updateHistoryObj);
 
     RequestHistoryDTO getRequestHistoryDetailSeller(Long rhNo);
 

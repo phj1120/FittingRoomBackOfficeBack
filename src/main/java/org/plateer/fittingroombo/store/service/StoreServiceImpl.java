@@ -30,17 +30,17 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Long insertRequestHistory(RequestHistoryDTO requestHistoryDTO) {
+    public Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO) {
 
-        requestHistoryMapper.insertRequestHistory(requestHistoryDTO);
+        requestHistoryMapper.insertRequestHistorySeller(requestHistoryDTO);
 
         Long rhNo = requestHistoryDTO.getRhNo();
         return rhNo;
     }
 
     @Override
-    public Long updateRequestHistory(RequestHistoryDTO updateHistoryObj) {
-        Long updateRow = requestHistoryMapper.updateRequestHistory(updateHistoryObj);
+    public Long updateRequestHistorySeller(RequestHistoryDTO updateHistoryObj) {
+        Long updateRow = requestHistoryMapper.updateRequestHistorySeller(updateHistoryObj);
         return updateRow;
     }
 
