@@ -3,7 +3,7 @@ package org.plateer.fittingroombo.product.mapper;
 import org.junit.jupiter.api.Test;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
-import org.plateer.fittingroombo.product.dto.ProductSearchType;
+import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;

@@ -5,9 +5,26 @@
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
-        select *
-        from tbl_product tp
-        where tp.pr_no = #{prNo} and tp.pr_status = true;
+        select
+        tp.pr_no,
+        tp.pr_brand,
+        tp.pr_name,
+        tp.pr_price,
+        tp.pr_create_dt,
+        tp.pr_modify_dt,
+        tp.pr_status,
+        tp.prc_no,
+        tp.s_no,
+        tpf.prf_uuid as thumbnail,
+        tpc.prc_name as category
+        from
+        tbl_product tp
+        left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
+        left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
+        where tp.pr_status = true
+        and tp.pr_no = #{prNo}
+        order by tpf.prf_status desc
+        limit 1;
     </select>
 
     <sql id="search">

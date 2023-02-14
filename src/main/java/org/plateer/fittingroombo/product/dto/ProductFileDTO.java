@@ -1,13 +1,20 @@
 package org.plateer.fittingroombo.product.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class ProductFileDTO {
     private Long prfNo;
     private String prfName;
-    private String prfUuid;
-    private String prfType;
-    private Boolean prfStatus;
+    private String prfUUID;
+    private ProductFileType prfType;
+    private Boolean prfStatus; // Y: 활성 /. N: 비활성
     private Long prNo;
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
 
 import java.time.LocalDate;
 import java.util.List;

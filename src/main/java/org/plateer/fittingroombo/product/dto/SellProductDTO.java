@@ -1,6 +1,7 @@
 package org.plateer.fittingroombo.product.dto;
 
 import lombok.Data;
+import org.plateer.fittingroombo.product.dto.enums.SellProductStatus;
 
 import java.time.LocalDateTime;
 

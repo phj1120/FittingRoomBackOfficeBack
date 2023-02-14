@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageRequestDTO;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
+import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,12 @@ public class ProductController {
 
     private final ProductService productService;
 
+    // TODO sort 보류
     @GetMapping("product/list")
     // PageRequsetDTO, startDt, endDt, s_no, sort
-    public List<ProductDTO> productDTO(PageRequestDTO pageRequestDTO) {
-        return productService.getProductList(1L);
+    public List<ProductDTO> productDTO(Long sno, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+        return productService.getProductList(sno, productPageSearchRequestDTO);
     }
+
 
 }

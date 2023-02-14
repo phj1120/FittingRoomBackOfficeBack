@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor
 public class ProductDTO {
@@ -22,6 +21,8 @@ public class ProductDTO {
     private Long sNo; // 판매자 번호
     private List<ProductFileDTO> files = new ArrayList<>();
     private List<SellProductDTO> options = new ArrayList<>();
+    private String thumbnail;
+    private String category;
 
     @Builder
     public ProductDTO(String prBrand, String prName, Long prPrice, Long prcNo, Long sNo) {
@@ -34,5 +35,33 @@ public class ProductDTO {
         // 생성시 기본 값
         this.prCreateDt = LocalDate.now();
         this.prStatus = true;
+    }
+
+    public void setFiles(List<ProductFileDTO> files) {
+        this.files = files;
+    }
+
+    public void setOptions(List<SellProductDTO> options) {
+        this.options = options;
+    }
+
+    public void setPrBrand(String prBrand) {
+        this.prBrand = prBrand;
+    }
+
+    public void setPrName(String prName) {
+        this.prName = prName;
+    }
+
+    public void setPrPrice(Long prPrice) {
+        this.prPrice = prPrice;
+    }
+
+    public void setPrStatus(boolean prStatus) {
+        this.prStatus = prStatus;
+    }
+
+    public void setPrModifyDt(LocalDate prModifyDt) {
+        this.prModifyDt = prModifyDt;
     }
 }
