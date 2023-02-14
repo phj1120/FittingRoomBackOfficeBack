@@ -27,10 +27,9 @@ public class ProductInsertDTO {
 
     private Long prcNo; // 카테고리 번호
 
-    private ProductFileType prfType; // 이미지 타입(TOP/BOTTOM)
+    private Integer thumbnailIndex; // 대표사진 인덱스
 
-    private Boolean prfStatus; // 대표이미지 여부
-
-    private List<MultipartFile> images = new ArrayList<>(); // 이미지
+    private List<MultipartFile> topFiles = new ArrayList<>(); // 이미지
+    private List<MultipartFile> bottomFiles = new ArrayList<>(); // 이미지
 
 }

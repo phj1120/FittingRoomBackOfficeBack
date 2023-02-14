@@ -37,29 +37,53 @@ public class ImageUtil {
         }
     }
 
-    // 이미지 저장 후 저장 결과 반환
-    public List<ProductFileDTO> saveImages(ProductInsertDTO productInsertDTO) {
-        List<MultipartFile> files = productInsertDTO.getImages();
-        ProductFileType prfType = productInsertDTO.getPrfType();
-        Boolean prfStatus = productInsertDTO.getPrfStatus();
+    // 이미지 저장 후 저장 결과 반환 - TOP
+    public List<ProductFileDTO> saveTopImages(ProductInsertDTO productInsertDTO) {
+        List<MultipartFile> topFiles = productInsertDTO.getTopFiles();
+
+        Integer thumbnailIndex = productInsertDTO.getThumbnailIndex();
 
         initFolder();   // 폴더가 없다면 생성
 
-        List<ProductFileDTO> productFileDTOs = new ArrayList<>();
+        List<ProductFileDTO> productFiles = new ArrayList<>();
 
-        for (int i = 0; i < files.size(); i++) {
-            MultipartFile file = files.get(i);
+        for (int i = 0; i < topFiles.size(); i++) {
+            MultipartFile file = topFiles.get(i);
             try {
                 ProductFileDTO productFileDTO = saveImage(file);
-                productFileDTO.setPrfType(prfType);
-                productFileDTO.setPrfStatus(prfStatus);
+                productFileDTO.setPrfType(ProductFileType.TOP);
 
-                productFileDTOs.add(productFileDTO);
+                productFiles.add(productFileDTO);
             } catch (IllegalArgumentException e) {
                 log.info("error");
             }
         }
-        return productFileDTOs;
+        productFiles.get(thumbnailIndex).setPrfStatus(true);
+
+        return productFiles;
+    }
+
+//    이미지 저장 후 저장 결과 반환 - BOTTOM
+    public List<ProductFileDTO> saveBottomImages(ProductInsertDTO productInsertDTO) {
+        List<MultipartFile> bottomFiles = productInsertDTO.getBottomFiles();
+
+        initFolder();   // 폴더가 없다면 생성
+
+        List<ProductFileDTO> productFiles = new ArrayList<>();
+
+        for (int i = 0; i < bottomFiles.size(); i++) {
+            MultipartFile file = bottomFiles.get(i);
+            try {
+                ProductFileDTO productFileDTO = saveImage(file);
+                productFileDTO.setPrfType(ProductFileType.BOTTOM);
+
+                productFiles.add(productFileDTO);
+            } catch (IllegalArgumentException e) {
+                log.info("error");
+            }
+        }
+
+        return productFiles;
     }
 
     // 이미지 저장 후 저장 된 이름 반환

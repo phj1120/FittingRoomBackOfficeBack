@@ -3,6 +3,7 @@ package org.plateer.fittingroombo.product.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
+import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,14 @@ public class ProductService {
 
     public ProductDTO getProduct(Long prNo) {
         ProductDTO productDTO = productMapper.getProduct(prNo);
+
+        List<ProductFileDTO> productTopFiles = productMapper.selectTopFiles(prNo);
+        productDTO.setTopFiles(productTopFiles);
+
+        List<ProductFileDTO> productBottomFiles = productMapper.selectBottomFiles(prNo);
+        productDTO.setBottomFiles(productBottomFiles);
+
+
         // TODO 썸네일, 카테고리 Join 으로 가져오고
         //  file, 판매 상품 조회 해서 set 하기
 
@@ -37,9 +46,15 @@ public class ProductService {
         productMapper.insertProduct(productDTO);
 
         // images 추가
-        productDTO.getFiles().stream().forEach(productFileDTO -> {
+        // TOP
+        productDTO.getTopFiles().stream().forEach(productFileDTO -> {
             productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductFile(productFileDTO);
+            productMapper.insertProductTopFile(productFileDTO);
+        });
+        // BOTTOM
+        productDTO.getBottomFiles().stream().forEach(productFileDTO -> {
+            productFileDTO.setPrNo(productDTO.getPrNo());
+            productMapper.insertProductBottomFile(productFileDTO);
         });
 
         return productDTO.getPrNo();
@@ -53,10 +68,14 @@ public class ProductService {
         deleteProductFile(productDTO.getPrNo());
 
         // 새로운 파일 추가
-        productDTO.getFiles().stream().forEach(productFileDTO -> {
+        productDTO.getTopFiles().stream().forEach(productFileDTO -> {
             productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductFile(productFileDTO);
-        });
+            productMapper.insertProductTopFile(productFileDTO);
+        }); // TOP
+        productDTO.getBottomFiles().stream().forEach(productFileDTO -> {
+            productFileDTO.setPrNo(productDTO.getPrNo());
+            productMapper.insertProductBottomFile(productFileDTO);
+        }); // BOTTOM
 
         // product 수정
         productMapper.updateProduct(productDTO);

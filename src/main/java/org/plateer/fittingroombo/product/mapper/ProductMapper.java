@@ -29,10 +29,16 @@ public interface ProductMapper {
     int deleteSellProduct(Long sprNo);
 
     // 상품 사진
-    int insertProductFile(ProductFileDTO productFileDTO);
+    int insertProductTopFile(ProductFileDTO productFileDTO);
+
+    int insertProductBottomFile(ProductFileDTO productFileDTO);
 
     List<ProductFileDTO> getProductFileList(Long prNo); // 상품 번호
 
     int deleteProductFile(Long prfNo); // 상품 번호
+
+    List<ProductFileDTO> selectTopFiles(Long prNo);
+
+    List<ProductFileDTO> selectBottomFiles(Long prNo);
 
 }

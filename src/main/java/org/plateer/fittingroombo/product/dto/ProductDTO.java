@@ -23,9 +23,11 @@ public class ProductDTO {
     private LocalDateTime prModifyDt;
     private Long prcNo; // 상품 카테고리 번호
     private Long seNo; // 판매자 번호
-    private List<ProductFileDTO> files = new ArrayList<>();
+    private List<ProductFileDTO> topFiles = new ArrayList<>();
+    private List<ProductFileDTO> bottomFiles = new ArrayList<>();
     private List<SellProductDTO> options = new ArrayList<>();
     private String thumbnail;
+    private Integer thumbnailIndex;
     private String category;
 
     @Builder
@@ -43,10 +45,6 @@ public class ProductDTO {
 
     public void setPrNo(Long prNo) {
         this.prNo = prNo;
-    }
-
-    public void setFiles(List<ProductFileDTO> files) {
-        this.files = files;
     }
 
     public void setOptions(List<SellProductDTO> options) {
@@ -73,10 +71,18 @@ public class ProductDTO {
         this.prModifyDt = prModifyDt;
     }
 
+    public void setTopFiles(List<ProductFileDTO> topFiles) {
+        this.topFiles = topFiles;
+    }
+
+    public void setBottomFiles(List<ProductFileDTO> bottomFiles) {
+        this.bottomFiles = bottomFiles;
+    }
+
     /**
      * 상품 추가
      **/
-    public ProductDTO(ProductInsertDTO productInsertDTO, List<ProductFileDTO> files) {
+    public ProductDTO(ProductInsertDTO productInsertDTO, List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
         this.prBrand = productInsertDTO.getPrBrand();
         this.prName = productInsertDTO.getPrName();
         this.prPrice = productInsertDTO.getPrPrice();
@@ -84,6 +90,7 @@ public class ProductDTO {
         this.prCreateDt = LocalDateTime.now();
         this.prcNo = productInsertDTO.getPrcNo();
         this.seNo = 1L; // 사용자
-        this.files = files;
+        this.topFiles = topFiles;
+        this.bottomFiles = bottomFiles;
     }
 }

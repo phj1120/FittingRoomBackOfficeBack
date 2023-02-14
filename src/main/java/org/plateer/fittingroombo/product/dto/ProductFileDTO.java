@@ -13,13 +13,13 @@ import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 public class ProductFileDTO {
     private Long prfNo;
     private String prfName;
-    private String prfUUID;
+    private String prfUuid;
     private ProductFileType prfType;
     private Boolean prfStatus; // Y: 활성 /. N: 비활성
     private Long prNo;
 
-    public ProductFileDTO(String prfName, String prfUUID) {
+    public ProductFileDTO(String prfName, String prfUuid) {
         this.prfName = prfName;
-        this.prfUUID = prfUUID;
+        this.prfUuid = prfUuid;
     }
 }
