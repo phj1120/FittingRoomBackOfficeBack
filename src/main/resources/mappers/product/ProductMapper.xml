@@ -6,23 +6,24 @@
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
-        tp.pr_no,
-        tp.pr_brand,
-        tp.pr_name,
-        tp.pr_price,
-        tp.pr_create_dt,
-        tp.pr_modify_dt,
-        tp.pr_status,
-        tp.prc_no,
-        tp.s_no,
-        tpf.prf_uuid as thumbnail,
-        tpc.prc_name as category
+            tp.pr_no,
+            tp.pr_brand,
+            tp.pr_name,
+            tp.pr_price,
+            tp.pr_create_dt,
+            tp.pr_modify_dt,
+            tp.pr_status,
+            tp.prc_no,
+            tp.s_no,
+            tpf.prf_uuid as thumbnail,
+            tpc.prc_name as category
         from
-        tbl_product tp
-        left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
-        left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
-        where tp.pr_status = true
-        and tp.pr_no = #{prNo}
+            tbl_product tp
+            left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
+            left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
+        where
+            tp.pr_status = true
+            and tp.pr_no = #{prNo}
         order by tpf.prf_status desc
         limit 1;
     </select>
@@ -49,9 +50,12 @@
 
     <select id="getProductList"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
-        select *
-        from tbl_product
-        where pr_status = true
+        select
+            *
+        from
+            tbl_product
+        where
+            pr_status = true
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -60,9 +64,12 @@
 
     <select id="getCount"
             resultType="int">
-        select *
-        from tbl_product
-        where pr_status = true
+        select
+            *
+        from
+            tbl_product
+        where
+            pr_status = true
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -101,11 +108,11 @@
 
     <update id="deleteProduct">
         UPDATE
-        tbl_product
+            tbl_product
         SET
-        pr_status = false
+            pr_status = false
         WHERE
-        pr_no = #{id}
+            pr_no = #{id}
     </update>
 
 </mapper>
