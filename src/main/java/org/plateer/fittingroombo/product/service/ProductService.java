@@ -21,11 +21,11 @@ public class ProductService {
     public ProductDTO getProduct(Long prNo) {
         ProductDTO productDTO = productMapper.getProduct(prNo);
 
-        List<ProductFileDTO> productTopFiles = productMapper.selectTopFiles(prNo);
-        productDTO.setTopFiles(productTopFiles);
-
-        List<ProductFileDTO> productBottomFiles = productMapper.selectBottomFiles(prNo);
-        productDTO.setBottomFiles(productBottomFiles);
+//        List<ProductFileDTO> productTopFiles = productMapper.selectTopFiles(prNo);
+//        productDTO.setTopFiles(productTopFiles);
+//
+//        List<ProductFileDTO> productBottomFiles = productMapper.selectBottomFiles(prNo);
+//        productDTO.setBottomFiles(productBottomFiles);
 
 
         // TODO 썸네일, 카테고리 Join 으로 가져오고

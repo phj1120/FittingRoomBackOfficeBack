@@ -11,47 +11,53 @@
         <result column="pr_price" property="prPrice"/>
         <result column="pr_create_dt" property="prCreateDt"/>
         <result column="pr_modify_dt" property="prModifyDt"/>
-        <collection property="topFiles" column="{pr_no = pr_no}" ofType="ProductDTO" select="selectTopFiles" />
-        <collection property="bottomFiles" column="{pr_no = pr_no}" ofType="ProductDTO" select="selectBottomFiles" />
+        <collection property="topFiles" column="{pr_no = pr_no}" ofType="org.plateer.fittingroombo.product.dto.ProductDTO" select="selectTopFiles" />
+        <collection property="bottomFiles" column="{pr_no = pr_no}" ofType="org.plateer.fittingroombo.product.dto.ProductDTO" select="selectBottomFiles" />
     </resultMap>
 
     <select id="selectTopFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
         SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
         FROM tbl_product_file
-        WHERE prf_type = 'TOP' and pr_no = #{prNo}
+        WHERE prf_type = 'TOP' and pr_no = 67
     </select>
 
     <select id="selectBottomFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
         SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
         FROM tbl_product_file
-        WHERE prf_type = 'BOTTOM' and pr_no = #{prNo}
+        WHERE prf_type = 'BOTTOM' and pr_no = 67
+    </select>
+
+    <select id="getProduct" resultMap="ProductDTO">
+        SELECT *
+        FROM tbl_product
+        WHERE pr_no = #{prNo}
     </select>
 
     <!--상품 조회 쿼리-->
-    <select id="getProduct" resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
-        SELECT
+<!--    <select id="getProduct" resultMap="ProductDTO">-->
+<!--        SELECT-->
 
-        tp.pr_no,
-        tp.pr_brand,
-        tp.pr_name,
-        tp.pr_price,
-        tp.pr_create_dt,
-        tp.pr_modify_dt,
-        tp.pr_status,
-        tp.prc_no,
-        tp.se_no,
-        tpf.prf_uuid as thumbnail,
-        tpc.prc_name as category
+<!--        tp.pr_no,-->
+<!--        tp.pr_brand,-->
+<!--        tp.pr_name,-->
+<!--        tp.pr_price,-->
+<!--        tp.pr_create_dt,-->
+<!--        tp.pr_modify_dt,-->
+<!--        tp.pr_status,-->
+<!--        tp.prc_no,-->
+<!--        tp.se_no,-->
+<!--        tpf.prf_uuid as thumbnail,-->
+<!--        tpc.prc_name as category,-->
 
-        FROM tbl_product tp
-            left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
-            left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
-        WHERE
-            tp.pr_status = true
-            and tp.pr_no = #{prNo}
-        ORDER BY tpf.prf_status desc
-        LIMIT 1;
-    </select>
+<!--        FROM tbl_product tp-->
+<!--            left join tbl_product_file tpf on tp.pr_no = tpf.pr_no-->
+<!--            left join tbl_product_category tpc on tp.prc_no = tpc.prc_no-->
+<!--        WHERE-->
+<!--            tp.pr_status = true-->
+<!--            and tp.pr_no = #{prNo}-->
+<!--        ORDER BY tpf.prf_status desc-->
+<!--        LIMIT 1;-->
+<!--    </select>-->
 
     <sql id="search">
         <bind name="pattern" value="'%' + _parameter.productPageSearchRequestDTO.getKeyword() + '%'"/>
