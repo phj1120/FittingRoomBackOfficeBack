@@ -2,7 +2,8 @@ package org.plateer.fittingroombo.common.util;
 
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
-import org.plateer.fittingroombo.common.dto.FileDTO;
+import org.plateer.fittingroombo.seller.dto.RollingFileDTO;
+import org.plateer.fittingroombo.seller.dto.SellerFileDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -53,15 +54,15 @@ public class ImageUtil {
 //    }
 
     // 이미지 저장 후 저장 결과 반환
-    public List<FileDTO> saveImages(List<MultipartFile> files) {
+    public List<RollingFileDTO> saveImages(List<MultipartFile> files) {
         initFolder();
 
-        List<FileDTO> fileNames = new ArrayList<>();
+        List<RollingFileDTO> fileNames = new ArrayList<>();
         for (int i = 0; i < files.size(); i++) {
             MultipartFile file = files.get(i);
             try {
-                FileDTO FileDTO = saveImage(file);
-                fileNames.add(FileDTO);
+                RollingFileDTO rollingFileDTO = saveImage(file);
+                fileNames.add(rollingFileDTO);
             } catch (IllegalArgumentException e) {
                 log.info("error");
             }
@@ -69,13 +70,35 @@ public class ImageUtil {
         return fileNames;
     }
 
+
+    public SellerFileDTO saveBizImage(MultipartFile file) {
+        initFolder();
+        validImage(file);
+        String storedName = generateStoredName(file);
+        try {
+            String imagePath = basePath + "/" + storedName;
+            log.info(imagePath);
+            FileSystemResource resource = new FileSystemResource(imagePath);
+            resource.getOutputStream().write(file.getBytes());
+
+            Thumbnails.of(new File(imagePath))
+                    .forceSize(160, 160)
+                    .toFile(new File(basePath + "/s_" + storedName));
+
+            log.info("[Save] : {} -> {}", file.getOriginalFilename(), storedName);
+
+            return new SellerFileDTO(storedName, file.getOriginalFilename());
+        } catch (IOException e) {
+            throw new IllegalArgumentException("파일 저장 실패");
+        }
+    }
     // 저장 된 모든 파일 이름 조회
 //    public Set<String> getAllFileNames() {
 //        return fileMapper.getAllFileNames();
 //    }
 
     // 이미지 저장 후 저장 된 이름 반환
-    private FileDTO saveImage(MultipartFile file) {
+    private RollingFileDTO saveImage(MultipartFile file) {
         validImage(file);
 
         String storedName = generateStoredName(file);
@@ -94,7 +117,7 @@ public class ImageUtil {
 
             log.info("[Save] : {} -> {}", file.getOriginalFilename(), storedName);
 
-            return new FileDTO(storedName, file.getOriginalFilename(), file.getSize());
+            return new RollingFileDTO(storedName, file.getOriginalFilename(), file.getSize());
         } catch (IOException e) {
             throw new IllegalArgumentException("파일 저장 실패");
         }
@@ -129,3 +152,4 @@ public class ImageUtil {
     }
 
 }
+

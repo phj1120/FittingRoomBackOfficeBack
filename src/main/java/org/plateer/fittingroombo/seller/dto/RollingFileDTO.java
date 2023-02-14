@@ -1,4 +1,4 @@
-package org.plateer.fittingroombo.common.dto;
+package org.plateer.fittingroombo.seller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileDTO {
+public class RollingFileDTO {
 
     private Long fno;               // 파일 번호
 
@@ -21,7 +21,7 @@ public class FileDTO {
 
     private Long rno;               // 롤링 번호
 
-    public FileDTO(String fileName, String originalName, Long fileSize) {
+    public RollingFileDTO(String fileName, String originalName, Long fileSize) {
         this.fileName = fileName;
         this.originalName = originalName;
         this.fileSize = fileSize;

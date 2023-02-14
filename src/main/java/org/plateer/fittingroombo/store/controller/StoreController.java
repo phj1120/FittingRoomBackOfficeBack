@@ -14,9 +14,9 @@ public class StoreController {
     private final org.plateer.fittingroombo.store.service.StoreService StoreService;
 
     @GetMapping("/status/{id}")
-    public ResultDTO getStoreList(@PathVariable("id") Long sno) {
+    public ResultDTO getStoreList(@PathVariable("id") Long seNo) {
 
-        return StoreService.getStoreList(sno);
+        return StoreService.getStoreList(seNo);
     }
 
     @PutMapping("/status/{id}")
@@ -25,6 +25,12 @@ public class StoreController {
         RequestHistoryDTO updateHistoryObj = requestHistoryDTO;
         updateHistoryObj.setRhNo(rhNo);
         return StoreService.updateRequestHistory(updateHistoryObj);
+    }
+
+    @GetMapping("/status/detail/{id}")
+    public RequestHistoryDTO getRequestHistoryDetail(@PathVariable("id") Long rhNo){
+
+        return StoreService.getRequestHistoryDetailSeller(rhNo);
     }
 
     @PostMapping("/request")

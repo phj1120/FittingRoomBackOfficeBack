@@ -12,4 +12,6 @@ public interface StoreService {
 
     Long updateRequestHistory(RequestHistoryDTO updateHistoryObj);
 
+    RequestHistoryDTO getRequestHistoryDetailSeller(Long rhNo);
+
 }

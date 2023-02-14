@@ -11,10 +11,10 @@ import java.util.List;
 public class ResultDTO {
     private List<SellerStatusDTO> resultList;
     private String seStatus;
-     public ResultDTO(List<SellerStatusDTO> resultList, String sStatus){
+     public ResultDTO(List<SellerStatusDTO> resultList, String seStatus){
 
         this.resultList = resultList;
-        this.seStatus = sStatus;
+        this.seStatus = seStatus;
     }
 }
 

@@ -12,7 +12,7 @@
         values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{seNo})
     </insert>
 
-    <update id="updateRequestHistory">
+    <update id="updateRequestHistory" >
         update tbl_request_history
         <set>
             rh_content = #{rhContent},
@@ -22,4 +22,10 @@
         where rh_no = #{rhNo}
 
     </update>
+    
+    <select id="getRequestHistoryDetailSeller" resultType="RequestHistoryDTO">
+        select rh_content, rh_reason, rh_start_dt
+        from tbl_request_history
+        where rh_no = #{rhNo}
+    </select>
 </mapper>

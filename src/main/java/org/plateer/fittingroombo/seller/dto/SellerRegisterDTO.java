@@ -28,4 +28,6 @@ public class SellerRegisterDTO {
     private Long pmNo;
 
     private MultipartFile image;
+
+    private SellerFileDTO saveImage;
 }

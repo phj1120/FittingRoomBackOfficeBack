@@ -14,4 +14,11 @@
         (#{seName},#{seManager},#{seId},#{sePassword},#{seEmail},#{sePhone},#{seAddress},#{seStatus},#{seCreateDt},#{pmNo})
     </insert>
 
+    <insert id="insertSellerFile" keyProperty="sfNo" useGeneratedKeys="true">
+        insert into tbl_seller_file
+        (sf_name, sf_uuid, se_no)
+        values
+        (#{sfName},#{sfUuid},#{seNo})
+    </insert>
+
 </mapper>

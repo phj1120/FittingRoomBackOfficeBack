@@ -9,4 +9,6 @@ public interface RequestHistoryMapper {
 
     Long insertRequestHistory(RequestHistoryDTO requestHistoryDTO);
     Long updateRequestHistory(RequestHistoryDTO updateHistoryObj);
+
+    RequestHistoryDTO getRequestHistoryDetailSeller(Long rhNo);
 }
