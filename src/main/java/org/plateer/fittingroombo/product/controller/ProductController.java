@@ -2,15 +2,14 @@ package org.plateer.fittingroombo.product.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.util.ImageUtil;
-import org.plateer.fittingroombo.product.dto.ProductDTO;
-import org.plateer.fittingroombo.product.dto.ProductFileDTO;
-import org.plateer.fittingroombo.product.dto.ProductInsertDTO;
-import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
+import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,12 +21,11 @@ public class ProductController {
     private final ProductService productService;
     private final ImageUtil imageUtil;
 
-    // TODO sort 보류
     @GetMapping("/product/list")
-    // PageRequsetDTO, startDt, endDt, s_no, sort
-    public List<ProductDTO> productDTO(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
-        return productService.getProductList(seNo, productPageSearchRequestDTO);
+    public PageResultDTO<ProductDTO> productDTO(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+        PageResultDTO<ProductDTO> result = productService.getProductList(seNo, productPageSearchRequestDTO);
 
+        return result;
     }
 
     /**
@@ -60,9 +58,10 @@ public class ProductController {
      * 상품 삭제
      **/
     @DeleteMapping("/product/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public ResultDTO<Long> deleteProduct(@PathVariable Long id) {
+        Long result = productService.deleteProduct(id);
 
-        productService.deleteProduct(id);
+        return ResultDTO.<Long>builder().data(result).build();
     }
 
     /**
@@ -82,6 +81,54 @@ public class ProductController {
 
         // 상품 수정
         Long result = productService.updateProduct(productDTO);
+
+        return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /**
+     * 판매 상세 조회
+     **/
+    @GetMapping("/sellproduct/{prNo}")
+    public List<SellProductDTO> getSellProduct(@PathVariable Long prNo) {
+        List<SellProductDTO> sellProductDTOList = productService.getSellerProduct(prNo);
+
+        return sellProductDTOList;
+    }
+
+    /**
+     * 판매 상품 추가
+     **/
+    @PostMapping("/sellproduct/{prNo}")
+    public ResultDTO<Long> insertSellProduct(@PathVariable Long prNo,
+                                             @RequestBody SellProductDTO sellProductDTO) {
+        // 추후 request 로 변경 시 처리 하도록
+        sellProductDTO.setPrNo(prNo);
+        sellProductDTO.setSpCreateDt(LocalDateTime.now());
+        Long result = productService.insertSellProduct(sellProductDTO);
+
+        return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /**
+     * 판매 상품 삭제
+     **/
+    @DeleteMapping("/sellproduct/{spNo}")
+    public ResultDTO<Long> deleteSellProduct(@PathVariable Long spNo) {
+        Long result = productService.deleteSellProduct(spNo);
+
+        return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /**
+     * 판매 상품 수정
+     **/
+    @PutMapping("/sellproduct/{spNo}")
+    public ResultDTO<Long> updateSellProduct(@PathVariable Long spNo,
+                                             @RequestBody SellProductDTO sellProductDTO) {
+        // 추후 request 로 변경 시 처리 하도록
+        sellProductDTO.setSpNo(spNo);
+        sellProductDTO.setSpModifyDt(LocalDateTime.now());
+        Long result = productService.updateSellProduct(sellProductDTO);
 
         return ResultDTO.<Long>builder().data(result).build();
     }

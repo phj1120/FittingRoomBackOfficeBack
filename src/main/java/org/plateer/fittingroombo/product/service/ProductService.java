@@ -2,9 +2,11 @@ package org.plateer.fittingroombo.product.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
+import org.plateer.fittingroombo.product.dto.SellProductDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 import org.plateer.fittingroombo.product.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
@@ -31,8 +33,16 @@ public class ProductService {
         return productDTO;
     }
 
-    public List<ProductDTO> getProductList(Long sNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
-        return productMapper.getProductList(sNo, productPageSearchRequestDTO);
+    // TODO 페이징 결과 추가
+    public PageResultDTO<ProductDTO> getProductList(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+        List<ProductDTO> productList = productMapper.getProductList(seNo, productPageSearchRequestDTO);
+        int total = productMapper.getProductListCount(seNo, productPageSearchRequestDTO);
+        PageResultDTO<ProductDTO> result = PageResultDTO.<ProductDTO>withAll().pageRequestDTO(productPageSearchRequestDTO)
+                .dtoList(productList)
+                .total(total)
+                .build();
+
+        return result;
     }
 
     /**
@@ -99,4 +109,28 @@ public class ProductService {
         return prNo;
     }
 
+    public List<SellProductDTO> getSellerProduct(Long prNo) {
+        List<SellProductDTO> sellProductList = productMapper.getSellProductList(prNo);
+
+        return sellProductList;
+    }
+
+
+    public Long insertSellProduct(SellProductDTO sellProductDTO) {
+        productMapper.insertSellProduct(sellProductDTO);
+
+        return sellProductDTO.getSpNo();
+    }
+
+    public Long deleteSellProduct(Long spNo) {
+        productMapper.deleteSellProduct(spNo);
+
+        return spNo;
+    }
+
+    public Long updateSellProduct(SellProductDTO sellProductDTO) {
+        productMapper.updateSellProduct(sellProductDTO);
+
+        return sellProductDTO.getSpNo();
+    }
 }

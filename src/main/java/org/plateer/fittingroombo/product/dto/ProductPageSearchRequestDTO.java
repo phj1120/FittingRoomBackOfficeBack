@@ -1,38 +1,50 @@
 package org.plateer.fittingroombo.product.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.plateer.fittingroombo.common.dto.PageRequestDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
+import org.plateer.fittingroombo.product.dto.enums.SellProductStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductPageSearchRequestDTO {
-    private int page = 1;
-    private int size = 10;
+public class ProductPageSearchRequestDTO extends PageRequestDTO {
     private List<ProductSearchType> types;
     private String keyword;
-    private LocalDate startDt = LocalDate.now().minusYears(1L); // 1년 전부터 지금이 기본
-    private LocalDate endDt = LocalDate.now();
 
-//    private SellProductStatus sort;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime endDt = LocalDateTime.now();
 
-    public int getSkip() {
-        return (page - 1) * size;
-    }
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime startDt = LocalDateTime.now().minusYears(1L); // 1년 전부터 지금이 기본
 
-    @Builder
-    public ProductPageSearchRequestDTO(int page, int size, List<ProductSearchType> types, String keyword, LocalDate startDt, LocalDate endDt) {
-        this.page = page;
-        this.size = size;
+    // 상품번호, 카테고리, 브랜드, 상품명, 이미지, 가격, 등록일, 수정일, 상태
+    private ProductListOrder sort;
+
+    private SortType sortType;
+
+    public ProductPageSearchRequestDTO(int page, int size, List<ProductSearchType> types, String keyword, LocalDateTime startDt, LocalDateTime endDt) {
+        super(page, size);
         this.types = types;
         this.keyword = keyword;
         this.startDt = startDt;
         this.endDt = endDt;
     }
+
+    public ProductPageSearchRequestDTO(int page, int size, List<ProductSearchType> types, String keyword) {
+        super(page, size);
+        this.types = types;
+        this.keyword = keyword;
+        this.startDt = LocalDateTime.now().minusYears(1L);
+        this.endDt = LocalDateTime.now();
+    }
+
+
 }

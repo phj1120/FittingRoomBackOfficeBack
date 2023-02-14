@@ -3,36 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
-    <select id="selectTopFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
-        SELECT
-            prf_no,
-            prf_name,
-            prf_uuid,
-            prf_type,
-            prf_status,
-            pr_no
-        FROM
-            tbl_product_file
-        WHERE
-                prf_type = 'TOP'
-            AND pr_no = #{prNo}
-    </select>
-
-    <select id="selectBottomFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
-        SELECT
-            prf_no,
-            prf_name,
-            prf_uuid,
-            prf_type,
-            prf_status,
-            pr_no
-        FROM
-            tbl_product_file
-        WHERE
-                prf_type = 'BOTTOM'
-            AND pr_no = #{prNo}
-    </select>
-
     <select id="selectFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
         SELECT
             prf_no,
@@ -126,24 +96,27 @@
             LEFT JOIN tbl_product_category tpc ON tp.prc_no = tpc.prc_no
         WHERE
                 tp.se_no = #{seNo}
-            and tp.pr_status = 1
+            AND tp.pr_status = 1
+            AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND #{productPageSearchRequestDTO.endDt}
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
         ORDER BY
-            pr_no desc
+            pr_no DESC
         LIMIT
             #{productPageSearchRequestDTO.skip}, #{productPageSearchRequestDTO.size}
     </select>
 
-    <select id="getCount"
+    <select id="getProductListCount"
             resultType="int">
         SELECT
             count(*)
         FROM
-            tbl_product
+            tbl_product tp
         WHERE
-            pr_status = true
+                tp.se_no = #{seNo}
+            AND tp.pr_status = 1
+            AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND #{productPageSearchRequestDTO.endDt}
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>

@@ -10,7 +10,7 @@
         FROM tbl_product_category tpc
         <choose>
             <when test="prcNo==null">
-                where tpc.p_prc_no is null
+                where tpc.prc_no_p is null
             </when>
             <otherwise>
                 WHERE tpc.prc_no = #{prcNo};

@@ -16,6 +16,8 @@ public interface ProductMapper {
 
     List<ProductDTO> getProductList(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO); // 판매자 번호
 
+    int getProductListCount(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO);
+
     int updateProduct(ProductDTO productDTO);
 
     int deleteProduct(Long prNo);

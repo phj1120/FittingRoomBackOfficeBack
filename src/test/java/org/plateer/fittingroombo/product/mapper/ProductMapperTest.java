@@ -33,12 +33,7 @@ class ProductMapperTest {
 
     @Test
     void getProductList() {
-        ProductPageSearchRequestDTO productPageSearchRequestDTO = ProductPageSearchRequestDTO.builder()
-                .page(1)
-                .size(10)
-                .keyword("1")
-                .types(List.of(ProductSearchType.NO))
-                .build();
+        ProductPageSearchRequestDTO productPageSearchRequestDTO = new ProductPageSearchRequestDTO(1, 10, List.of(ProductSearchType.NO), "1");
 
         List<ProductDTO> productList = productMapper.getProductList(1L, productPageSearchRequestDTO);
 
@@ -80,8 +75,8 @@ class ProductMapperTest {
         ProductDTO productDTO = productMapper.getProduct(prNo);
         ProductDTO beforeProductDTO = productMapper.getProduct(prNo);
 
-        productDTO.setPrBrand(productDTO.getPrBrand() + LocalDate.now());
-        productDTO.setPrName(productDTO.getPrName() + LocalDate.now());
+        productDTO.setPrBrand(productDTO.getPrBrand() + LocalDateTime.now());
+        productDTO.setPrName(productDTO.getPrName() + LocalDateTime.now());
         productDTO.setPrModifyDt(productDTO.getPrModifyDt() != null ? productDTO.getPrModifyDt().plusDays(1L) : LocalDateTime.now());
 
         productMapper.updateProduct(productDTO);
