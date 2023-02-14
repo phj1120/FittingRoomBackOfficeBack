@@ -80,7 +80,7 @@ class ProductMapperTest {
 
         productDTO.setPrBrand(productDTO.getPrBrand() + LocalDate.now());
         productDTO.setPrName(productDTO.getPrName() + LocalDate.now());
-        productDTO.setPrModifyDt(productDTO.getPrModifyDt() != null ? productDTO.getPrModifyDt().plusDays(1L) : LocalDate.now());
+        productDTO.setPrModifyDt(productDTO.getPrModifyDt() != null ? productDTO.getPrModifyDt().plusDays(1L) : LocalDateTime.now());
 
         productMapper.updateProduct(productDTO);
 
