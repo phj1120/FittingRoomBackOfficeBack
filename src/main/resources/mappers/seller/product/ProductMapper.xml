@@ -11,10 +11,11 @@
         <result column="pr_price" property="prPrice"/>
         <result column="pr_create_dt" property="prCreateDt"/>
         <result column="pr_modify_dt" property="prModifyDt"/>
+        <result column="pr_status" property="prStatus"/>
     </resultMap>
 
-    <resultMap type="org.plateer.fittingroombo.product.dto.ProductDTO" id="ProductListResultMap" extends="ProductDTO">
-        <collection property="files" javaType="arrayList" resultMap="ProductFileDTOResultMap"/>
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductDTO" id="ProductDetailResultMap" extends="ProductDTO">
+        <collection property="files" javaType="arrayList" resultMap="ProductFileDTO"/>
         <collection property="options" javaType="arrayList" resultMap="ProductOptionDTO"/>
         <collection property="pcNo" javaType="Long" resultMap="ProductCategoryDTO"/>
     </resultMap>
@@ -47,18 +48,36 @@
         <result column="prc-modify_dt" property="prcModifyDt"/>
     </resultMap>
 
-    <!--  리스트 조회  -->
-    <select id="getProductList" resultMap="ProductDTO">
-        SELECT pr.pr_no, pr.pr_brand, pr.pr_name, pr.pr_price, pr.pr_create_dt, pr.pr_modify_dt,
-                sp.sp_status, (SELECT prf.prf_uuid
-                                FROM tbl_product_file prf
-                                WHERE prf_status = 1
-                                    and prf.pr_no = pr.pr_no
-                                    and prf_type = 'TOP')
+    <resultMap type="org.plateer.fittingroombo.product.dto.ProductListDTO" id="ProductListDTO">
+        <id column="pr_no" property="prNo"/>
+        <result column="pr_brand" property="prBrand"/>
+        <result column="pr_name" property="prName"/>
+        <result column="pr_price" property="prPrice"/>
+        <result column="pr_create_dt" property="prCreateDt"/>
+        <result column="pr_modify_dt" property="prModifyDt"/>
+        <result column="pr_status" property="prStatus"/>
+        <collection property="prThumbnail" javaType="String" />
+    </resultMap>
+
+    <!--리스트 조회-->
+    <select id="getProductList" resultMap="ProductListDTO">
+        SELECT pr.pr_no, pr.pr_brand, pr.pr_name, pr.pr_price, pr.pr_create_dt, pr.pr_modify_dt, pr.pr_status,
+            (SELECT prf.prf_uuid
+            FROM tbl_product_file prf
+            WHERE prf.pr_no = pr.pr_no
+            and prf_type = 'TOP' and prf_status = 1)
         FROM tbl_product pr
-            JOIN tbl_sell_product sp ON pr.pr_no = sp.pr_no
         ORDER BY pr.pr_no DESC
-<!--        LIMIT #{skip}, #{size}-->
+        <!--LIMIT #{skip}, #{size}-->
+    </select>
+
+    <!--상세 조회-->
+    <select id="getProduct" resultMap="ProductDetailResultMap">
+        SELECT pr.pr_no, pr.pr_brand, pr.pr_name, pr.pr_price, pr.pr_create_dt, pr.pr_modify_dt, pr.pr_status
+        FROM tbl_product pr
+        JOIN tbl_sell_product sp ON pr.pr_no = sp.pr_no
+        WHERE pr.pr_no = #{pr_no}
+        ORDER BY pr.pr_no DESC
     </select>
 
 </mapper>

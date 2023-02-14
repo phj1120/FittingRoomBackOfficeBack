@@ -1,6 +1,6 @@
 package org.plateer.fittingroombo.product.dto;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
 public class ProductFileDTO {

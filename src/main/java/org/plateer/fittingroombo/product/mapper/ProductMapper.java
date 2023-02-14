@@ -8,4 +8,6 @@ public interface ProductMapper {
     //    ProductDTO getProductList(PageRequestDTO pageRequestDTO);
     List<ProductDTO> getProductList();
 
+    ProductDTO getProduct(Long id);
+
 }

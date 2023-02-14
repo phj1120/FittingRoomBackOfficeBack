@@ -18,8 +18,13 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public List<ProductDTO> getProductList() {
+
         return productMapper.getProductList();
     }
 
+    public ProductDTO getProduct(Long id) {
+
+        return productMapper.getProduct(id);
+    }
 
 }

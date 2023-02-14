@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +20,15 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/list")
-    public List<ProductDTO> productDTO() {
+    public List<ProductDTO> getProductList() {
+
         return productService.getProductList();
     }
 
+    @GetMapping("/{id}")
+    public ProductDTO getProduct(@PathVariable Long id) {
+
+        return productService.getProduct(id);
+    }
 
 }
