@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public interface RoomMapper {
-    int getCount(RoomPageRequestDTO roomPageRequestDTO);
+    void insertRoom(RoomDTO roomDTO);
 
     List<RoomDTO> getRoomList(RoomPageRequestDTO roomPageRequestDTO);
 //

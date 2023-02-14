@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -23,7 +23,15 @@ public class RoomDTO {
     private String rPostcode;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate rCreateDt;
+    private LocalDateTime rCreateDt;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate rModifyDt;
+    private LocalDateTime rModifyDt;
+
+    public RoomDTO (String rName, String rAddress, String rDetailAddress, String rPostcode) {
+        this.rName = rName;
+        this.rAddress = rAddress;
+        this.rDetailAddress = rDetailAddress;
+        this.rPostcode = rPostcode;
+        this.rCreateDt = LocalDateTime.now();
+    }
 }
