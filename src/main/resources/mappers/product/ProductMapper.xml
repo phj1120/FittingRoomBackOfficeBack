@@ -4,54 +4,80 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
     <select id="selectTopFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
-        SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
-        FROM tbl_product_file
-        WHERE prf_type = 'TOP' and pr_no = #{prNo}
+        SELECT
+            prf_no,
+            prf_name,
+            prf_uuid,
+            prf_type,
+            prf_status,
+            pr_no
+        FROM
+            tbl_product_file
+        WHERE
+                prf_type = 'TOP'
+            AND pr_no = #{prNo}
     </select>
 
     <select id="selectBottomFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
-        SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
-        FROM tbl_product_file
-        WHERE prf_type = 'BOTTOM' and pr_no = #{prNo}
+        SELECT
+            prf_no,
+            prf_name,
+            prf_uuid,
+            prf_type,
+            prf_status,
+            pr_no
+        FROM
+            tbl_product_file
+        WHERE
+                prf_type = 'BOTTOM'
+            AND pr_no = #{prNo}
     </select>
 
     <select id="selectFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
-        SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
-        FROM tbl_product_file
-        WHERE prf_type = #{productFileType} and pr_no = #{prNo}
+        SELECT
+            prf_no,
+            prf_name,
+            prf_uuid,
+            prf_type,
+            prf_status,
+            pr_no
+        FROM
+            tbl_product_file
+        WHERE
+                prf_type = #{productFileType}
+            AND pr_no = #{prNo}
     </select>
-
-
 
     <!--상품 조회 쿼리-->
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
-        tp.pr_no,
-        tp.pr_brand,
-        tp.pr_name,
-        tp.pr_price,
-        tp.pr_create_dt,
-        tp.pr_modify_dt,
-        tp.pr_status,
-        tp.prc_no,
-        tp.se_no,
-        tpf.prf_uuid as thumbnail,
-        tpc.prc_name as category
-
-        FROM tbl_product tp
-        left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
-        left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
+            tp.pr_no,
+            tp.pr_brand,
+            tp.pr_name,
+            tp.pr_price,
+            tp.pr_create_dt,
+            tp.pr_modify_dt,
+            tp.pr_status,
+            tp.prc_no,
+            tp.se_no,
+            tpf.prf_uuid as thumbnail,
+            tpc.prc_name as category
+        FROM
+            tbl_product tp
+            LEFT JOIN tbl_product_file tpf ON tp.pr_no = tpf.pr_no
+            LEFT JOIN tbl_product_category tpc ON tp.prc_no = tpc.prc_no
         WHERE
-        tp.pr_status = true
-        and tp.pr_no = #{prNo}
-        ORDER BY tpf.prf_status desc
+                tp.pr_status = true
+            AND tp.pr_no = #{prNo}
+        ORDER BY
+            tpf.prf_status desc
         LIMIT 1;
     </select>
 
     <sql id="search">
         <bind name="pattern" value="'%' + _parameter.productPageSearchRequestDTO.getKeyword() + '%'"/>
-        and
+        AND
         <foreach item="type" collection="productPageSearchRequestDTO.types" open="(" close=")" separator="OR">
             <!--            NO, CATEGORY, BRAND, BRAND-->
             <if test="type.name() == 'NO'">
@@ -73,43 +99,51 @@
     <select id="getProductList"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         SELECT
-        DISTINCT
-        tp.pr_no,
-        tp.pr_brand,
-        tp.pr_name,
-        tp.pr_price,
-        tp.pr_create_dt,
-        tp.pr_modify_dt,
-        tp.pr_status,
-        tp.prc_no,
-        tp.se_no,
-        (
-        SELECT tpf.prf_uuid
-        FROM tbl_product_file tpf
-        WHERE tpf.pr_no = tp.pr_no
-        ORDER BY tpf.prf_status DESC
-        LIMIT 1
-        ) as thumbnail,
-        tpc.prc_name as category
+            DISTINCT
+            tp.pr_no,
+            tp.pr_brand,
+            tp.pr_name,
+            tp.pr_price,
+            tp.pr_create_dt,
+            tp.pr_modify_dt,
+            tp.pr_status,
+            tp.prc_no,
+            tp.se_no,
+            tpc.prc_name as category,
+            (
+                SELECT
+                    tpf.prf_uuid
+                FROM
+                    tbl_product_file tpf
+                WHERE
+                    tpf.pr_no = tp.pr_no
+                ORDER BY
+                    tpf.prf_status DESC
+                LIMIT 1
+            ) AS thumbnail
         FROM
-        tbl_product tp
-        left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
+            tbl_product tp
+            LEFT JOIN tbl_product_category tpc ON tp.prc_no = tpc.prc_no
         WHERE
-        tp.se_no = #{seNo} and tp.pr_status = 1
+                tp.se_no = #{seNo}
+            and tp.pr_status = 1
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
-        order by pr_no desc limit #{productPageSearchRequestDTO.skip}, #{productPageSearchRequestDTO.size}
+        ORDER BY
+            pr_no desc
+        LIMIT
+            #{productPageSearchRequestDTO.skip}, #{productPageSearchRequestDTO.size}
     </select>
 
     <select id="getCount"
             resultType="int">
-        select
-        count(*)
-        from
-        tbl_product
-        where
-        pr_status = true
+        SELECT
+            count(*)
+        FROM
+            tbl_product
+        WHERE
+            pr_status = true
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -120,20 +154,24 @@
         <selectKey keyProperty="prNo" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into tbl_product (pr_brand, pr_name, pr_price, prc_no, se_no, pr_create_dt, pr_status)
-        values(#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{seNo}, #{prCreateDt}, #{prStatus})
+        INSERT INTO tbl_product(pr_brand, pr_name, pr_price, prc_no, se_no, pr_create_dt, pr_status)
+        VALUES (#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{seNo}, #{prCreateDt}, #{prStatus})
     </insert>
 
     <!--상품 삭제 쿼리-->
     <update id="deleteProduct">
-        UPDATE tbl_product
-        SET pr_status = false
-        WHERE pr_no = #{prNo}
+        UPDATE
+            tbl_product
+        SET
+            pr_status = false
+        WHERE
+            pr_no = #{prNo}
     </update>
 
     <!--상품 업데이트 쿼리-->
     <update id="updateProduct">
-        update tbl_product
+        UPDATE
+            tbl_product
         <set>
             <if test="true">
                 pr_modify_dt = #{prCreateDt},
@@ -151,7 +189,8 @@
                 prc_no = #{prcNo},
             </if>
         </set>
-        where pr_no = #{prNo}
+        WHERE
+            pr_no = #{prNo}
     </update>
 
 
@@ -174,30 +213,36 @@
 
     <!--파일 삭제 쿼리-->
     <delete id="deleteProductFile">
-        DELETE from tbl_product_file
-        WHERE pr_no = #{prNo}
+        DELETE FROM
+            tbl_product_file
+        WHERE
+            pr_no = #{prNo}
     </delete>
 
 
     <!--  판매 상품   -->
     <select id="getSellProductList"
             resultType="org.plateer.fittingroombo.product.dto.SellProductDTO">
-        select
-        *
-        from
-        tbl_sell_product
-        where
-        pr_no = #{prNo}
+        SELECT
+            *
+        FROM
+            tbl_sell_product
+        WHERE
+            pr_no = #{prNo}
     </select>
 
     <insert id="insertSellProduct">
-        insert into tbl_sell_product (sp_size, sp_status, pr_no, sp_create_dt)
-        values(#{spSize}, #{spStatus}, #{prNo}, #{spCreateDt})
+        <selectKey keyProperty="spNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO tbl_sell_product (sp_size, sp_status, pr_no, sp_create_dt)
+        VALUES(#{spSize}, #{spStatus}, #{prNo}, #{spCreateDt})
     </insert>
 
     <!--  spStatus, spSize, spModifyDt   -->
     <update id="updateSellProduct">
-        update tbl_sell_product
+        UPDATE
+            tbl_sell_product
         <set>
             <if test="true">
                 sp_modify_dt = #{spModifyDt},
@@ -209,16 +254,16 @@
                 sp_status = #{spStatus},
             </if>
         </set>
-        where sp_no = #{spNo}
+        WHERE
+            sp_no = #{spNo}
     </update>
 
     <update id="deleteSellProduct">
         UPDATE
-        tbl_sell_product
+            tbl_sell_product
         SET
-        sp_status = 'INACTIVE'
+            sp_status = 'INACTIVE'
         WHERE
-        pr_no = #{id}
+            pr_no = #{id}
     </update>
-
 </mapper>
