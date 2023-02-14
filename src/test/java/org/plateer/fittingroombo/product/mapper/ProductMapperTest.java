@@ -2,8 +2,10 @@ package org.plateer.fittingroombo.product.mapper;
 
 import org.junit.jupiter.api.Test;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
+import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.dto.SellProductDTO;
+import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
 import org.plateer.fittingroombo.product.dto.enums.SellProductStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,4 +139,11 @@ class ProductMapperTest {
         System.out.println(productMapper.getSellProductList(prNo).size());
     }
 
+    @Test
+    void selectFiles() {
+        List<ProductFileDTO> productFileDTOS = productMapper.selectFiles(ProductFileType.BOTTOM, 67L);
+        List<ProductFileDTO> productFileDTOS1 = productMapper.selectFiles(ProductFileType.TOP, 67L);
+
+        System.out.println();
+    }
 }

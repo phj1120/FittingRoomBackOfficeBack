@@ -3,6 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
+    <select id="selectTopFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
+        SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
+        FROM tbl_product_file
+        WHERE prf_type = 'TOP' and pr_no = #{prNo}
+    </select>
+
+    <select id="selectBottomFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
+        SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
+        FROM tbl_product_file
+        WHERE prf_type = 'BOTTOM' and pr_no = #{prNo}
+    </select>
+
+    <select id="selectFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
+        SELECT prf_no, prf_name, prf_uuid, prf_type, prf_status, pr_no
+        FROM tbl_product_file
+        WHERE prf_type = #{productFileType} and pr_no = #{prNo}
+    </select>
+
+
+
+    <!--상품 조회 쿼리-->
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
@@ -18,15 +39,14 @@
         tpf.prf_uuid as thumbnail,
         tpc.prc_name as category
 
-        from
-        tbl_product tp
+        FROM tbl_product tp
         left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
         left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
-        where
+        WHERE
         tp.pr_status = true
         and tp.pr_no = #{prNo}
-        order by tpf.prf_status desc
-        limit 1;
+        ORDER BY tpf.prf_status desc
+        LIMIT 1;
     </select>
 
     <sql id="search">
@@ -49,6 +69,7 @@
         </foreach>
     </sql>
 
+    <!--상품 리스트 쿼리-->
     <select id="getProductList"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         SELECT
@@ -135,12 +156,20 @@
 
 
     <!--파일 추가 쿼리-->
-    <insert id="insertProductFile">
+    <insert id="insertProductTopFile">
         <selectKey keyProperty="prNo" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
-        value (#{prfName}, #{prfUUID}, #{prfType}, #{prfStatus}, #{prNo})
+        INSERT INTO tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
+        VALUE (#{prfName}, #{prfUUID}, #{prfType}, #{prfStatus}, #{prNo})
+    </insert>
+
+    <insert id="insertProductBottomFile">
+        <selectKey keyProperty="prNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
+        VALUE (#{prfName}, #{prfUUID}, #{prfType}, #{prfStatus}, #{prNo})
     </insert>
 
     <!--파일 삭제 쿼리-->
@@ -191,4 +220,5 @@
         WHERE
         pr_no = #{id}
     </update>
+
 </mapper>

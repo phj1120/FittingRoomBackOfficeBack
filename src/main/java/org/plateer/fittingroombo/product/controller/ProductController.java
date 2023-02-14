@@ -35,8 +35,9 @@ public class ProductController {
      **/
     @GetMapping("/product/{id}")
     public ProductDTO getProduct(@PathVariable Long id) {
+        ProductDTO product = productService.getProduct(id);
 
-        return productService.getProduct(id);
+        return product;
     }
 
     /**
@@ -45,10 +46,11 @@ public class ProductController {
     @PostMapping("/product")
     public ResultDTO<Long> insertProduct(ProductInsertDTO productInsertDTO) {
         // 이미지 저장
-        List<ProductFileDTO> images = imageUtil.saveImages(productInsertDTO);
+        List<ProductFileDTO> topFiles = imageUtil.saveTopImages(productInsertDTO); // TOP
+        List<ProductFileDTO> BottomFiles = imageUtil.saveBottomImages(productInsertDTO); // BOTTOM
 
         // 상품 저장
-        ProductDTO productDTO = new ProductDTO(productInsertDTO, images);
+        ProductDTO productDTO = new ProductDTO(productInsertDTO, topFiles, BottomFiles);
         Long result = productService.insertProduct(productDTO);
 
         return ResultDTO.<Long>builder().data(result).build();
@@ -72,8 +74,10 @@ public class ProductController {
         productService.deleteProductFile(id);
 
         // 이미지 저장
-        List<ProductFileDTO> images = imageUtil.saveImages(productInsertDTO);
-        ProductDTO productDTO = new ProductDTO(productInsertDTO, images);
+        List<ProductFileDTO> topFiles = imageUtil.saveTopImages(productInsertDTO); // TOP
+        List<ProductFileDTO> BottomFiles = imageUtil.saveBottomImages(productInsertDTO); // BOTTOM
+
+        ProductDTO productDTO = new ProductDTO(productInsertDTO, topFiles, BottomFiles);
         productDTO.setPrNo(id);
 
         // 상품 수정
