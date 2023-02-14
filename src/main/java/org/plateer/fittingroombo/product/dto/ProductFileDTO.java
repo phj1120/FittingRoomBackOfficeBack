@@ -17,4 +17,9 @@ public class ProductFileDTO {
     private ProductFileType prfType;
     private Boolean prfStatus; // Y: 활성 /. N: 비활성
     private Long prNo;
+
+    public ProductFileDTO(String prfName, String prfUUID) {
+        this.prfName = prfName;
+        this.prfUUID = prfUUID;
+    }
 }

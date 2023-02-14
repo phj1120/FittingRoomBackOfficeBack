@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class ProductDTO {
     private String prBrand;
     private String prName;
     private Long prPrice;
-    private boolean prStatus; // Y: 활성, N: 비활성
-    private LocalDate prCreateDt;
-    private LocalDate prModifyDt;
+    private Boolean prStatus; // Y: 활성, N: 비활성
+    private LocalDateTime prCreateDt;
+    private LocalDateTime prModifyDt;
     private Long prcNo; // 상품 카테고리 번호
-    private Long sNo; // 판매자 번호
+    private Long seNo; // 판매자 번호
     private List<ProductFileDTO> files = new ArrayList<>();
     private List<SellProductDTO> options = new ArrayList<>();
     private String thumbnail;
@@ -33,11 +34,15 @@ public class ProductDTO {
         this.prName = prName;
         this.prPrice = prPrice;
         this.prcNo = prcNo;
-        this.sNo = sNo;
+        this.seNo = sNo;
 
         // 생성시 기본 값
-        this.prCreateDt = LocalDate.now();
+        this.prCreateDt = LocalDateTime.now();
         this.prStatus = true;
+    }
+
+    public void setPrNo(Long prNo) {
+        this.prNo = prNo;
     }
 
     public void setFiles(List<ProductFileDTO> files) {
@@ -64,7 +69,22 @@ public class ProductDTO {
         this.prStatus = prStatus;
     }
 
-    public void setPrModifyDt(LocalDate prModifyDt) {
+    public void setPrModifyDt(LocalDateTime prModifyDt) {
         this.prModifyDt = prModifyDt;
     }
+
+    /**
+     * 상품 추가
+     **/
+    public ProductDTO(ProductInsertDTO productInsertDTO, List<ProductFileDTO> files) {
+        this.prBrand = productInsertDTO.getPrBrand();
+        this.prName = productInsertDTO.getPrName();
+        this.prPrice = productInsertDTO.getPrPrice();
+        this.prStatus = true;
+        this.prCreateDt = LocalDateTime.now();
+        this.prcNo = productInsertDTO.getPrcNo();
+        this.seNo = 1L; // 사용자
+        this.files = files;
+    }
+
 }

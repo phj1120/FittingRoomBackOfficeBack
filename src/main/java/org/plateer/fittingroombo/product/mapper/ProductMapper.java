@@ -36,4 +36,5 @@ public interface ProductMapper {
     List<ProductFileDTO> getProductFileList(Long prNo); // 상품 번호
 
     int deleteProductFile(Long prfNo); // 상품 번호
+
 }
