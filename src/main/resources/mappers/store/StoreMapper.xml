@@ -8,13 +8,13 @@
 
         select rh_no, rh_status, rh_content, rh_reason, rh_start_dt
         from tbl_request_history
-        where s_no = #{sNo}
+        where se_no = #{seNo}
     </select>
 
     <select id="getStoreStatus" resultType="String">
-        select s_status
+        select se_status
         from tbl_seller
-        where s_no = #{sNo}
+        where se_no = #{seNo}
     </select>
 
 </mapper>

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -11,7 +12,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SellerDTO {
+public class SellerRegisterDTO {
+
     private Long seNo;
     private String seName;
     private String seManager;
@@ -25,4 +27,5 @@ public class SellerDTO {
     private LocalDate seModifyDt;
     private Long pmNo;
 
+    private MultipartFile image;
 }

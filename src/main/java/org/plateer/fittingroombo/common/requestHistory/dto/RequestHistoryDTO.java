@@ -1,5 +1,6 @@
 package org.plateer.fittingroombo.common.requestHistory.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,18 +14,19 @@ import java.time.LocalDate;
 @Builder
 public class RequestHistoryDTO {
     private Long rhNo;
-    
+
     private String rhStatus;  /* 승인, 거절, 대기 */
     private String rhContent;  /* 가입, 휴업, 탈퇴 */
 
     private String rhReason;
+
     private LocalDate rhCreateDt;
 
-    private String rhStartDt;
+    private LocalDate rhStartDt;
 
     private Long pmNo;
 
-    private Long sNo;
+    private Long seNo;
 
 
 }

@@ -4,11 +4,22 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper">
 
-<insert id="insertRequestHistory" keyProperty="rhNo" useGeneratedKeys="true">
+    <insert id="insertRequestHistory" keyProperty="rhNo" useGeneratedKeys="true">
+        <selectKey keyProperty="rhNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
+        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{seNo})
+    </insert>
 
-    insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,s_no)
-    values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{sNo})
+    <update id="updateRequestHistory">
+        update tbl_request_history
+        <set>
+            rh_content = #{rhContent},
+            rh_reason = #{rhReason},
+            rh_start_dt = #{rhStartDt}
+        </set>
+        where rh_no = #{rhNo}
 
-</insert>
-
+    </update>
 </mapper>

@@ -2,6 +2,7 @@ package org.plateer.fittingroombo.store.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.store.dto.ResultDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +14,23 @@ public class StoreController {
     private final org.plateer.fittingroombo.store.service.StoreService StoreService;
 
     @GetMapping("/status/{id}")
-    public ResultDTO getStoreList(@PathVariable("id") Long sNo){
+    public ResultDTO getStoreList(@PathVariable("id") Long sno) {
 
-        return StoreService.getStoreList(sNo);
+        return StoreService.getStoreList(sno);
     }
+
+    @PutMapping("/status/{id}")
+    public Long updateRequestHistory(@PathVariable("id") Long rhNo,
+                                     @RequestBody RequestHistoryDTO requestHistoryDTO) {
+        RequestHistoryDTO updateHistoryObj = requestHistoryDTO;
+        updateHistoryObj.setRhNo(rhNo);
+        return StoreService.updateRequestHistory(updateHistoryObj);
+    }
+
+    @PostMapping("/request")
+    public Long insertRequestHistory(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+        return StoreService.insertRequestHistory(requestHistoryDTO);
+    }
+
+
 }

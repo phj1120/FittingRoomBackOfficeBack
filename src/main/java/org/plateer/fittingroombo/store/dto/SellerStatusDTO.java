@@ -20,4 +20,5 @@ public class SellerStatusDTO {
 
     private String rhStartDt;
 
+
 }

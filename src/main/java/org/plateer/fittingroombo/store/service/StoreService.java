@@ -1,10 +1,15 @@
 package org.plateer.fittingroombo.store.service;
 
 
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.store.dto.ResultDTO;
 
 public interface StoreService {
 
-    ResultDTO getStoreList(Long sNo);
+    ResultDTO getStoreList(Long seNo);
+
+    Long insertRequestHistory(RequestHistoryDTO requestHistoryDTO);
+
+    Long updateRequestHistory(RequestHistoryDTO updateHistoryObj);
 
 }

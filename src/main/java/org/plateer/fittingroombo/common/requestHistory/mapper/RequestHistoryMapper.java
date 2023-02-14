@@ -7,5 +7,6 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface RequestHistoryMapper {
 
-    void insertRequestHistory(RequestHistoryDTO requestHistoryDTO);
+    Long insertRequestHistory(RequestHistoryDTO requestHistoryDTO);
+    Long updateRequestHistory(RequestHistoryDTO updateHistoryObj);
 }

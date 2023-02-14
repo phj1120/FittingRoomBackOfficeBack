@@ -10,11 +10,11 @@ import java.util.List;
 @NoArgsConstructor
 public class ResultDTO {
     private List<SellerStatusDTO> resultList;
-    private String sStatus;
+    private String seStatus;
      public ResultDTO(List<SellerStatusDTO> resultList, String sStatus){
 
         this.resultList = resultList;
-        this.sStatus = sStatus;
+        this.seStatus = sStatus;
     }
 }
 

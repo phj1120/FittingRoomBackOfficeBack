@@ -2,6 +2,8 @@ package org.plateer.fittingroombo.store.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
+import org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper;
 import org.plateer.fittingroombo.store.dto.SellerStatusDTO;
 import org.plateer.fittingroombo.store.dto.ResultDTO;
 import org.plateer.fittingroombo.store.mapper.StoreMapper;
@@ -17,13 +19,29 @@ import java.util.List;
 public class StoreServiceImpl implements StoreService {
 
     private final StoreMapper storeMapper;
+    private final RequestHistoryMapper requestHistoryMapper;
 
     @Override
-    public ResultDTO getStoreList(Long sNo) {
-        List<SellerStatusDTO> resultList =  storeMapper.getStoreList(sNo);
-        ResultDTO resultDTO = new ResultDTO(resultList, storeMapper.getStoreStatus(sNo));
+    public ResultDTO getStoreList(Long seNo) {
+        List<SellerStatusDTO> resultList = storeMapper.getStoreList(seNo);
+        ResultDTO resultDTO = new ResultDTO(resultList, storeMapper.getStoreStatus(seNo));
 
         return resultDTO;
+    }
+
+    @Override
+    public Long insertRequestHistory(RequestHistoryDTO requestHistoryDTO) {
+
+        requestHistoryMapper.insertRequestHistory(requestHistoryDTO);
+
+        Long rhNo = requestHistoryDTO.getRhNo();
+        return rhNo;
+    }
+
+    @Override
+    public Long updateRequestHistory(RequestHistoryDTO updateHistoryObj) {
+        Long updateRow = requestHistoryMapper.updateRequestHistory(updateHistoryObj);
+        return updateRow;
     }
 
 
