@@ -17,23 +17,23 @@ public class ProductDTO {
     private String prBrand;
     private String prName;
     private Long prPrice;
-    private boolean prStatus; // Y: 활성, N: 비활성
+    private Boolean prStatus; // Y: 활성, N: 비활성
     private LocalDate prCreateDt;
     private LocalDate prModifyDt;
     private Long prcNo; // 상품 카테고리 번호
-    private Long sNo; // 판매자 번호
+    private Long seNo; // 판매자 번호
     private List<ProductFileDTO> files = new ArrayList<>();
     private List<SellProductDTO> options = new ArrayList<>();
     private String thumbnail;
     private String category;
 
     @Builder
-    public ProductDTO(String prBrand, String prName, Long prPrice, Long prcNo, Long sNo) {
+    public ProductDTO(String prBrand, String prName, Long prPrice, Long prcNo, Long seNo) {
         this.prBrand = prBrand;
         this.prName = prName;
         this.prPrice = prPrice;
         this.prcNo = prcNo;
-        this.sNo = sNo;
+        this.seNo = seNo;
 
         // 생성시 기본 값
         this.prCreateDt = LocalDate.now();

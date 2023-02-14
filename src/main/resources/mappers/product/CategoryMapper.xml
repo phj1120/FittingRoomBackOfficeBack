@@ -21,9 +21,7 @@
     <insert id="insertProductCategory"
             useGeneratedKeys="true"
             keyProperty="prcNo">
-        insert into tbl_product_category(prc_name, prc_depth, prc_position, prc_create_dt,p_prc_no)
-        values(#{prcName}, #{prcDepth}, #{prcPosition}, #{prcCreateDt}, #{pPrcNo})
+        insert into tbl_product_category(prc_name, prc_depth, prc_position, prc_create_dt,prc_no_p)
+        values(#{prcName}, #{prcDepth}, #{prcPosition}, #{prcCreateDt}, #{prcNoP})
     </insert>
-
-
 </mapper>

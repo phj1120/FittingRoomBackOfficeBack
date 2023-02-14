@@ -13,7 +13,7 @@ public interface ProductMapper {
 
     ProductDTO getProduct(Long prNo);
 
-    List<ProductDTO> getProductList(Long sNo, ProductPageSearchRequestDTO productPageSearchRequestDTO); // 판매자 번호
+    List<ProductDTO> getProductList(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO); // 판매자 번호
 
     int updateProduct(ProductDTO productDTO);
 
@@ -21,8 +21,6 @@ public interface ProductMapper {
 
     // 판매 상품
     int insertSellProduct(SellProductDTO sellProductDTO);
-
-    SellProductDTO getSellProduct(Long sprNo);
 
     List<SellProductDTO> getSellProductList(Long prNo); // 상품 번호
 

@@ -16,13 +16,13 @@ public class ProductCategoryDTO {
     private Integer prcPosition;
     private LocalDate prcCreateDt;
     private LocalDate prcModifyDt;
-    private Long pPrcNo;
+    private Long prcNoP;
 
-    public ProductCategoryDTO(String prcName, Integer prcDepth, Integer prcPosition, Long pPrcNo) {
+    public ProductCategoryDTO(String prcName, Integer prcDepth, Integer prcPosition, Long prcNoP) {
         this.prcName = prcName;
         this.prcDepth = prcDepth;
         this.prcPosition = prcPosition;
         this.prcCreateDt = LocalDate.now();
-        this.pPrcNo = pPrcNo;
+        this.prcNoP = prcNoP;
     }
 }

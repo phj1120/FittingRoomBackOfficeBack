@@ -6,24 +6,24 @@
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
-            tp.pr_no,
-            tp.pr_brand,
-            tp.pr_name,
-            tp.pr_price,
-            tp.pr_create_dt,
-            tp.pr_modify_dt,
-            tp.pr_status,
-            tp.prc_no,
-            tp.s_no,
-            tpf.prf_uuid as thumbnail,
-            tpc.prc_name as category
+        tp.pr_no,
+        tp.pr_brand,
+        tp.pr_name,
+        tp.pr_price,
+        tp.pr_create_dt,
+        tp.pr_modify_dt,
+        tp.pr_status,
+        tp.prc_no,
+        tp.se_no,
+        tpf.prf_uuid as thumbnail,
+        tpc.prc_name as category
         from
-            tbl_product tp
-            left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
-            left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
+        tbl_product tp
+        left join tbl_product_file tpf on tp.pr_no = tpf.pr_no
+        left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
         where
-            tp.pr_status = true
-            and tp.pr_no = #{prNo}
+        tp.pr_status = true
+        and tp.pr_no = #{prNo}
         order by tpf.prf_status desc
         limit 1;
     </select>
@@ -51,11 +51,12 @@
     <select id="getProductList"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
-            *
+        *
         from
-            tbl_product
+        tbl_product
         where
-            pr_status = true
+        pr_status = true
+        and se_no = #{seNo}
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -65,11 +66,11 @@
     <select id="getCount"
             resultType="int">
         select
-            *
+        count(*)
         from
-            tbl_product
+        tbl_product
         where
-            pr_status = true
+        pr_status = true
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -77,8 +78,8 @@
 
     <insert id="insertProduct"
             useGeneratedKeys="true" keyProperty="prNo">
-        insert into tbl_product (pr_brand, pr_name, pr_price, prc_no, s_no, pr_create_dt, pr_status)
-        values(#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{sNo}, #{prCreateDt}, #{prStatus})
+        insert into tbl_product (pr_brand, pr_name, pr_price, prc_no, se_no, pr_create_dt, pr_status)
+        values(#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{seNo}, #{prCreateDt}, #{prStatus})
     </insert>
 
     <update id="updateProduct">
@@ -108,11 +109,55 @@
 
     <update id="deleteProduct">
         UPDATE
-            tbl_product
+        tbl_product
         SET
-            pr_status = false
+        pr_status = false
         WHERE
-            pr_no = #{id}
+        pr_no = #{id}
     </update>
+
+
+    <!--  판매 상품   -->
+    <select id="getSellProductList"
+            resultType="org.plateer.fittingroombo.product.dto.SellProductDTO">
+        select
+        *
+        from
+        tbl_sell_product
+        where
+        pr_no = #{prNo}
+    </select>
+
+    <insert id="insertSellProduct">
+        insert into tbl_sell_product (sp_size, sp_status, pr_no, sp_create_dt)
+        values(#{spSize}, #{spStatus}, #{prNo}, #{spCreateDt})
+    </insert>
+
+    <!--  spStatus, spSize, spModifyDt   -->
+    <update id="updateSellProduct">
+        update tbl_sell_product
+        <set>
+            <if test="true">
+                sp_modify_dt = #{spModifyDt},
+            </if>
+            <if test="spSize != null">
+                sp_size = #{spSize},
+            </if>
+            <if test="spStatus != null">
+                sp_status = #{spStatus},
+            </if>
+        </set>
+        where sp_no = #{spNo}
+    </update>
+
+    <update id="deleteSellProduct">
+        UPDATE
+        tbl_sell_product
+        SET
+        sp_status = 'INACTIVE'
+        WHERE
+        pr_no = #{id}
+    </update>
+
 
 </mapper>

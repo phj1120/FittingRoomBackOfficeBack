@@ -3,16 +3,20 @@ package org.plateer.fittingroombo.product.mapper;
 import org.junit.jupiter.api.Test;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
+import org.plateer.fittingroombo.product.dto.SellProductDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
+import org.plateer.fittingroombo.product.dto.enums.SellProductStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
-//@Transactional
+@Transactional
 class ProductMapperTest {
 
     @Autowired
@@ -41,14 +45,13 @@ class ProductMapperTest {
 
     @Test
     @Rollback
-//    @Rollback(value = false)
     void insertProduct() {
         ProductDTO productDTO = ProductDTO.builder()
                 .prName("오바사이즈 맨투맨 블루")
                 .prBrand("드로우핏")
                 .prPrice(50000L)
                 .prcNo(1L) // 카테고리 번호
-                .sNo(1L) // 판매자 번호
+                .seNo(1L) // 판매자 번호
                 .build();
 
         productMapper.insertProduct(productDTO);
@@ -85,4 +88,53 @@ class ProductMapperTest {
 
         System.out.println(afterProductDTO);
     }
+
+
+    @Test
+    @Rollback
+    void insertSellProduct() {
+        SellProductDTO sellProductDTO = new SellProductDTO(1L, "100", SellProductStatus.ACTIVE);
+
+        productMapper.insertSellProduct(sellProductDTO);
+
+        System.out.println(sellProductDTO);
+    }
+
+    @Test
+    void getSellProductList() {
+        Long prNo = 1L;
+        List<SellProductDTO> sellProductList = productMapper.getSellProductList(prNo);
+
+        System.out.println(sellProductList);
+    }
+
+    @Test
+    @Rollback
+    void updateSellProduct() {
+        Long prNo = 1L;
+        List<SellProductDTO> sellProductList = productMapper.getSellProductList(prNo);
+
+        SellProductDTO sellProductDTO = sellProductList.get(0);
+        sellProductDTO.setSpSize(sellProductDTO.getSpSize() + LocalDateTime.now());
+        sellProductDTO.setSpStatus(SellProductStatus.INACTIVE);
+        productMapper.updateSellProduct(sellProductDTO);
+
+        System.out.println(sellProductDTO);
+    }
+
+    @Test
+    @Rollback
+    void deleteSellProduct() {
+        Long prNo = 1L;
+        List<SellProductDTO> sellProductList = productMapper.getSellProductList(prNo);
+        System.out.println(sellProductList.size());
+
+        SellProductDTO sellProductDTO = sellProductList.get(0);
+        int i = productMapper.deleteSellProduct(sellProductDTO.getSpNo());
+
+        System.out.println(sellProductDTO);
+
+        System.out.println(productMapper.getSellProductList(prNo).size());
+    }
+
 }
