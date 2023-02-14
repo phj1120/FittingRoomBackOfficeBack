@@ -6,7 +6,6 @@
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
-
         tp.pr_no,
         tp.pr_brand,
         tp.pr_name,
@@ -52,13 +51,30 @@
 
     <select id="getProductList"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
-        select
-        *
-        from
-        tbl_product
-        where
-        pr_status = true
-        and se_no = #{seNo}
+        SELECT
+        DISTINCT
+        tp.pr_no,
+        tp.pr_brand,
+        tp.pr_name,
+        tp.pr_price,
+        tp.pr_create_dt,
+        tp.pr_modify_dt,
+        tp.pr_status,
+        tp.prc_no,
+        tp.se_no,
+        (
+        SELECT tpf.prf_uuid
+        FROM tbl_product_file tpf
+        WHERE tpf.pr_no = tp.pr_no
+        ORDER BY tpf.prf_status DESC
+        LIMIT 1
+        ) as thumbnail,
+        tpc.prc_name as category
+        FROM
+        tbl_product tp
+        left join tbl_product_category tpc on tp.prc_no = tpc.prc_no
+        WHERE
+        tp.se_no = #{seNo} and tp.pr_status = 1
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>

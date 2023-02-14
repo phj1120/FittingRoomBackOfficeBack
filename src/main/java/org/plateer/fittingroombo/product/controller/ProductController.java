@@ -25,8 +25,8 @@ public class ProductController {
     // TODO sort 보류
     @GetMapping("/product/list")
     // PageRequsetDTO, startDt, endDt, s_no, sort
-    public List<ProductDTO> productDTO(Long sno, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
-        return productService.getProductList(sno, productPageSearchRequestDTO);
+    public List<ProductDTO> productDTO(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+        return productService.getProductList(seNo, productPageSearchRequestDTO);
 
     }
 
