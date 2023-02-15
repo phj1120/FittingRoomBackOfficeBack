@@ -81,7 +81,7 @@
             tp.pr_status,
             tp.prc_no,
             tp.se_no,
-            tpc.prc_name as category,
+            tpc.prc_path_name as categoryPathName,
             (
                 SELECT
                     tpf.prf_uuid
