@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.stream.IntStream;
 
 @SpringBootTest
 @Log4j2
@@ -20,8 +21,19 @@ public class RequestHistoryMapperTest {
 
     @Test
     void insertRequestPlace() {
-        RequestHistoryDTO requestHistoryDTO = new RequestHistoryDTO("대기", "가입", "집가고싶다", LocalDateTime.now(), 2L);
-        requestHistoryMapper.insertRequestHistoryPlace(requestHistoryDTO);
+        IntStream.rangeClosed(1, 100).forEach(i -> {
+            RequestHistoryDTO requestHistoryDTO = RequestHistoryDTO.builder()
+                    .rhStatus(i % 2 == 0 ? "대기" : "탈퇴")
+                    .rhContent("가입")
+                    .rhReason("사유" + i)
+                    .rhCreateDt(LocalDateTime.now())
+                    .pmNo(1L)
+                    .build();
+            requestHistoryMapper.insertRequestHistoryPlace(requestHistoryDTO);
+        });
+
+//        RequestHistoryDTO requestHistoryDTO = new RequestHistoryDTO("대기", "가입", "집가고싶다", LocalDateTime.now(), 2L);
+//        requestHistoryMapper.insertRequestHistoryPlace(requestHistoryDTO);
     }
 
     @Test

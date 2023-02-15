@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 public class PlaceRoomDTO {
     // 방번호
     private Long roNo;
+    
+    // 지점 이름
+    private String roName;
 
     // 주소 및 우편번호
     private String roAddress;

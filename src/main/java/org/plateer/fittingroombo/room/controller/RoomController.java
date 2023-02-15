@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
     private final RoomService roomService;
 
-    @PostMapping("status/list")
-    public PageResultDTO<RequestHistoryDTO> getRoomRequestHistoryList(@RequestBody RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+    @GetMapping("status/list")
+    public PageResultDTO<RequestHistoryDTO> getRoomRequestHistoryList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
         return roomService.getRoomRequestHistoryList(requestHistoryPageRequestDTO);
     }
 

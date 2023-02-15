@@ -1,13 +1,14 @@
 package org.plateer.fittingroombo.seller.service;
 
+import org.plateer.fittingroombo.common.dto.PageResultDTO;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.plateer.fittingroombo.seller.dto.SellerRequestDTO;
+
+import java.util.List;
+
 public interface SellerService {
-//    PageResultDTO<RollingInfoDTO> getList(RollingPageRequestDTO rollingPageRequestDTO);
-//
-//    RollingWithImageNameDTO getRolling(Long id);
-//
-//    RollingInfoDTO addRolling(AddRollingDTO addRollingDTO);
-//
-//    RollingWithImageNameDTO modifyRolling(ModifyRollingDTO modifyRollingDTO);
-//
-//    void deleteRolling(Long id);
+    PageResultDTO<SellerRequestDTO> getRoomSellerStatus(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+
+    PageResultDTO<RequestHistoryDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 }

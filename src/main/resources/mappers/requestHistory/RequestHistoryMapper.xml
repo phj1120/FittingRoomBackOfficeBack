@@ -9,7 +9,30 @@
         from
             tbl_request_history
         where
-            pm_no = #{ id }
+                pm_no = #{ id }
+            and se_no is null
+    </select>
+
+    <select id="getRoomSellerCount" resultType="int">
+        select
+            count(*)
+        from
+            tbl_request_history
+        where
+                pm_no = #{ id }
+            and se_no is not null
+    </select>
+
+    <select id="getSellerRequestCount" resultType="int">
+        select
+            count(*)
+        from
+            tbl_request_history A
+            LEFT JOIN tbl_seller B on A.se_no = B.se_no
+        where
+                A.pm_no = #{ id }
+            and A.se_no is not null
+            and A.rh_status = '대기'
     </select>
 
     <select id="getRoomRequestHistoryList" resultType="RequestHistoryDTO">
@@ -18,7 +41,8 @@
         from
             tbl_request_history
         where
-            pm_no = #{ id }
+                pm_no = #{ id }
+            and se_no is null
         order by
             pm_no desc
         limit #{skip}, #{size}
@@ -62,6 +86,35 @@
             rh_start_dt = #{rhStartDt}
         where
             rh_no = #{rhNo}
-
     </update>
+
+    <select id="getRoomSellerRequestHistoryList" resultType="SellerRequestDTO">
+        select
+            *
+        from
+            tbl_request_history A
+            LEFT JOIN tbl_seller B on A.se_no = B.se_no
+        where
+                A.pm_no = #{ id }
+            and A.se_no is not null
+            and A.rh_status = '대기'
+        order by
+            A.rh_create_dt desc
+        limit
+            #{skip}, #{size}
+    </select>
+
+    <select id="getRoomSellerRequestHistoryAllList" resultType="RequestHistoryDTO">
+        select
+            *
+        from
+            tbl_request_history
+        where
+                pm_no = #{ id }
+            and se_no is not null
+        order by
+            rh_create_dt desc
+        limit
+            #{skip}, #{size}
+    </select>
 </mapper>

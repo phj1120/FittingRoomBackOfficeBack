@@ -47,6 +47,7 @@
     <select id="getPlaceRoomList" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
         SELECT
             tr.ro_no,
+            tr.ro_name,
             tr.ro_address,
             tr.ro_detail_address,
             tr.ro_postcode,
@@ -65,6 +66,7 @@
     <select id="getPlaceRoom" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
         SELECT
             tr.ro_no,
+            tr.ro_name,
             tr.ro_address,
             tr.ro_detail_address,
             tr.ro_postcode,

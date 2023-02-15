@@ -12,15 +12,4 @@ public interface SellerMapper {
     // 특정 판매자 조회
     SellerDTO getSeller(Long seNo);
 
-//    int getCount(RollingPageRequestDTO rollingPageRequestDTO);
-//
-//    List<RollingDTO> getList(RollingPageRequestDTO rollingPageRequestDTO);
-//
-//    RollingDTO getRolling(Long id);
-//
-//    int addRolling(RollingDTO rollingDTO);
-//
-//    int modifyRolling(RollingDTO rollingDTO);
-//
-//    int deleteRolling(Long rollingId);
 }

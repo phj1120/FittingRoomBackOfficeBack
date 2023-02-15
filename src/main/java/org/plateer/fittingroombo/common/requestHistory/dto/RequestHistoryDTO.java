@@ -59,4 +59,9 @@ public class RequestHistoryDTO {
         this.rhReason = rhReason;
         this.rhStartDt = rhStartDt;
     }
+
+    // 장소제공자 요청 온 항목 DTO
+    public RequestHistoryDTO(Long pmNo) {
+        this.pmNo = pmNo;
+    }
 }

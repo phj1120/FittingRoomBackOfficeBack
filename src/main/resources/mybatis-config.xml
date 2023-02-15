@@ -12,6 +12,7 @@
         <typeAlias alias="RoomDTO" type="org.plateer.fittingroombo.room.dto.RoomDTO"/>
 
         <typeAlias alias="SellerDTO" type="org.plateer.fittingroombo.seller.dto.SellerDTO"/>
+        <typeAlias alias="SellerRequestDTO" type="org.plateer.fittingroombo.seller.dto.SellerRequestDTO"/>
 
         <typeAlias alias="RequestHistoryDTO" type="org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO"/>
     </typeAliases>
