@@ -97,7 +97,7 @@
         WHERE
                 tp.se_no = #{seNo}
             AND tp.pr_status = 1
-            AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND #{productPageSearchRequestDTO.endDt}
+            AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND DATE_ADD(#{productPageSearchRequestDTO.endDt}, INTERVAL 1 DAY)
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -116,7 +116,7 @@
         WHERE
                 tp.se_no = #{seNo}
             AND tp.pr_status = 1
-            AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND #{productPageSearchRequestDTO.endDt}
+            AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND DATE_ADD(#{productPageSearchRequestDTO.endDt}, INTERVAL 1 DAY)
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
         </if>
@@ -173,7 +173,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
-        VALUE (#{prfName}, #{prfUUID}, #{prfType}, #{prfStatus}, #{prNo})
+        VALUE (#{prfName}, #{prfUuid}, #{prfType}, #{prfStatus}, #{prNo})
     </insert>
 
     <insert id="insertProductBottomFile">
@@ -181,7 +181,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
-        VALUE (#{prfName}, #{prfUUID}, #{prfType}, #{prfStatus}, #{prNo})
+        VALUE (#{prfName}, #{prfUuid}, #{prfType}, #{prfStatus}, #{prNo})
     </insert>
 
     <!--파일 삭제 쿼리-->

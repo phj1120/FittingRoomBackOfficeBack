@@ -30,6 +30,9 @@ public class ProductService {
         List<ProductFileDTO> productBottomFiles = productMapper.selectFiles(ProductFileType.BOTTOM, prNo);
         productDTO.setBottomFiles(productBottomFiles);
 
+        List<SellProductDTO> sellProductList = productMapper.getSellProductList(prNo);
+        productDTO.setOptions(sellProductList);
+
         return productDTO;
     }
 
