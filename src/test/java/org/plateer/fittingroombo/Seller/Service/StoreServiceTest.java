@@ -19,13 +19,13 @@ public class StoreServiceTest {
     public void testInserts() {
         IntStream.rangeClosed(1, 2).forEach((i) -> {
 
-           /* Todo todo = Todo.builder()
+          /* *//* Todo todo = Todo.builder()
                     .title("Title.."+i)
                     .writer("user"+i)
                     .dueDate(LocalDate.now().plusDays( i % 5 ))
                     .build();
 
-            log.info(todoRepository.save(todo));*/
+            log.info(todoRepository.save(todo));*//*
             RequestHistoryDTO requestHistoryDTO = RequestHistoryDTO.builder()
                     .rhStatus("대기")
                     .rhContent("가입").rhReason("requestHistory+++" + i)
@@ -33,7 +33,7 @@ public class StoreServiceTest {
                     .pmNo(null)
                     .sNo((long) 1)
                     .build();
-            requestHistoryMapper.insertRequestHistory(requestHistoryDTO);
+            requestHistoryMapper.insertRequestHistory(requestHistoryDTO);*/
         });//end loop
     }
 }

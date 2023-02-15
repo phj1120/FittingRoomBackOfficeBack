@@ -24,7 +24,7 @@ public class SellerController {
 
     @PostMapping("/register")
     public ResultDTO<Long> insertSeller( SellerRegisterDTO sellerRegisterDTO){
-        log.info(sellerRegisterDTO.getImage());
+
         SellerFileDTO sellerFileDTO = imageUtil.saveBizImage(sellerRegisterDTO.getImage());
         sellerRegisterDTO.setSaveImage(sellerFileDTO);
         sellerService.insertSeller(sellerRegisterDTO);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.dress.mapper.DressMapper">
+
+    <select id="getSellerProfile" resultType="SellerDTO">
+        select *
+        from tbl_seller
+        where se_no = #{seNo}
+    </select>
+
+    <update id="updateSellerProfile">
+        update tbl_seller
+        <set>
+            se_name = #{seName},
+            se_manager = #{seManager},
+            se_email = #{seEmail},
+            se_password = #{sePassword},
+            se_phone = #{sePhone},
+            se_address = #{seAddress},
+        </set>
+        where se_no = #{seNo}
+    </update>
+</mapper>

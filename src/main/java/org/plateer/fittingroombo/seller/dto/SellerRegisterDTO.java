@@ -1,5 +1,6 @@
 package org.plateer.fittingroombo.seller.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -23,8 +25,10 @@ public class SellerRegisterDTO {
     private String sePhone;
     private String seAddress;
     private String seStatus; // Enum
-    private LocalDate seCreateDt;
-    private LocalDate seModifyDt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime seCreateDt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime seModifyDt;
     private Long pmNo;
 
     private MultipartFile image;

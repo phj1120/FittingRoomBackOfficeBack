@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,18 +16,49 @@ import java.time.LocalDate;
 public class RequestHistoryDTO {
     private Long rhNo;
 
-    private String rhStatus;  /* 승인, 거절, 대기 */
-    private String rhContent;  /* 가입, 휴업, 탈퇴 */
-
+    // 요청에 대한 상태 ( 승인, 거절, 대기 )
+    private String rhStatus;
+    // 요청에 대한 항목 ( 가입, 휴업, 탈퇴 )
+    private String rhContent;
     private String rhReason;
 
-    private LocalDate rhCreateDt;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate rhStartDt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime rhCreateDt;
 
     private Long pmNo;
-
     private Long seNo;
+
+
+    // 판매자가 장소제공자에게 요청
+    public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDate rhStartDt, Long pmNo, Long seNo) {
+        this.rhStatus = rhStatus;
+        this.rhContent = rhContent;
+        this.rhReason = rhReason;
+        this.rhStartDt = rhStartDt;
+        this.rhCreateDt = LocalDateTime.now();
+        this.pmNo = pmNo;
+        this.seNo = seNo;
+    }
+
+    // 장소제공자가 슈퍼관리자에게 요청
+    public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDate rhStartDt, Long pmNo) {
+        this.rhStatus = rhStatus;
+        this.rhContent = rhContent;
+        this.rhReason = rhReason;
+        this.rhStartDt = rhStartDt;
+        this.rhCreateDt = LocalDateTime.now();
+        this.pmNo = pmNo;
+    }
+
+    // 장소제공자 요청 수정
+    public RequestHistoryDTO(Long rhNo, String rhContent, String rhReason, LocalDate rhStartDt) {
+        this.rhNo = rhNo;
+        this.rhContent = rhContent;
+        this.rhReason = rhReason;
+        this.rhStartDt = rhStartDt;
+    }
 
 
 }

@@ -2,8 +2,11 @@ package org.plateer.fittingroombo.store.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.plateer.fittingroombo.common.dto.PageResultDTO;
+import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
-import org.plateer.fittingroombo.store.dto.ResultDTO;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.plateer.fittingroombo.store.service.StoreService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,31 +14,41 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/seller/store")
 public class StoreController {
-    private final org.plateer.fittingroombo.store.service.StoreService StoreService;
+
+    private final StoreService storeService;
+
+    @GetMapping("/status")
+    public PageResultDTO<RequestHistoryDTO> getStoreList(@RequestBody RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+        return storeService.getStoreList(requestHistoryPageRequestDTO);
+    }
 
     @GetMapping("/status/{id}")
-    public ResultDTO getStoreList(@PathVariable("id") Long seNo) {
+    public ResultDTO<String> getStoreStatus(@RequestParam("id") Long seNo) {
 
-        return StoreService.getStoreList(seNo);
+     return  ResultDTO.<String>builder()
+                .data(storeService.getStoreStatus(seNo)).build();
     }
 
     @PutMapping("/status/{id}")
-    public Long updateRequestHistorySeller(@PathVariable("id") Long rhNo,
-                                     @RequestBody RequestHistoryDTO requestHistoryDTO) {
-        RequestHistoryDTO updateHistoryObj = requestHistoryDTO;
-        updateHistoryObj.setRhNo(rhNo);
-        return StoreService.updateRequestHistorySeller(updateHistoryObj);
+    public ResultDTO<Long> updateRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO,@PathVariable("id") Long rhNo) {
+        requestHistoryDTO.setRhNo(rhNo);
+        return ResultDTO.<Long>builder()
+                .data(storeService.updateRequestHistorySeller(requestHistoryDTO)).build();
     }
 
     @GetMapping("/status/detail/{id}")
-    public RequestHistoryDTO getRequestHistoryDetail(@PathVariable("id") Long rhNo){
+    public ResultDTO<RequestHistoryDTO> getRequestHistoryDetail(@PathVariable("id") Long rhNo){
 
-        return StoreService.getRequestHistoryDetailSeller(rhNo);
+      return  ResultDTO.<RequestHistoryDTO>builder()
+                .data(storeService.getRequestHistoryDetailSeller(rhNo)).build();
     }
 
     @PostMapping("/request")
-    public Long insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
-        return StoreService.insertRequestHistorySeller(requestHistoryDTO);
+    public ResultDTO<Long> insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+
+
+        return ResultDTO.<Long>builder()
+                .data(storeService.insertRequestHistorySeller(requestHistoryDTO)).build();
     }
 
 

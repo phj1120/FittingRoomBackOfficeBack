@@ -7,7 +7,6 @@
     </settings>
     <typeAliases>
         <typeAlias alias="SellerDTO" type="org.plateer.fittingroombo.seller.dto.SellerDTO"/>
-        <typeAlias alias="SellerStatusDTO" type="org.plateer.fittingroombo.store.dto.SellerStatusDTO"/>
         <typeAlias alias="RequestHistoryDTO" type="org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO"/>
     </typeAliases>
 </configuration>

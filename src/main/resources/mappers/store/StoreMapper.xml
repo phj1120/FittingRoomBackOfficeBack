@@ -4,13 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.store.mapper.StoreMapper">
 
-    <select id="getStoreList" resultType="SellerStatusDTO">
-
-        select rh_no, rh_status, rh_content, rh_reason, rh_start_dt
-        from tbl_request_history
-        where se_no = #{seNo}
-    </select>
-
     <select id="getStoreStatus" resultType="String">
         select se_status
         from tbl_seller
