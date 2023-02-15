@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class ProductDTO {
     private String prBrand;
     private String prName;
     private Long prPrice;
-    private Boolean prStatus; // Y: 활성, N: 비활성
+    private ProductStatus prStatus;
     private LocalDateTime prCreateDt;
     private LocalDateTime prModifyDt;
     private Long prcNo; // 상품 카테고리 번호
@@ -31,16 +32,16 @@ public class ProductDTO {
     private String categoryPathNo;
 
     @Builder
-    public ProductDTO(String prBrand, String prName, Long prPrice, Long prcNo, Long seNo) {
+    public ProductDTO(String prBrand, String prName, Long prPrice, ProductStatus prStatus, Long prcNo, Long seNo) {
         this.prBrand = prBrand;
         this.prName = prName;
         this.prPrice = prPrice;
+        this.prStatus = prStatus;
         this.prcNo = prcNo;
         this.seNo = seNo;
 
         // 생성시 기본 값
         this.prCreateDt = LocalDateTime.now();
-        this.prStatus = true;
     }
 
     public void setPrNo(Long prNo) {
@@ -63,7 +64,7 @@ public class ProductDTO {
         this.prPrice = prPrice;
     }
 
-    public void setPrStatus(boolean prStatus) {
+    public void setPrStatus(ProductStatus prStatus) {
         this.prStatus = prStatus;
     }
 
@@ -86,7 +87,7 @@ public class ProductDTO {
         this.prBrand = productInsertDTO.getPrBrand();
         this.prName = productInsertDTO.getPrName();
         this.prPrice = productInsertDTO.getPrPrice();
-        this.prStatus = true;
+        this.prStatus = productInsertDTO.getPrStatus();
         this.prCreateDt = LocalDateTime.now();
         this.prcNo = productInsertDTO.getPrcNo();
         this.seNo = 1L; // 사용자

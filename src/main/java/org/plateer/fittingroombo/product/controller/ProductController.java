@@ -6,6 +6,7 @@ import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.util.ImageUtil;
 import org.plateer.fittingroombo.product.dto.*;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,34 +56,52 @@ public class ProductController {
     }
 
     /**
-     * 상품 삭제
-     **/
-    @DeleteMapping("/product/{id}")
-    public ResultDTO<Long> deleteProduct(@PathVariable Long id) {
-        Long result = productService.deleteProduct(id);
-
-        return ResultDTO.<Long>builder().data(result).build();
-    }
-
-    /**
      * 상품 수정
      **/
-    @PutMapping("/product/{id}")
-    public ResultDTO<Long> updateProduct(@PathVariable Long id, ProductInsertDTO productInsertDTO) {
+    @PutMapping("/product/{prNo}")
+    public ResultDTO<Long> updateProduct(@PathVariable Long prNo, ProductInsertDTO productInsertDTO) {
+        if (productInsertDTO.getPrStatus().equals(ProductStatus.DELETE)) {
+            throw new IllegalArgumentException("해당 요청으로 삭제 불가");
+        }
+
         // 이전 파일 삭제
-        productService.deleteProductFile(id);
+        productService.deleteProductFile(prNo);
 
         // 이미지 저장
         List<ProductFileDTO> topFiles = imageUtil.saveTopImages(productInsertDTO); // TOP
         List<ProductFileDTO> BottomFiles = imageUtil.saveBottomImages(productInsertDTO); // BOTTOM
 
         ProductDTO productDTO = new ProductDTO(productInsertDTO, topFiles, BottomFiles);
-        productDTO.setPrNo(id);
+        productDTO.setPrNo(prNo);
 
         // 상품 수정
         Long result = productService.updateProduct(productDTO);
 
         return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /*
+    * 상품 삭제
+    * */
+    @DeleteMapping("/product/{prNo}")
+    public ResultDTO<Long> deleteProduct(@PathVariable Long prNo) {
+        // 이전 파일 삭제
+        productService.deleteProductFile(prNo);
+
+        // 상품 삭제
+        Long result = productService.deleteProduct(prNo);
+
+        return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /**
+     * 상품 상태 일괄 수정(활성/비활성/품절/삭제)
+     **/
+    @PutMapping("/product/status")
+    public ResultDTO<List<Long>> updateProductStatusAtOnce(@RequestBody UpdateProductStatusRequestDTO updateProductStatusRequestDTO) {
+        List<Long> result = productService.updateProductStatusAtOnce(updateProductStatusRequestDTO);
+
+        return ResultDTO.<List<Long>>builder().data(result).build();
     }
 
     /**
@@ -142,5 +161,4 @@ public class ProductController {
 
         return ResultDTO.<List<ProductCategoryDTO>>builder().data(result).build();
     }
-
 }

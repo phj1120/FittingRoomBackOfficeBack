@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
+
     <select id="selectFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
         SELECT
             prf_no,
@@ -14,11 +15,11 @@
         FROM
             tbl_product_file
         WHERE
-                prf_type = #{productFileType}
+            prf_type = #{productFileType}
             AND pr_no = #{prNo}
     </select>
 
-    <!--상품 조회 쿼리-->
+    <!--상품 조회-->
     <select id="getProduct"
             resultType="org.plateer.fittingroombo.product.dto.ProductDTO">
         select
@@ -39,7 +40,7 @@
             LEFT JOIN tbl_product_file tpf ON tp.pr_no = tpf.pr_no
             LEFT JOIN tbl_product_category tpc ON tp.prc_no = tpc.prc_no
         WHERE
-                tp.pr_status = true
+            tp.pr_status != 'DELETE'
             AND tp.pr_no = #{prNo}
         ORDER BY
             tpf.prf_status desc
@@ -97,7 +98,7 @@
             LEFT JOIN tbl_product_category tpc ON tp.prc_no = tpc.prc_no
         WHERE
                 tp.se_no = #{seNo}
-            AND tp.pr_status = 1
+            AND tp.pr_status != 'DELETE'
             AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND DATE_ADD(#{productPageSearchRequestDTO.endDt}, INTERVAL 1 DAY)
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
@@ -116,7 +117,7 @@
             tbl_product tp
         WHERE
                 tp.se_no = #{seNo}
-            AND tp.pr_status = 1
+            AND tp.pr_status != 'DELETE'
             AND tp.pr_create_dt BETWEEN #{productPageSearchRequestDTO.startDt} AND DATE_ADD(#{productPageSearchRequestDTO.endDt}, INTERVAL 1 DAY)
         <if test="productPageSearchRequestDTO.keyword != null and productPageSearchRequestDTO.types != null">
             <include refid="search"></include>
@@ -132,17 +133,7 @@
         VALUES (#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{seNo}, #{prCreateDt}, #{prStatus})
     </insert>
 
-    <!--상품 삭제 쿼리-->
-    <update id="deleteProduct">
-        UPDATE
-            tbl_product
-        SET
-            pr_status = false
-        WHERE
-            pr_no = #{prNo}
-    </update>
-
-    <!--상품 업데이트 쿼리-->
+    <!--상품 수정-->
     <update id="updateProduct">
         UPDATE
             tbl_product
@@ -159,6 +150,9 @@
             <if test="prPrice != null">
                 pr_price = #{prPrice},
             </if>
+            <if test="prStatus != null">
+                pr_status = #{prStatus},
+            </if>
             <if test="prcNo != null">
                 prc_no = #{prcNo},
             </if>
@@ -167,8 +161,29 @@
             pr_no = #{prNo}
     </update>
 
+    <!--상품 삭제-->
+    <update id="deleteProduct">
+        UPDATE
+            tbl_product
+        SET
+            pr_status = 'DELETE'
+        WHERE
+            pr_no = #{prNo}
+    </update>
 
-    <!--파일 추가 쿼리-->
+    <!-- 상품 상태 일괄 변경-->
+    <update id="updateProductStatusAtOnce">
+        UPDATE
+            tbl_product
+        SET
+            pr_status = #{prStatus}
+        WHERE
+        <foreach collection="prNos" item="prNo" separator="or">
+            pr_no = #{prNo}
+        </foreach>
+    </update>
+
+    <!--파일 추가-->
     <insert id="insertProductTopFile">
         <selectKey keyProperty="prNo" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -185,7 +200,7 @@
         VALUE (#{prfName}, #{prfUuid}, #{prfType}, #{prfStatus}, #{prNo})
     </insert>
 
-    <!--파일 삭제 쿼리-->
+    <!--파일 삭제-->
     <delete id="deleteProductFile">
         DELETE FROM
             tbl_product_file
@@ -193,8 +208,17 @@
             pr_no = #{prNo}
     </delete>
 
+    <!--파일 일괄 삭제-->
+    <delete id="deleteProductFileAtOnce" parameterType="map">
+        DELETE FROM
+            tbl_product_file
+        WHERE
+            <foreach collection="prNos" item="prNo" separator="or">
+                pr_no = #{prNo}
+            </foreach>
+    </delete>
 
-    <!--  판매 상품   -->
+    <!--판매 상품-->
     <select id="getSellProductList"
             resultType="org.plateer.fittingroombo.product.dto.SellProductDTO">
         SELECT
@@ -232,14 +256,26 @@
             sp_no = #{spNo}
     </update>
 
-    <update id="deleteSellProduct">
+    <update id="deleteSellProductBySpNo">
         UPDATE
             tbl_sell_product
         SET
-            sp_status = 'INACTIVE'
+            sp_status = 'DELETE'
         WHERE
-            pr_no = #{id}
+            sp_no = #{spNo}
     </update>
+
+    <update id="deleteSellProductByPrNo">
+        UPDATE
+            tbl_sell_product
+        SET
+            sp_status = 'DELETE'
+        WHERE
+            pr_no = #{prNo}
+    </update>
+
+
+
 
     <!-- 카테고리 목록 조회  -->
     <select id="getProductCategoryList"

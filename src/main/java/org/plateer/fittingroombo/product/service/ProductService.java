@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public ProductDTO getProduct(Long prNo) {
+        // TODO 상품 없을 때, NULL 예외 처리
         ProductDTO productDTO = productMapper.getProduct(prNo);
 
         List<ProductFileDTO> productTopFiles = productMapper.selectFiles(ProductFileType.TOP, prNo);
@@ -71,9 +73,6 @@ public class ProductService {
      * 상품 수정
      **/
     public Long updateProduct(ProductDTO productDTO) {
-        // 이전 파일 삭제
-        deleteProductFile(productDTO.getPrNo());
-
         // 새로운 파일 추가
         productDTO.getTopFiles().stream().forEach(productFileDTO -> {
             productFileDTO.setPrNo(productDTO.getPrNo());
@@ -90,17 +89,32 @@ public class ProductService {
         return productDTO.getPrNo();
     }
 
+
     /**
-     * 상품 삭제(비활성화)
+     * 상품 삭제
      **/
-    public Long deleteProduct(Long id) {
-        // product 삭제
-        productMapper.deleteProduct(id);
+    public Long deleteProduct(Long prNo) {
+        productMapper.deleteProduct(prNo);
 
-        // images 삭제
-        productMapper.deleteProductFile(id);
+        // 판매 상품 삭제
+        productMapper.deleteSellProductByPrNo(prNo);
 
-        return id;
+        return prNo;
+    }
+
+    /**
+     * 상품 상태 일괄 변경
+     **/
+    public List<Long> updateProductStatusAtOnce(UpdateProductStatusRequestDTO updateProductStatusRequestDTO) {
+        ProductStatus prStatus = updateProductStatusRequestDTO.getPrStatus();
+        List<Long> prNos = updateProductStatusRequestDTO.getPrNos();
+
+        productMapper.updateProductStatusAtOnce(updateProductStatusRequestDTO);
+        if (prStatus == ProductStatus.DELETE) {
+            productMapper.deleteProductFileAtOnce(prNos);
+        }
+
+        return prNos;
     }
 
     public Long deleteProductFile(Long prNo) {
@@ -123,7 +137,7 @@ public class ProductService {
     }
 
     public Long deleteSellProduct(Long spNo) {
-        productMapper.deleteSellProduct(spNo);
+        productMapper.deleteSellProductBySpNo(spNo);
 
         return spNo;
     }
@@ -137,4 +151,5 @@ public class ProductService {
     public List<ProductCategoryDTO> getProductCategoryList() {
         return productMapper.getProductCategoryList();
     }
+
 }

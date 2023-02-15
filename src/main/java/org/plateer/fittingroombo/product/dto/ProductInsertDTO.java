@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,8 @@ public class ProductInsertDTO {
     private String prName; // 상품명
 
     private Long prPrice; // 가격
+
+    private ProductStatus prStatus;
 
     private LocalDateTime prCreateDt; // 생성일
 

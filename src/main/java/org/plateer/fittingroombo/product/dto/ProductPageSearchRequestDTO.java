@@ -8,7 +8,6 @@ import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
