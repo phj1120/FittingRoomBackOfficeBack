@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,8 @@ public class ProductDTO {
     private List<SellProductDTO> options = new ArrayList<>();
     private String thumbnail;
     private Integer thumbnailIndex;
-    private String category;
+    private String categoryPathName;
+    private String categoryPathNo;
 
     @Builder
     public ProductDTO(String prBrand, String prName, Long prPrice, Long prcNo, Long seNo) {

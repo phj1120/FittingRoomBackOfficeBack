@@ -32,7 +32,8 @@
             tp.prc_no,
             tp.se_no,
             tpf.prf_uuid as thumbnail,
-            tpc.prc_name as category
+            tpc.prc_path_name as categoryPathName,
+            tpc.prc_path_no as categoryPathNo
         FROM
             tbl_product tp
             LEFT JOIN tbl_product_file tpf ON tp.pr_no = tpf.pr_no
