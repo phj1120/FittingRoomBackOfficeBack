@@ -5,6 +5,7 @@ import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.dto.SellProductDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 
 import java.util.List;
 
@@ -20,7 +21,9 @@ public interface ProductMapper {
 
     int updateProduct(ProductDTO productDTO);
 
-    int deleteProduct(Long prNo);
+    int updateProductStatus(Long prNo, ProductStatus prStatus); // 상품 상태 변경
+
+    int updateProductStatusAtOnce(Long prNos[], ProductStatus prStatus); // 상품 상태 일괄 변경
 
     // 판매 상품
     int insertSellProduct(SellProductDTO sellProductDTO);
@@ -38,7 +41,9 @@ public interface ProductMapper {
 
     List<ProductFileDTO> getProductFileList(Long prNo); // 상품 번호
 
-    int deleteProductFile(Long prfNo); // 상품 번호
+    int deleteProductFile(Long prNo); // 상품 번호
+
+    int deleteProductFileAtOnce(Long[] prNos); // 상품 번호
 
     List<ProductFileDTO> selectFiles(ProductFileType productFileType, Long prNo);
 }

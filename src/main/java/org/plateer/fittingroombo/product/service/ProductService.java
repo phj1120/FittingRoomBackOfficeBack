@@ -8,6 +8,7 @@ import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.dto.SellProductDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,9 +72,6 @@ public class ProductService {
      * 상품 수정
      **/
     public Long updateProduct(ProductDTO productDTO) {
-        // 이전 파일 삭제
-        deleteProductFile(productDTO.getPrNo());
-
         // 새로운 파일 추가
         productDTO.getTopFiles().stream().forEach(productFileDTO -> {
             productFileDTO.setPrNo(productDTO.getPrNo());
@@ -91,16 +89,29 @@ public class ProductService {
     }
 
     /**
-     * 상품 삭제(비활성화)
+     * 상품 상태 변경
      **/
-    public Long deleteProduct(Long id) {
-        // product 삭제
-        productMapper.deleteProduct(id);
+    public Long updateProductStatus(Long prNo, ProductStatus prStatus) {
+        productMapper.updateProductStatus(prNo, prStatus);
 
-        // images 삭제
-        productMapper.deleteProductFile(id);
+        if (prStatus == ProductStatus.DELETE) {
+            productMapper.deleteProductFile(prNo);
+        }
 
-        return id;
+        return prNo;
+    }
+
+    /**
+     * 상품 상태 일괄 변경
+     **/
+    public Long[] updateProductStatusAtOnce(Long[] prNos, ProductStatus prStatus) {
+        productMapper.updateProductStatusAtOnce(prNos, prStatus);
+
+        if (prStatus == ProductStatus.DELETE) {
+            productMapper.deleteProductFileAtOnce(prNos);
+        }
+
+        return prNos;
     }
 
     public Long deleteProductFile(Long prNo) {

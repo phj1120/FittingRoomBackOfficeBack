@@ -1,11 +1,13 @@
 package org.plateer.fittingroombo.product.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.util.ImageUtil;
 import org.plateer.fittingroombo.product.dto.*;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,34 +57,45 @@ public class ProductController {
     }
 
     /**
-     * 상품 삭제
-     **/
-    @DeleteMapping("/product/{id}")
-    public ResultDTO<Long> deleteProduct(@PathVariable Long id) {
-        Long result = productService.deleteProduct(id);
-
-        return ResultDTO.<Long>builder().data(result).build();
-    }
-
-    /**
      * 상품 수정
      **/
-    @PutMapping("/product/{id}")
-    public ResultDTO<Long> updateProduct(@PathVariable Long id, ProductInsertDTO productInsertDTO) {
+    @PutMapping("/product/{prNo}")
+    public ResultDTO<Long> updateProduct(@PathVariable Long prNo, ProductInsertDTO productInsertDTO) {
         // 이전 파일 삭제
-        productService.deleteProductFile(id);
+        productService.deleteProductFile(prNo);
 
         // 이미지 저장
         List<ProductFileDTO> topFiles = imageUtil.saveTopImages(productInsertDTO); // TOP
         List<ProductFileDTO> BottomFiles = imageUtil.saveBottomImages(productInsertDTO); // BOTTOM
 
         ProductDTO productDTO = new ProductDTO(productInsertDTO, topFiles, BottomFiles);
-        productDTO.setPrNo(id);
+        productDTO.setPrNo(prNo);
 
         // 상품 수정
         Long result = productService.updateProduct(productDTO);
 
         return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /**
+     * 상품 상태 수정(활성/비활성/품절/삭제)
+     **/
+    @PutMapping("/product/status/{prNo}")
+    public ResultDTO<Long> updateProductStatus(@PathVariable Long prNo, ProductStatus prStatus) {
+        Long result = productService.updateProductStatus(prNo, prStatus);
+
+        return ResultDTO.<Long>builder().data(result).build();
+    }
+
+    /**
+     * 상품 상태 일괄 수정(활성/비활성/품절/삭제)
+     **/
+    @PutMapping("/product/status")
+    public ResultDTO<Long[]> updateProductStatusAtOnce(@RequestParam(value="prNos") Long[] prNos, ProductStatus prStatus) {
+
+        Long[] result = productService.updateProductStatusAtOnce(prNos, prStatus);
+
+        return ResultDTO.<Long[]>builder().data(result).build();
     }
 
     /**
@@ -132,4 +145,5 @@ public class ProductController {
 
         return ResultDTO.<Long>builder().data(result).build();
     }
+
 }

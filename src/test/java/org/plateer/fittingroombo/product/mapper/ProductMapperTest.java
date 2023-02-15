@@ -7,13 +7,12 @@ import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
 import org.plateer.fittingroombo.product.dto.SellProductDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
-import org.plateer.fittingroombo.product.dto.enums.SellProductStatus;
+import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -59,10 +58,11 @@ class ProductMapperTest {
     @Rollback
     void deleteProduct() {
         Long prNo = 19L;
+        ProductStatus prStatus = ProductStatus.ACTIVE;
         ProductDTO beforeDelete = productMapper.getProduct(prNo);
         System.out.println(beforeDelete);
 
-        productMapper.deleteProduct(prNo);
+        productMapper.updateProductStatus(prNo, prStatus);
 
         ProductDTO afterDelete = productMapper.getProduct(prNo);
         System.out.println(afterDelete);
@@ -90,7 +90,7 @@ class ProductMapperTest {
     @Test
     @Rollback
     void insertSellProduct() {
-        SellProductDTO sellProductDTO = new SellProductDTO(1L, "100", SellProductStatus.ACTIVE);
+        SellProductDTO sellProductDTO = new SellProductDTO(1L, "100", ProductStatus.ACTIVE);
 
         productMapper.insertSellProduct(sellProductDTO);
 
@@ -113,7 +113,7 @@ class ProductMapperTest {
 
         SellProductDTO sellProductDTO = sellProductList.get(0);
         sellProductDTO.setSpSize(sellProductDTO.getSpSize() + LocalDateTime.now());
-        sellProductDTO.setSpStatus(SellProductStatus.INACTIVE);
+        sellProductDTO.setSpStatus(ProductStatus.INACTIVE);
         productMapper.updateSellProduct(sellProductDTO);
 
         System.out.println(sellProductDTO);
