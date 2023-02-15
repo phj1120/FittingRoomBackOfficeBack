@@ -2,7 +2,6 @@ package org.plateer.fittingroombo.product.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,6 +14,8 @@ public class ProductCategoryDTO {
     private String prcName;
     private Integer prcDepth;
     private Integer prcPosition;
+    private String prcPathName;
+    private String prcPathNo;
     private LocalDateTime prcCreateDt;
     private LocalDateTime prcModifyDt;
     private Long prcNoP;

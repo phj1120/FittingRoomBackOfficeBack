@@ -3,10 +3,7 @@ package org.plateer.fittingroombo.product.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
-import org.plateer.fittingroombo.product.dto.ProductDTO;
-import org.plateer.fittingroombo.product.dto.ProductFileDTO;
-import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
-import org.plateer.fittingroombo.product.dto.SellProductDTO;
+import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 import org.plateer.fittingroombo.product.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
@@ -135,5 +132,9 @@ public class ProductService {
         productMapper.updateSellProduct(sellProductDTO);
 
         return sellProductDTO.getSpNo();
+    }
+
+    public List<ProductCategoryDTO> getProductCategoryList() {
+        return productMapper.getProductCategoryList();
     }
 }

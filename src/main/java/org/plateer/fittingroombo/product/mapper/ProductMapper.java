@@ -1,9 +1,6 @@
 package org.plateer.fittingroombo.product.mapper;
 
-import org.plateer.fittingroombo.product.dto.ProductDTO;
-import org.plateer.fittingroombo.product.dto.ProductFileDTO;
-import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
-import org.plateer.fittingroombo.product.dto.SellProductDTO;
+import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 
 import java.util.List;
@@ -41,4 +38,6 @@ public interface ProductMapper {
     int deleteProductFile(Long prfNo); // 상품 번호
 
     List<ProductFileDTO> selectFiles(ProductFileType productFileType, Long prNo);
+
+    List<ProductCategoryDTO> getProductCategoryList();
 }

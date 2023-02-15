@@ -132,4 +132,15 @@ public class ProductController {
 
         return ResultDTO.<Long>builder().data(result).build();
     }
+
+    /*
+     * 카테고리 목록 조회
+     * */
+    @GetMapping("/product/categories")
+    public ResultDTO<List<ProductCategoryDTO>> getCategories() {
+        List<ProductCategoryDTO> result = productService.getProductCategoryList();
+
+        return ResultDTO.<List<ProductCategoryDTO>>builder().data(result).build();
+    }
+
 }

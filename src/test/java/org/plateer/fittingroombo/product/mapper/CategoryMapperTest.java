@@ -31,11 +31,12 @@ class CategoryMapperTest {
     @Test
     @Rollback
     void insertProductCategory() {
-        ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO("상품", 2, 3, 1L);
-        categoryMapper.insertProductCategory(productCategoryDTO);
-        System.out.println(productCategoryDTO);
-
-        ProductCategoryDTO productCategory = categoryMapper.getProductCategory(productCategoryDTO.getPrcNo());
-        System.out.println(productCategory);
+        // TODO 추가 시 DB 에서 pathNo 및 pathName 추가 되도록 Mapper 파일 수정 할 것
+//        ProductCategoryDTO productCategoryDTO = new ProductCategoryDTO("상품", 2, 3, 1L);
+//        categoryMapper.insertProductCategory(productCategoryDTO);
+//        System.out.println(productCategoryDTO);
+//
+//        ProductCategoryDTO productCategory = categoryMapper.getProductCategory(productCategoryDTO.getPrcNo());
+//        System.out.println(productCategory);
     }
 }

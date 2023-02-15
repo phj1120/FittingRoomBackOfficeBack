@@ -239,4 +239,15 @@
         WHERE
             pr_no = #{id}
     </update>
+
+    <!-- 카테고리 목록 조회  -->
+    <select id="getProductCategoryList"
+            resultType="org.plateer.fittingroombo.product.dto.ProductCategoryDTO">
+        SELECT
+            *
+        FROM
+            tbl_product_category tpc
+        ORDER BY
+            tpc.prc_path_no
+    </select>
 </mapper>
