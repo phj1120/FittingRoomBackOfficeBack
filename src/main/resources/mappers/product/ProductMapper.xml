@@ -55,9 +55,6 @@
             <if test="type.name() == 'NO'">
                 pr_no like #{pattern}
             </if>
-            <if test="type.name() == 'CATEGORY'">
-                prc_no like #{pattern}
-            </if>
             <if test="type.name() == 'BRAND'">
                 pr_brand like #{pattern}
             </if>
