@@ -22,4 +22,6 @@ public interface SellerMapper {
     SellerDTO getSeller( Long seNo );
 
     Long insertSeller( SellerDTO sellerDTO );
+
+    SellerDTO getSellerById( String memberId );
 }

@@ -60,8 +60,9 @@ public class CustomSecurityConfig {
 
         // URI 별 접근 권한 설정 @PreAuthorize 로 도 설정 가능
         http.authorizeRequests()
-                .antMatchers("/auth/api/sample/ex2").hasRole("USER")
-                .antMatchers("/auth/api/sample/ex3").hasRole("ADMIN");
+                .antMatchers("/api/place/list").hasRole("PLACE");
+//                .antMatchers("/auth/api/sample/ex2").hasRole("USER")
+//                .antMatchers("/auth/api/sample/ex3").hasRole("ADMIN");
 
         // AuthenticationManager 설정 - 반드시 필요
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);

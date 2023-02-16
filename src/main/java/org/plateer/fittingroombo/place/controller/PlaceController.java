@@ -7,6 +7,7 @@ import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.place.dto.PlaceDTO;
 import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
 import org.plateer.fittingroombo.place.service.PlaceService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class PlaceController {
     private final PlaceService placeService;
     
     // 영업중인 장소 리스트
+    @PreAuthorize("hasRole('PLACE')")
     @GetMapping("list")
     public List<PlaceRoomDTO> getPlaceRoomList() {
         return placeService.getPlaceRoomList();

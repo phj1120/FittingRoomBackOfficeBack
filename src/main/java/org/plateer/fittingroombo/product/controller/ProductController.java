@@ -4,10 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
+import org.plateer.fittingroombo.common.security.dto.CustomUserDetail;
 import org.plateer.fittingroombo.common.util.image.ImageUtil;
 import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.service.ProductService;
+import org.plateer.fittingroombo.seller.dto.SellerDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -22,8 +27,11 @@ public class ProductController {
     private final ProductService productService;
     private final ImageUtil imageUtil;
 
+    @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/product/list")
-    public PageResultDTO<ProductDTO> productDTO(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+    public PageResultDTO<ProductDTO> productDTO(@AuthenticationPrincipal CustomUserDetail seller, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+        Long seNo = seller.getUserNo();
+
         PageResultDTO<ProductDTO> result = productService.getProductList(seNo, productPageSearchRequestDTO);
 
         return result;

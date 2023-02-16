@@ -22,6 +22,18 @@
             AND pm_status != '탈퇴'
     </select>
 
+    <select id="getPlaceById" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
+        SELECT
+            *
+        FROM
+            tbl_place_member tpm
+        WHERE
+                pm_id = #{ memberId }
+            AND pm_status != '탈퇴'
+    </select>
+
+
+
     <update id="updatePlaceInfo">
         UPDATE
             tbl_place_member
