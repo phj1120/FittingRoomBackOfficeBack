@@ -19,12 +19,12 @@ public class StoreController {
     private final StoreService storeService;
 
     @GetMapping("/status")
-    public PageResultDTO<RequestHistoryDTO> getStoreList(@RequestBody RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+    public PageResultDTO<RequestHistoryDTO> getStoreList( RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
         return storeService.getStoreList(requestHistoryPageRequestDTO);
     }
 
     @GetMapping("/status/{id}")
-    public ResultDTO<SellerDTO> getStoreStatus(@RequestParam("id") Long seNo) {
+    public ResultDTO<SellerDTO> getStoreStatus(@PathVariable("id") Long seNo) {
 
      return  ResultDTO.<SellerDTO>builder()
                 .data(storeService.getStoreStatus(seNo)).build();

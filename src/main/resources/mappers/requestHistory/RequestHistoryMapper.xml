@@ -19,7 +19,7 @@
         where
         se_no = #{ id }
         order by
-        se_no desc
+        rh_no desc
         limit #{skip}, #{size}
     </select>
 
