@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.place.mapper.PlaceMapper">
+    <select id="getPlaceList" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
+        SELECT
+            *
+        FROM
+            tbl_place_member tpm
+        WHERE
+            pm_status != '탈퇴';
+    </select>
+
+    <select id="getPlace" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
+        SELECT
+            *
+        FROM
+            tbl_place_member tpm
+        WHERE
+                pm_no = #{ pmNo }
+            AND pm_status != '탈퇴';
+    </select>
+
+    <insert id="insertPlace" useGeneratedKeys="true">
+        insert into tbl_place_member (pm_name, pm_birth, pm_id, pm_password, pm_email, pm_phone, pm_status, pm_create_dt, r_no)
+        values(#{pmName}, #{pmBirth}, #{pmId}, #{pmPassword}, #{pmEmail}, #{pmPhone}, #{pmStatus}, #{pmCreateDt}, #{rNo});
+    </insert>
+</mapper>
