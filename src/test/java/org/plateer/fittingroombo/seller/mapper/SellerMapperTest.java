@@ -12,12 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.stream.IntStream;
 
 @SpringBootTest
 @Log4j2
 public class SellerMapperTest {
     @Autowired
     SellerMapper sellerMapper;
+
     @Autowired
     RequestHistoryMapper requestHistoryMapper;
 
@@ -36,8 +40,8 @@ public class SellerMapperTest {
     @Test
     void getRoomSellerRequestList() {
         RequestHistoryDTO requestHistoryDTO = new RequestHistoryDTO(2L);
-        List<RequestHistoryDTO> dtoList = requestHistoryMapper.getRoomSellerRequestHistoryList(requestHistoryDTO);
-        log.info(dtoList);
+//        List<RequestHistoryDTO> dtoList = requestHistoryMapper.getRoomSellerRequestHistoryList(requestHistoryDTO);
+//        log.info(dtoList);
     }
 
     @Test
@@ -48,5 +52,24 @@ public class SellerMapperTest {
 
         PageResultDTO<RequestHistoryDTO> pageResultDTO = PageResultDTO.<RequestHistoryDTO>withAll().dtoList(dtoList).total(total).pageRequestDTO(requestHistoryPageRequestDTO).build();
         log.info(pageResultDTO);
+    }
+
+    @Test
+    void insertSeller() {
+        IntStream.rangeClosed(91, 120).forEach(i -> {
+            SellerDTO sellerDTO = SellerDTO.builder()
+                    .seName("이이이" + i)
+                    .seManager("주정현수" + i)
+                    .seId("test00" + i)
+                    .sePassword(UUID.randomUUID().toString())
+                    .seEmail("test00" + i + "@plateer.com")
+                    .sePhone("010-1234-5678")
+                    .seAddress("서울시 관악구 봉천동")
+                    .seStatus("휴업")
+                    .pmNo(new Long(((int)(Math.random() * 2) + 1)))
+                    .build();
+            sellerMapper.insertSeller(sellerDTO);
+        });
+
     }
 }

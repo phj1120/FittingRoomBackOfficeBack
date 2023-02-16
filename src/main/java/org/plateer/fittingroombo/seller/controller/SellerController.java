@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageRequestDTO;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
+import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.plateer.fittingroombo.seller.dto.SellerDTO;
+import org.plateer.fittingroombo.seller.dto.SellerPageRequestDTO;
 import org.plateer.fittingroombo.seller.dto.SellerRequestDTO;
 import org.plateer.fittingroombo.seller.service.SellerService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +31,21 @@ public class SellerController {
         return sellerService.getRoomSellerStatus(requestHistoryPageRequestDTO);
     }
 
+    // 장소자에게 입점한 판매자 목록
+    @GetMapping("list")
+    public PageResultDTO<SellerDTO> getPlaceSellerList(SellerPageRequestDTO sellerPageRequestDTO) {
+        return sellerService.getPlaceSellerList(sellerPageRequestDTO);
+    }
+
     // 장소제공자에게 요청한 요청 기록
     @GetMapping("history")
     public PageResultDTO<RequestHistoryDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
         return sellerService.getRoomSellerHistory(requestHistoryPageRequestDTO);
+    }
+
+    // Status 목록 구하기
+    @GetMapping("statusTypeList")
+    public List<SellerDTO> getStatusTypeList() {
+        return sellerService.getStatusTypeList();
     }
 }
