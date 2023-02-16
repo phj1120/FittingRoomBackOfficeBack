@@ -1,4 +1,4 @@
-package org.plateer.fittingroombo.common.util;
+package org.plateer.fittingroombo.common.util.image;
 
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;

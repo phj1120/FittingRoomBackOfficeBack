@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
-import org.plateer.fittingroombo.common.util.ImageUtil;
+import org.plateer.fittingroombo.common.util.image.ImageUtil;
 import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.service.ProductService;
