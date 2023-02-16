@@ -46,7 +46,7 @@ public class StoreServiceImpl implements StoreService {
         requestHistoryDTO.setRhCreateDt(LocalDateTime.now());
         requestHistoryDTO.setRhStatus("대기");
         //로그인 붙으면 수정해야함.
-        requestHistoryDTO.setSeNo(1L);
+        //requestHistoryDTO.setSeNo(1L);
         requestHistoryMapper.insertRequestHistorySeller(requestHistoryDTO);
         Long rhNo = requestHistoryDTO.getRhNo();
         return rhNo;

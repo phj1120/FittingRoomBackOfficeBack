@@ -29,7 +29,7 @@ public class SellerServiceImpl implements SellerService{
         log.info("======================================");
         log.info(sellerRegisterDTO);
         sellerFileDTO.setSeNo(sellerRegisterDTO.getSeNo());
-
-        return sellerMapper.insertSellerFile(sellerFileDTO);
+        sellerMapper.insertSellerFile(sellerFileDTO);
+        return sellerRegisterDTO.getSeNo();
     }
 }
