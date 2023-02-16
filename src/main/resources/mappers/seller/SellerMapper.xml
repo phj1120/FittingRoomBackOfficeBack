@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.seller.mapper.SellerMapper">
+    <sql id="search">
+        AND
+        <foreach item="item" collection="type" open="(" close=")" separator="OR">
+            <if test="item.name() == 'STORE'">
+                se_name LIKE CONCAT('%', #{ keyword }, '%')
+            </if>
+            <if test="item.name() == 'MANAGER'">
+                se_manager LIKE CONCAT('%', #{ keyword }, '%')
+            </if>
+        </foreach>
+    </sql>
+
+    <sql id="status">
+        AND
+        <foreach item="item" collection="status" open="(" close=")" separator="OR">
+            <if test="item.name() == 'ALL'">
+                    se_status LIKE CONCAT('%영업%')
+                OR  se_status LIKE CONCAT('%휴업%')
+            </if>
+            <if test="item.name() == 'RUNNING'">
+                se_status LIKE CONCAT('%영업%')
+            </if>
+            <if test="item.name() == 'STOP'">
+                se_status LIKE CONCAT('%휴업%')
+            </if>
+        </foreach>
+    </sql>
+
+    <select id="getCount" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            tbl_seller ts
+        WHERE
+                pm_no = #{ id }
+            AND se_status NOT IN ('탈퇴', '대기')
+            <if test="type != null and keyword != null">
+                <include refid="search"></include>
+            </if>
+            <if test="status != null">
+                <include refid="status"></include>
+            </if>
+    </select>
+
+    <select id="getStatusTypeList" resultType="SellerDTO">
+        SELECT
+            se_status
+        FROM
+            tbl_seller
+        WHERE
+            se_status IS NOT NULL
+        GROUP BY
+            se_status
+    </select>
+
+    <select id="getPlaceSellerList" resultType="SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+                pm_no = #{ id }
+            AND se_status NOT IN ('탈퇴', '대기')
+            <if test="type != null and keyword != null">
+                <include refid="search"></include>
+            </if>
+            <if test="status != null">
+                <include refid="status"></include>
+            </if>
+        LIMIT
+            #{skip}, #{size}
+    </select>
+
+    <select id="getSeller" resultType="SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+            se_no = #{ seNo }
+    </select>
+
+    <insert id="insertSeller">
+        insert into tbl_seller (se_name, se_manager, se_id, se_password, se_email, se_phone, se_address, se_status, pm_no, se_create_dt)
+        values(#{ seName }, #{ seManager }, #{ seId }, #{ sePassword }, #{ seEmail }, #{ sePhone }, #{ seAddress }, #{ seStatus }, #{ pmNo }, now())
+
+        <selectKey keyProperty="seNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+</mapper>

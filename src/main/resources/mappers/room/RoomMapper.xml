@@ -3,8 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.room.mapper.RoomMapper">
-    <insert id="insertRoom" useGeneratedKeys="true">
-        insert into tbl_room (r_name, r_address, r_detail_address, r_postcode, r_create_dt)
-        values(#{rName}, #{rAddress}, #{rDetailAddress}, #{rPostcode}, #{rCreateDt});
+    <insert id="insertRoom">
+        insert into tbl_room (ro_name, ro_address, ro_detail_address, ro_postcode, ro_create_dt)
+        values(#{roName}, #{roAddress}, #{roDetailAddress}, #{roPostcode}, #{roCreateDt})
+
+        <selectKey resultType="Long" keyProperty="roNo" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 </mapper>
