@@ -6,6 +6,7 @@ import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
 import org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper;
+import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.plateer.fittingroombo.store.mapper.StoreMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public String getStoreStatus(Long seNo) {
+    public SellerDTO getStoreStatus(Long seNo) {
 
         return storeMapper.getStoreStatus(seNo);
     }

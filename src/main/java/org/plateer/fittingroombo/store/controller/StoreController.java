@@ -6,6 +6,7 @@ import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.plateer.fittingroombo.store.service.StoreService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,9 @@ public class StoreController {
     }
 
     @GetMapping("/status/{id}")
-    public ResultDTO<String> getStoreStatus(@RequestParam("id") Long seNo) {
+    public ResultDTO<SellerDTO> getStoreStatus(@RequestParam("id") Long seNo) {
 
-     return  ResultDTO.<String>builder()
+     return  ResultDTO.<SellerDTO>builder()
                 .data(storeService.getStoreStatus(seNo)).build();
     }
 
