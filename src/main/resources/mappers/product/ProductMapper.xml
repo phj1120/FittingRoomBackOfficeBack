@@ -134,6 +134,7 @@
     <update id="updateProduct">
         UPDATE
             tbl_product
+        <!--   TODO 변경된 부분만 확인 하는 것 보다, 원래의 정보를 가져와서 변경된 부분만 수정후 전체 업데이트 하는 방향으로 수정할 것       -->
         <set>
             <if test="true">
                 pr_modify_dt = #{prCreateDt},
@@ -182,6 +183,7 @@
 
     <!--파일 추가-->
     <insert id="insertProductTopFile">
+        <!--   TODO select key 로 최근 insert 된 아이디를 가져와 상품 번호에 넣어주는 것 아니라, java 에서 상품 번호 넣어주는 방향으로 수정 할 것      -->
         <selectKey keyProperty="prNo" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
