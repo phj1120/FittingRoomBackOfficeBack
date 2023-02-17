@@ -94,6 +94,15 @@
         </selectKey>
     </insert>
 
+    <select id="getSellerById" resultType="SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+            se_id = #{ memberId }
+    </select>
+
     <update id="updateSellerStatus">
         UPDATE
             tbl_seller ts

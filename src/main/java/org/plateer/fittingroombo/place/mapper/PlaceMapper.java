@@ -18,6 +18,9 @@ public interface PlaceMapper {
     // 장소제공자 아이디로 정보 얻어오기
     PlaceDTO getPlace( Long pmNo );
 
+    // 장소 제공자 아이디로 정보 얻어오기
+    PlaceDTO getPlaceById( String memberId );
+
     // 장소제공자 회원가입
     void insertPlace( PlaceDTO placeDTO );
 

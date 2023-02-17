@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 이미지 조회를 위한 Controller
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @RestController
 @RequestMapping
 @RequiredArgsConstructor

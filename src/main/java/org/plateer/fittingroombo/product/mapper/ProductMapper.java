@@ -6,6 +6,12 @@ import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 
 import java.util.List;
 
+/**
+ * 상품 관리 Mapper
+ * 작성자: 이수영, 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 public interface ProductMapper {
     // 상품
     int insertProduct(ProductDTO productDTO);

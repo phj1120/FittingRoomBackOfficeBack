@@ -7,6 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 카테고리 관리 Test
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Transactional
 @SpringBootTest
 class CategoryMapperTest {

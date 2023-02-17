@@ -32,6 +32,7 @@ public class RequestHistoryDTO {
 
 
     // 판매자가 장소제공자에게 요청
+
     public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDate rhStartDt, Long pmNo, Long seNo) {
         this.rhStatus = rhStatus;
         this.rhContent = rhContent;

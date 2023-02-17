@@ -17,6 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 이미지 처리 공통 기능
+ * 작성자: 이수영
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Log4j2
 @Component
 public class ImageUtil {

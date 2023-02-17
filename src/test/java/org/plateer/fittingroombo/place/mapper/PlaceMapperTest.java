@@ -72,4 +72,11 @@ public class PlaceMapperTest {
         PlaceDTO placeDTO = new PlaceDTO(2L, "영업");
         placeMapper.updatePlaceStatus(placeDTO);
     }
+
+    @Test
+    void getPlaceById() {
+        PlaceDTO placeDTO = placeMapper.getPlaceById("testphj");
+
+        log.info(placeDTO);
+    }
 }

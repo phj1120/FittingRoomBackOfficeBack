@@ -12,6 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 상품 관리 Service
+ * 작성자: 이수영, 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Service
 @Transactional
 @Log4j2
