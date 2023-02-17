@@ -83,14 +83,28 @@ public class ProductDTO {
     /**
      * 상품 추가
      **/
-    public ProductDTO(ProductInsertDTO productInsertDTO, List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
+    public ProductDTO(ProductInsertDTO productInsertDTO, Long seNo, List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
         this.prBrand = productInsertDTO.getPrBrand();
         this.prName = productInsertDTO.getPrName();
         this.prPrice = productInsertDTO.getPrPrice();
         this.prStatus = productInsertDTO.getPrStatus();
         this.prCreateDt = LocalDateTime.now();
         this.prcNo = productInsertDTO.getPrcNo();
-        this.seNo = 1L; // 사용자
+        this.seNo = seNo;
+        this.topFiles = topFiles;
+        this.bottomFiles = bottomFiles;
+    }
+
+    /**
+     * 상품 수정
+     **/
+    public ProductDTO(ProductInsertDTO productInsertDTO,List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
+        this.prBrand = productInsertDTO.getPrBrand();
+        this.prName = productInsertDTO.getPrName();
+        this.prPrice = productInsertDTO.getPrPrice();
+        this.prStatus = productInsertDTO.getPrStatus();
+        this.prCreateDt = LocalDateTime.now();
+        this.prcNo = productInsertDTO.getPrcNo();
         this.topFiles = topFiles;
         this.bottomFiles = bottomFiles;
     }

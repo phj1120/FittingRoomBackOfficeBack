@@ -9,10 +9,8 @@ import org.plateer.fittingroombo.common.util.image.ImageUtil;
 import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 import org.plateer.fittingroombo.product.service.ProductService;
-import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -29,9 +27,9 @@ public class ProductController {
 
     @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/product/list")
-    public PageResultDTO<ProductDTO> productDTO(@AuthenticationPrincipal CustomUserDetail seller, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
-        Long seNo = seller.getUserNo();
-
+    public PageResultDTO<ProductDTO> getProductList(@AuthenticationPrincipal CustomUserDetail user,
+                                                ProductPageSearchRequestDTO productPageSearchRequestDTO) {
+        Long seNo = user.getUserNo();
         PageResultDTO<ProductDTO> result = productService.getProductList(seNo, productPageSearchRequestDTO);
 
         return result;
@@ -40,9 +38,12 @@ public class ProductController {
     /**
      * 상세 조회
      **/
-    @GetMapping("/product/{id}")
-    public ProductDTO getProduct(@PathVariable Long id) {
-        ProductDTO product = productService.getProduct(id);
+    @PreAuthorize("#user !=null && @productChecker.hasPermission(#user.userNo, #prNo)")
+    @GetMapping("/product/{prNo}")
+    public ProductDTO getProduct(
+            @AuthenticationPrincipal CustomUserDetail user,
+            @PathVariable("prNo") Long prNo) {
+        ProductDTO product = productService.getProduct(prNo);
 
         return product;
     }
@@ -50,14 +51,18 @@ public class ProductController {
     /**
      * 상품 추가
      **/
+    @PreAuthorize("hasRole('SELLER')")
     @PostMapping("/product")
-    public ResultDTO<Long> insertProduct(ProductInsertDTO productInsertDTO) {
+    public ResultDTO<Long> insertProduct(@AuthenticationPrincipal CustomUserDetail user,
+                                         ProductInsertDTO productInsertDTO) {
+        Long seNo = user.getUserNo();
+
         // 이미지 저장
         List<ProductFileDTO> topFiles = imageUtil.saveTopImages(productInsertDTO); // TOP
         List<ProductFileDTO> BottomFiles = imageUtil.saveBottomImages(productInsertDTO); // BOTTOM
 
         // 상품 저장
-        ProductDTO productDTO = new ProductDTO(productInsertDTO, topFiles, BottomFiles);
+        ProductDTO productDTO = new ProductDTO(productInsertDTO, seNo, topFiles, BottomFiles);
         Long result = productService.insertProduct(productDTO);
 
         return ResultDTO.<Long>builder().data(result).build();
@@ -65,12 +70,17 @@ public class ProductController {
 
     /**
      * 상품 수정
+     *
      **/
+    @PreAuthorize("#user !=null && @productChecker.hasPermission(#user.userNo, #prNo)")
     @PutMapping("/product/{prNo}")
-    public ResultDTO<Long> updateProduct(@PathVariable Long prNo, ProductInsertDTO productInsertDTO) {
+    public ResultDTO<Long> updateProduct(
+            @AuthenticationPrincipal CustomUserDetail user,
+            @PathVariable Long prNo, ProductInsertDTO productInsertDTO) {
         if (productInsertDTO.getPrStatus().equals(ProductStatus.DELETE)) {
             throw new IllegalArgumentException("해당 요청으로 삭제 불가");
         }
+        Long seNo = user.getUserNo();
 
         // 이전 파일 삭제
         productService.deleteProductFile(prNo);
@@ -79,7 +89,7 @@ public class ProductController {
         List<ProductFileDTO> topFiles = imageUtil.saveTopImages(productInsertDTO); // TOP
         List<ProductFileDTO> BottomFiles = imageUtil.saveBottomImages(productInsertDTO); // BOTTOM
 
-        ProductDTO productDTO = new ProductDTO(productInsertDTO, topFiles, BottomFiles);
+        ProductDTO productDTO = new ProductDTO(productInsertDTO, seNo, topFiles, BottomFiles);
         productDTO.setPrNo(prNo);
 
         // 상품 수정
@@ -89,10 +99,13 @@ public class ProductController {
     }
 
     /*
-    * 상품 삭제
-    * */
+     * 상품 삭제
+     * */
+    @PreAuthorize("#user !=null && @productChecker.hasPermission(#user.userNo, #prNo)")
     @DeleteMapping("/product/{prNo}")
-    public ResultDTO<Long> deleteProduct(@PathVariable Long prNo) {
+    public ResultDTO<Long> deleteProduct(
+            @AuthenticationPrincipal CustomUserDetail user,
+            @PathVariable Long prNo) {
         // 이전 파일 삭제
         productService.deleteProductFile(prNo);
 
@@ -105,8 +118,11 @@ public class ProductController {
     /**
      * 상품 상태 일괄 수정(활성/비활성/품절/삭제)
      **/
+    @PreAuthorize("#user !=null && @productChecker.hasPermission(#user.userNo, #updateProductStatusRequestDTO)")
     @PutMapping("/product/status")
-    public ResultDTO<List<Long>> updateProductStatusAtOnce(@RequestBody UpdateProductStatusRequestDTO updateProductStatusRequestDTO) {
+    public ResultDTO<List<Long>> updateProductStatusAtOnce(
+            @AuthenticationPrincipal CustomUserDetail user,
+            @RequestBody UpdateProductStatusRequestDTO updateProductStatusRequestDTO) {
         List<Long> result = productService.updateProductStatusAtOnce(updateProductStatusRequestDTO);
 
         return ResultDTO.<List<Long>>builder().data(result).build();
@@ -115,6 +131,7 @@ public class ProductController {
     /**
      * 판매 상세 조회
      **/
+    @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/sellproduct/{prNo}")
     public List<SellProductDTO> getSellProduct(@PathVariable Long prNo) {
         List<SellProductDTO> sellProductDTOList = productService.getSellerProduct(prNo);
@@ -125,6 +142,7 @@ public class ProductController {
     /**
      * 판매 상품 추가
      **/
+    @PreAuthorize("hasRole('SELLER')")
     @PostMapping("/sellproduct/{prNo}")
     public ResultDTO<Long> insertSellProduct(@PathVariable Long prNo,
                                              @RequestBody SellProductDTO sellProductDTO) {
@@ -139,6 +157,7 @@ public class ProductController {
     /**
      * 판매 상품 삭제
      **/
+    @PreAuthorize("hasRole('SELLER')")
     @DeleteMapping("/sellproduct/{spNo}")
     public ResultDTO<Long> deleteSellProduct(@PathVariable Long spNo) {
         Long result = productService.deleteSellProduct(spNo);
@@ -149,6 +168,7 @@ public class ProductController {
     /**
      * 판매 상품 수정
      **/
+    @PreAuthorize("hasRole('SELLER')")
     @PutMapping("/sellproduct/{spNo}")
     public ResultDTO<Long> updateSellProduct(@PathVariable Long spNo,
                                              @RequestBody SellProductDTO sellProductDTO) {
@@ -163,6 +183,7 @@ public class ProductController {
     /*
      * 카테고리 목록 조회
      * */
+    @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/product/categories")
     public ResultDTO<List<ProductCategoryDTO>> getCategories() {
         List<ProductCategoryDTO> result = productService.getProductCategoryList();
