@@ -30,11 +30,12 @@ public class JWTUtil {
 
     private boolean isExcludeUris(String uri, List<String> excludeUris) {
         for (String excludeUri : excludeUris) {
-            return uri.startsWith(excludeUri);
+            if(uri.startsWith(excludeUri)){
+                return true;
+            }
         }
         return false;
     }
-
 
     public String generateToken(Map<String, Object> valueMap, int days) {
         //헤더 부분
