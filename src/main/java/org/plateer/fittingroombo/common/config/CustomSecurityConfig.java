@@ -21,9 +21,7 @@ public class CustomSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         log.info("-----------------------");
-        http.authorizeRequests().antMatchers("/api/time/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/rollings/**").permitAll();
-        http.authorizeRequests().antMatchers("/image**").permitAll();
+        http.authorizeRequests().antMatchers("/api/seller/**/**").permitAll();
 
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());

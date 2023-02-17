@@ -35,6 +35,9 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // thumbnailator
+    implementation 'net.coobird:thumbnailator:0.4.8'
 }
 
 tasks.named('test') {
