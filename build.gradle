@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.modelmapper:modelmapper:3.1.0'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -28,11 +29,21 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // TEST 코드 및 로그 등의 가능
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
     // thumbnailator
     implementation 'net.coobird:thumbnailator:0.4.8'
+
+    // GSON
+    implementation 'com.google.code.gson:gson:2.8.9'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 tasks.named('test') {

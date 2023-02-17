@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/seller")
 public class SellerController {
+
     private final SellerService sellerService;
     private final ImageUtil imageUtil;
-
 
     @PostMapping("/register")
     public ResultDTO<Long> insertSeller( SellerRegisterDTO sellerRegisterDTO){
@@ -37,4 +37,34 @@ public class SellerController {
         return ResultDTO.<Long>builder().data(sellerService.insertSeller(sellerRegisterDTO)).build();
     }
 
+    // 대기중인 판매자 요청 현황
+    @GetMapping("status")
+    public PageResultDTO<SellerRequestDTO> getRoomSellerStatus(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+        return sellerService.getRoomSellerStatus(requestHistoryPageRequestDTO);
+    }
+
+    // 장소자에게 입점한 판매자 목록
+    @GetMapping("list")
+    public PageResultDTO<SellerDTO> getPlaceSellerList(SellerPageRequestDTO sellerPageRequestDTO) {
+        return sellerService.getPlaceSellerList(sellerPageRequestDTO);
+    }
+
+    // 장소제공자에게 요청한 요청 기록
+    @GetMapping("history")
+    public PageResultDTO<RequestHistoryDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+        return sellerService.getRoomSellerHistory(requestHistoryPageRequestDTO);
+    }
+
+    // Status 목록 구하기
+    @GetMapping("statusTypeList")
+    public List<SellerDTO> getStatusTypeList() {
+        return sellerService.getStatusTypeList();
+    }
+
+    // Seller Request 응답하기
+    @PostMapping("answer")
+    public ResultDTO<Long> insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+        Long rhNo = sellerService.insertRequestHistorySeller(requestHistoryDTO);
+        return ResultDTO.<Long>builder().data(rhNo).build();
+    }
 }

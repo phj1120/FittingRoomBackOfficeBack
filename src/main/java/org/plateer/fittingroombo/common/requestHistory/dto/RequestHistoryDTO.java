@@ -25,7 +25,7 @@ public class RequestHistoryDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate rhStartDt;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime rhCreateDt;
+    private LocalDate rhCreateDt;
 
     private Long pmNo;
     private Long seNo;
@@ -37,7 +37,7 @@ public class RequestHistoryDTO {
         this.rhContent = rhContent;
         this.rhReason = rhReason;
         this.rhStartDt = rhStartDt;
-        this.rhCreateDt = LocalDateTime.now();
+        this.rhCreateDt = LocalDate.now();
         this.pmNo = pmNo;
         this.seNo = seNo;
     }
@@ -48,7 +48,7 @@ public class RequestHistoryDTO {
         this.rhContent = rhContent;
         this.rhReason = rhReason;
         this.rhStartDt = rhStartDt;
-        this.rhCreateDt = LocalDateTime.now();
+        this.rhCreateDt = LocalDate.now();
         this.pmNo = pmNo;
     }
 
@@ -60,5 +60,8 @@ public class RequestHistoryDTO {
         this.rhStartDt = rhStartDt;
     }
 
-
+    // 장소제공자 요청 온 항목 DTO
+    public RequestHistoryDTO(Long pmNo) {
+        this.pmNo = pmNo;
+    }
 }
