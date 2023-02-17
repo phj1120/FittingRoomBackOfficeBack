@@ -7,6 +7,12 @@ import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 판매자 프로필 service
+ * 작성자 : 주호승
+ * 일시 : 2023-02-17
+ * 버전 : v1
+ **/
 @Service
 @RequiredArgsConstructor
 @Transactional

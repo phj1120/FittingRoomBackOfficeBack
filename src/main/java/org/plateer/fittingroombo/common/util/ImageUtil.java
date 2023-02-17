@@ -70,7 +70,12 @@ public class ImageUtil {
         return fileNames;
     }
 
-
+    /**
+     * 판매자 회원가입 단건 이미지 처리
+     * 작성자 : 주호승
+     * 일시 : 2023-02-17
+     * 버전 : v1
+     **/
     public SellerFileDTO saveBizImage(MultipartFile file) {
         initFolder();
         validImage(file);

@@ -10,6 +10,13 @@ import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.plateer.fittingroombo.store.service.StoreService;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * 영업관리 controller
+ * 작성자 : 주호승
+ * 일시 : 2023-02-17
+ * 버전 : v1
+ **/
 @RestController
 @Log4j2
 @RequiredArgsConstructor
@@ -30,9 +37,12 @@ public class StoreController {
                 .data(storeService.getStoreStatus(seNo)).build();
     }
 
-    @PutMapping("/status/{id}")
-    public ResultDTO<Long> updateRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO,@PathVariable("id") Long rhNo) {
-        requestHistoryDTO.setRhNo(rhNo);
+    @PutMapping("/status")
+    public ResultDTO<Long> updateRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+        log.info("=====================================");
+        log.info("=====================================");
+        log.info("=====================================");
+        log.info(requestHistoryDTO);
         return ResultDTO.<Long>builder()
                 .data(storeService.updateRequestHistorySeller(requestHistoryDTO)).build();
     }

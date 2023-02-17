@@ -13,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * 판매자 service
+ * 작성자 : 주호승
+ * 일시 : 2023-02-17
+ * 버전 : v1
+ **/
 @Service
 @Transactional
 @RequiredArgsConstructor

@@ -7,6 +7,12 @@ import org.plateer.fittingroombo.dress.service.DressService;
 import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 판매자 프로필 controller
+ * 작성자 : 주호승
+ * 일시 : 2023-02-17
+ * 버전 : v1
+ **/
 @RestController
 @Log4j2
 @RequiredArgsConstructor
