@@ -16,6 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 상품 관리 Mapper 테스트
+ * 작성자: 이수영, 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @SpringBootTest
 @Transactional
 class ProductMapperTest {

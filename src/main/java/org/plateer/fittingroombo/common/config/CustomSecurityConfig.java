@@ -27,6 +27,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Spring Security 설정
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Log4j2
 @Configuration
 @EnableWebSecurity

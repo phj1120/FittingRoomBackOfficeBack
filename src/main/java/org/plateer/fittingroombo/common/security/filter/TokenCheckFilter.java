@@ -21,6 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * JWT Token 여부를 확인 하기 위한 Filter
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Log4j2
 @RequiredArgsConstructor
 public class TokenCheckFilter extends OncePerRequestFilter {

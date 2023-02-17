@@ -8,6 +8,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+/**
+ * 접근한 사용자의 권한 확인
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Component
 @RequiredArgsConstructor
 public class ProductChecker {

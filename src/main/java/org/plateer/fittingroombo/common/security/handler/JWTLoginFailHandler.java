@@ -12,6 +12,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+/**
+ * Spring Security 로그인 실패 처리를 위한 Handler
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Log4j2
 public class JWTLoginFailHandler implements AuthenticationFailureHandler {
     @Override

@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 상품 관리 Controller
+ * 작성자: 이수영, 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @RestController
 @RequestMapping("api/seller")
 @Log4j2

@@ -12,6 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * JWT 관련 공통 기능
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Component
 @Log4j2
 public class JWTUtil {
@@ -30,7 +36,7 @@ public class JWTUtil {
 
     private boolean isExcludeUris(String uri, List<String> excludeUris) {
         for (String excludeUri : excludeUris) {
-            if(uri.startsWith(excludeUri)){
+            if (uri.startsWith(excludeUri)) {
                 return true;
             }
         }

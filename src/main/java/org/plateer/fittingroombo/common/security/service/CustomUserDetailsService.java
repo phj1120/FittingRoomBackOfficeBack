@@ -19,6 +19,12 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Objects;
 
+/**
+ * Spring Security 사용자 인가를 위해 필요한 UserDetailsService 구현체
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @RequiredArgsConstructor
 @Service
 @Log4j2
@@ -28,7 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("UserDetails.......................");
         SellerDTO sellerDTO = sellerMapper.getSellerById(username);
         PlaceDTO placeDTO = placeMapper.getPlaceById(username);
 

@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Spring Security 처리를 위한 Filter
+ * 작성자: 박현준
+ * 일시: 2023-02-17
+ * 버전: v1
+ **/
 @Log4j2
 // JWT 1번
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
