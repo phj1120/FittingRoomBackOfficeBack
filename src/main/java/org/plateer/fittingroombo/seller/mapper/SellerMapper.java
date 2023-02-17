@@ -26,9 +26,7 @@ public interface SellerMapper {
     // 특정 판매자 조회
     SellerDTO getSeller( Long seNo );
 
-    Long insertSeller( SellerDTO sellerDTO );
-
-    // Long insertSeller(SellerRegisterDTO sellerRegisterDTO);
+     Long insertSeller(SellerRegisterDTO sellerRegisterDTO);
 
     SellerDTO getSellerById( String memberId );
     

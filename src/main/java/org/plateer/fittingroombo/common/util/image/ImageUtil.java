@@ -24,7 +24,7 @@ import java.util.UUID;
  * 버전: v1
  **/
 @Log4j2
-@Component
+@Component(value = "productImageUtil")
 public class ImageUtil {
 
     @Value("${basePath}")

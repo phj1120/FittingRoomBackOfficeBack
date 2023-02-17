@@ -11,6 +11,7 @@ import org.plateer.fittingroombo.store.mapper.StoreMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO) {
-        requestHistoryDTO.setRhCreateDt(LocalDateTime.now());
+        requestHistoryDTO.setRhCreateDt(LocalDate.now());
         requestHistoryDTO.setRhStatus("대기");
         //로그인 붙으면 수정해야함.
         //requestHistoryDTO.setSeNo(1L);

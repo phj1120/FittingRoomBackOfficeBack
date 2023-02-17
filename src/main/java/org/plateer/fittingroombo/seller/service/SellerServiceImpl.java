@@ -1,25 +1,18 @@
 package org.plateer.fittingroombo.seller.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
-import org.plateer.fittingroombo.seller.dto.SellerDTO;
-import org.plateer.fittingroombo.seller.dto.SellerFileDTO;
-import org.plateer.fittingroombo.seller.dto.SellerRegisterDTO;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
 import org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper;
-import org.plateer.fittingroombo.seller.dto.SellerDTO;
-import org.plateer.fittingroombo.seller.dto.SellerPageRequestDTO;
-import org.plateer.fittingroombo.seller.dto.SellerRequestDTO;
+import org.plateer.fittingroombo.seller.dto.*;
 import org.plateer.fittingroombo.seller.mapper.SellerMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 판매자 service
@@ -31,7 +24,7 @@ import java.time.LocalDateTime;
 @Transactional
 @RequiredArgsConstructor
 @Log4j2
-public class SellerServiceImpl implements SellerService{
+public class SellerServiceImpl implements SellerService {
     private final SellerMapper sellerMapper;
     private final RequestHistoryMapper requestHistoryMapper;
 
@@ -71,10 +64,10 @@ public class SellerServiceImpl implements SellerService{
     public Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO) {
         requestHistoryMapper.insertRequestHistorySeller(requestHistoryDTO);
         sellerMapper.updateSellerStatus(requestHistoryDTO);
-        
+
         return requestHistoryDTO.getRhNo();
     }
-    
+
     @Override
     public Long insertSeller(SellerRegisterDTO sellerRegisterDTO) {
         sellerRegisterDTO.setSeCreateDt(LocalDateTime.now());
@@ -86,6 +79,5 @@ public class SellerServiceImpl implements SellerService{
         sellerFileDTO.setSeNo(sellerRegisterDTO.getSeNo());
         sellerMapper.insertSellerFile(sellerFileDTO);
         return sellerRegisterDTO.getSeNo();
-    
-    
+    }
 }

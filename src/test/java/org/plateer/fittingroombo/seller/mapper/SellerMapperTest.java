@@ -54,24 +54,24 @@ public class SellerMapperTest {
         log.info(pageResultDTO);
     }
 
-    @Test
-    void insertSeller() {
-        IntStream.rangeClosed(91, 120).forEach(i -> {
-            SellerDTO sellerDTO = SellerDTO.builder()
-                    .seName("이이이" + i)
-                    .seManager("주정현수" + i)
-                    .seId("test00" + i)
-                    .sePassword(UUID.randomUUID().toString())
-                    .seEmail("test00" + i + "@plateer.com")
-                    .sePhone("010-1234-5678")
-                    .seAddress("서울시 관악구 봉천동")
-                    .seStatus("휴업")
-                    .pmNo(new Long(((int)(Math.random() * 2) + 1)))
-                    .build();
-            sellerMapper.insertSeller(sellerDTO);
-        });
-
-    }
+//    @Test
+//    void insertSeller() {
+//        IntStream.rangeClosed(91, 120).forEach(i -> {
+//            SellerDTO sellerDTO = SellerDTO.builder()
+//                    .seName("이이이" + i)
+//                    .seManager("주정현수" + i)
+//                    .seId("test00" + i)
+//                    .sePassword(UUID.randomUUID().toString())
+//                    .seEmail("test00" + i + "@plateer.com")
+//                    .sePhone("010-1234-5678")
+//                    .seAddress("서울시 관악구 봉천동")
+//                    .seStatus("휴업")
+//                    .pmNo(new Long(((int)(Math.random() * 2) + 1)))
+//                    .build();
+//            sellerMapper.insertSeller(sellerDTO);
+//        });
+//
+//    }
     
     @Test
     void name() {
