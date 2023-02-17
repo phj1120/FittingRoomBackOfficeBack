@@ -7,6 +7,13 @@
     </settings>
     <typeAliases>
         <typeAlias alias="PlaceDTO" type="org.plateer.fittingroombo.place.dto.PlaceDTO"/>
+        <typeAlias alias="PlaceRoomDTO" type="org.plateer.fittingroombo.place.dto.PlaceRoomDTO"/>
+
         <typeAlias alias="RoomDTO" type="org.plateer.fittingroombo.room.dto.RoomDTO"/>
+
+        <typeAlias alias="SellerDTO" type="org.plateer.fittingroombo.seller.dto.SellerDTO"/>
+        <typeAlias alias="SellerRequestDTO" type="org.plateer.fittingroombo.seller.dto.SellerRequestDTO"/>
+
+        <typeAlias alias="RequestHistoryDTO" type="org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO"/>
     </typeAliases>
 </configuration>

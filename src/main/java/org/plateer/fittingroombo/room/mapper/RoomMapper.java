@@ -9,6 +9,7 @@ import java.util.List;
 
 
 public interface RoomMapper {
+    // Room 생성 후 마지막 Insert ID 반환
     void insertRoom(RoomDTO roomDTO);
 
     List<RoomDTO> getRoomList(RoomPageRequestDTO roomPageRequestDTO);
