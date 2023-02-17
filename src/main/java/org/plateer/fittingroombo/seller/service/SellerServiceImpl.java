@@ -54,4 +54,12 @@ public class SellerServiceImpl implements SellerService {
     public List<SellerDTO> getStatusTypeList() {
         return sellerMapper.getStatusTypeList();
     }
+
+    @Override
+    public Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO) {
+        requestHistoryMapper.insertRequestHistorySeller(requestHistoryDTO);
+        sellerMapper.updateSellerStatus(requestHistoryDTO);
+        
+        return requestHistoryDTO.getRhNo();
+    }
 }

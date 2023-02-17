@@ -70,7 +70,7 @@
 
     <insert id="insertRequestHistorySeller">
         insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
-        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{seNo})
+        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},now(),#{pmNo},#{seNo})
 
         <selectKey keyProperty="rhNo" resultType="Long" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -98,6 +98,7 @@
                 A.pm_no = #{ id }
             and A.se_no is not null
             and A.rh_status = '대기'
+            and B.se_status = '대기'
         order by
             A.rh_create_dt desc
         limit

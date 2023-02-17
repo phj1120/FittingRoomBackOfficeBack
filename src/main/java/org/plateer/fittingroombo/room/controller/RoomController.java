@@ -29,5 +29,4 @@ public class RoomController {
         Long rhNo = roomService.insertRequestHistoryPlace(requestHistoryDTO);
         return ResultDTO.<Long>builder().data(rhNo).build();
     }
-
 }
