@@ -23,37 +23,38 @@ public class RequestHistoryDTO {
     private String rhReason;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime rhStartDt;
+    private LocalDate rhStartDt;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime rhCreateDt;
+    private LocalDate rhCreateDt;
 
     private Long pmNo;
     private Long seNo;
 
 
     // 판매자가 장소제공자에게 요청
-    public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDateTime rhStartDt, Long pmNo, Long seNo) {
+
+    public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDate rhStartDt, Long pmNo, Long seNo) {
         this.rhStatus = rhStatus;
         this.rhContent = rhContent;
         this.rhReason = rhReason;
         this.rhStartDt = rhStartDt;
-        this.rhCreateDt = LocalDateTime.now();
+        this.rhCreateDt = LocalDate.now();
         this.pmNo = pmNo;
         this.seNo = seNo;
     }
 
     // 장소제공자가 슈퍼관리자에게 요청
-    public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDateTime rhStartDt, Long pmNo) {
+    public RequestHistoryDTO(String rhStatus, String rhContent, String rhReason, LocalDate rhStartDt, Long pmNo) {
         this.rhStatus = rhStatus;
         this.rhContent = rhContent;
         this.rhReason = rhReason;
         this.rhStartDt = rhStartDt;
-        this.rhCreateDt = LocalDateTime.now();
+        this.rhCreateDt = LocalDate.now();
         this.pmNo = pmNo;
     }
 
     // 장소제공자 요청 수정
-    public RequestHistoryDTO(Long rhNo, String rhContent, String rhReason, LocalDateTime rhStartDt) {
+    public RequestHistoryDTO(Long rhNo, String rhContent, String rhReason, LocalDate rhStartDt) {
         this.rhNo = rhNo;
         this.rhContent = rhContent;
         this.rhReason = rhReason;

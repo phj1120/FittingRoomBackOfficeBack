@@ -1,6 +1,6 @@
 package org.plateer.fittingroombo.seller.mapper;
 
-
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.plateer.fittingroombo.seller.dto.SellerPageRequestDTO;
 
@@ -24,4 +24,6 @@ public interface SellerMapper {
     Long insertSeller( SellerDTO sellerDTO );
 
     SellerDTO getSellerById( String memberId );
+    
+    Long updateSellerStatus(RequestHistoryDTO requestHistoryDTO);
 }

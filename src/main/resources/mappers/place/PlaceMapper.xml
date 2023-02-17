@@ -32,8 +32,6 @@
             AND pm_status != '탈퇴'
     </select>
 
-
-
     <update id="updatePlaceInfo">
         UPDATE
             tbl_place_member

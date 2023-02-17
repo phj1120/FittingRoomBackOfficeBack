@@ -102,4 +102,24 @@
         WHERE
             se_id = #{ memberId }
     </select>
+
+    <update id="updateSellerStatus">
+        UPDATE
+            tbl_seller ts
+        SET
+            <if test="rhStatus == '승인'">
+                se_status = '영업'
+            </if>
+            <if test="rhStatus == '거절'">
+                se_status = '거부'
+            </if>
+            <if test="rhStatus == '대기'">
+                se_status = '대기'
+            </if>
+            <if test="rhStatus == '탈퇴'">
+                se_status = '탈퇴'
+            </if>
+        WHERE
+            se_no = #{ seNo }
+    </update>
 </mapper>

@@ -17,4 +17,6 @@ public interface SellerService {
     PageResultDTO<SellerDTO> getPlaceSellerList(SellerPageRequestDTO sellerPageRequestDTO);
 
     List<SellerDTO> getStatusTypeList();
+
+    Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO);
 }

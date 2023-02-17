@@ -72,7 +72,7 @@ public class SellerMapperTest {
         });
 
     }
-
+    
     @Test
     void name() {
         SellerDTO sellerById = sellerMapper.getSellerById("test001");

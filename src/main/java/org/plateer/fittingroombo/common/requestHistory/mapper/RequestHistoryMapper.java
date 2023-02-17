@@ -32,4 +32,7 @@ public interface RequestHistoryMapper {
 
     // 특정 장소제공자에게 요청 된 기록 리스트
     List<RequestHistoryDTO> getRoomSellerRequestHistoryAllList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+    
+    // 승인 및 거절 처리 후 새로운 등록
+    Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO);
 }
