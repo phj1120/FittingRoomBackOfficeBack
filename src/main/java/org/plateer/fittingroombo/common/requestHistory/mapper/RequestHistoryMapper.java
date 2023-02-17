@@ -3,12 +3,19 @@ package org.plateer.fittingroombo.common.requestHistory.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.springframework.stereotype.Component;
 import org.plateer.fittingroombo.seller.dto.SellerRequestDTO;
 
 import java.util.List;
 
 @Mapper
 public interface RequestHistoryMapper {
+    List<RequestHistoryDTO> getStoreRequestHistoryList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+    
+    Long updateRequestHistorySeller(RequestHistoryDTO updateHistoryObj);
+
+    RequestHistoryDTO getRequestHistoryDetailSeller(Long rhNo);
+    
     // Request 총 개수 구하기
     int getCount(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 

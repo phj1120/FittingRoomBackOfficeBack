@@ -1,5 +1,8 @@
 package org.plateer.fittingroombo.seller.mapper;
 
+import org.plateer.fittingroombo.seller.dto.SellerDTO;
+import org.plateer.fittingroombo.seller.dto.SellerFileDTO;
+import org.plateer.fittingroombo.seller.dto.SellerRegisterDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.seller.dto.SellerDTO;
 import org.plateer.fittingroombo.seller.dto.SellerPageRequestDTO;
@@ -7,6 +10,8 @@ import org.plateer.fittingroombo.seller.dto.SellerPageRequestDTO;
 import java.util.List;
 
 public interface SellerMapper {
+    Long insertSellerFile(SellerFileDTO sellerFileDTO);
+
     // 장소제고자에게 입점한 판매자 총 개수 구하기
     int getCount( SellerPageRequestDTO sellerPageRequestDTO );
 
@@ -22,6 +27,8 @@ public interface SellerMapper {
     SellerDTO getSeller( Long seNo );
 
     Long insertSeller( SellerDTO sellerDTO );
+
+    // Long insertSeller(SellerRegisterDTO sellerRegisterDTO);
 
     SellerDTO getSellerById( String memberId );
     

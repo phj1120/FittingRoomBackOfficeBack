@@ -3,6 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.seller.mapper.SellerMapper">
+          <!--
+
+    <insert id="insertSeller" keyProperty="seNo" useGeneratedKeys="true">
+        <selectKey keyProperty="seNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_seller
+        (se_name, se_manager, se_id, se_password,se_email,se_phone,se_address,se_status, se_create_dt, pm_no)
+        values
+        (#{seName},#{seManager},#{seId},#{sePassword},#{seEmail},#{sePhone},#{seAddress},#{seStatus},#{seCreateDt},#{pmNo})
+    </insert>
+    
+    -->
+
+    <insert id="insertSellerFile" keyProperty="sfNo" useGeneratedKeys="true">
+        insert into tbl_seller_file
+        (sf_name, sf_uuid, se_no)
+        values
+        (#{sfName},#{sfUuid},#{seNo})
+    </insert>
+
     <sql id="search">
         AND
         <foreach item="item" collection="type" open="(" close=")" separator="OR">
