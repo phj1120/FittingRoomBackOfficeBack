@@ -32,7 +32,11 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public PageResultDTO<RequestHistoryDTO> getStoreList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
-        int total = requestHistoryMapper.getCount(requestHistoryPageRequestDTO);
+        int total = requestHistoryMapper.getSellerCount(requestHistoryPageRequestDTO);
+        log.info("========================================");
+        log.info("========================================");
+        log.info("========================================");
+        log.info(total);
         List<RequestHistoryDTO> dtoList = requestHistoryMapper.getStoreRequestHistoryList(requestHistoryPageRequestDTO);
         PageResultDTO<RequestHistoryDTO> pageResultDTO = PageResultDTO.<RequestHistoryDTO>withAll()
                 .dtoList(dtoList)
