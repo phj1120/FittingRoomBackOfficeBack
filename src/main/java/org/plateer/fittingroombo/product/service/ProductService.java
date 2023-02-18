@@ -62,39 +62,26 @@ public class ProductService {
         // product 추가
         productMapper.insertProduct(productDTO);
 
+        Long prNo = productDTO.getPrNo();
         // images 추가
-        // TOP
-        productDTO.getTopFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductTopFile(productFileDTO);
-        });
-        // BOTTOM
-        productDTO.getBottomFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductBottomFile(productFileDTO);
-        });
+        productMapper.insertProductFiles(productDTO.getFilesAfterSetPrNo(prNo));
 
-        return productDTO.getPrNo();
+        return prNo;
     }
 
     /**
      * 상품 수정
      **/
     public Long updateProduct(ProductDTO productDTO) {
-        // 새로운 파일 추가
-        productDTO.getTopFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductTopFile(productFileDTO);
-        }); // TOP
-        productDTO.getBottomFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductBottomFile(productFileDTO);
-        }); // BOTTOM
-
         // product 수정
         productMapper.updateProduct(productDTO);
 
-        return productDTO.getPrNo();
+        Long prNo = productDTO.getPrNo();
+
+        // images 추가
+        productMapper.insertProductFiles(productDTO.getFilesAfterSetPrNo(prNo));
+
+        return prNo;
     }
 
 

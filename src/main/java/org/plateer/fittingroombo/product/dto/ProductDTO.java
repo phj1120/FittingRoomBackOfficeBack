@@ -99,7 +99,7 @@ public class ProductDTO {
     /**
      * 상품 수정
      **/
-    public ProductDTO(ProductInsertDTO productInsertDTO,List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
+    public ProductDTO(ProductInsertDTO productInsertDTO, List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
         this.prBrand = productInsertDTO.getPrBrand();
         this.prName = productInsertDTO.getPrName();
         this.prPrice = productInsertDTO.getPrPrice();
@@ -118,5 +118,20 @@ public class ProductDTO {
             }
             this.bottomFiles.add(productFileDTO);
         }
+    }
+
+    public List<ProductFileDTO> getFilesAfterSetPrNo(Long prNo) {
+        List<ProductFileDTO> files = new ArrayList<>();
+        for (ProductFileDTO productFileDTO : this.bottomFiles) {
+            productFileDTO.setPrNo(prNo);
+            files.add(productFileDTO);
+        }
+
+        for (ProductFileDTO productFileDTO : this.topFiles) {
+            productFileDTO.setPrNo(prNo);
+            files.add(productFileDTO);
+        }
+
+        return files;
     }
 }
