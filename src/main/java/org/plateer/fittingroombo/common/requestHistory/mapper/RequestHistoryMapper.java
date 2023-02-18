@@ -19,6 +19,9 @@ public interface RequestHistoryMapper {
     // Request 총 개수 구하기
     int getCount(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 
+    // Request Seller 총 개수 구하기
+    int getSellerCount(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+
     // 장소제공자에게 요청 온 Request 총 개수 구하기
     int getRoomSellerCount(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 
