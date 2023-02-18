@@ -141,10 +141,9 @@ class ProductMapperTest {
     }
 
     @Test
-    void selectFiles() {
-        List<ProductFileDTO> productFileDTOS = productMapper.selectFiles(ProductFileType.BOTTOM, 67L);
-        List<ProductFileDTO> productFileDTOS1 = productMapper.selectFiles(ProductFileType.TOP, 67L);
+    void getFiles() {
+        List<ProductFileDTO> productFileDTOS = productMapper.getProductFileList(67L);
 
-        System.out.println();
+        System.out.println(productFileDTOS);
     }
 }
