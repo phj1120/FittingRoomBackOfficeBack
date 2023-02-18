@@ -40,6 +40,7 @@ public interface ProductMapper {
     int deleteSellProductByPrNo(Long prNo);
 
     // 상품 사진
+    int insertProductFiles(List<ProductFileDTO> productFileDTOList);
     int insertProductTopFile(ProductFileDTO productFileDTO);
 
     int insertProductBottomFile(ProductFileDTO productFileDTO);

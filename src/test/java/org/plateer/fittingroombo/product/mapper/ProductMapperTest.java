@@ -1,6 +1,7 @@
 package org.plateer.fittingroombo.product.mapper;
 
 import org.junit.jupiter.api.Test;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
@@ -13,8 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.IntStream;
 
 /**
  * 상품 관리 Mapper 테스트
@@ -145,5 +150,24 @@ class ProductMapperTest {
         List<ProductFileDTO> productFileDTOS = productMapper.getProductFileList(67L);
 
         System.out.println(productFileDTOS);
+    }
+
+    @Test
+    @Rollback
+    void insertProductFiles() {
+        List<ProductFileDTO> productFileDTOList = new ArrayList<>();
+        IntStream.rangeClosed(1, 5).forEach(i -> {
+            productFileDTOList.add(new ProductFileDTO("prfName" + i, UUID.randomUUID().toString(), ProductFileType.BOTTOM, 67L));
+
+        });
+        IntStream.rangeClosed(1, 5).forEach(i -> {
+            productFileDTOList.add(new ProductFileDTO("prfName" + i, UUID.randomUUID().toString(), ProductFileType.TOP, 67L));
+        });
+
+        productMapper.insertProductFiles(productFileDTOList);
+
+        List<ProductFileDTO> productFileList = productMapper.getProductFileList(67L);
+
+        System.out.println(productFileList);
     }
 }

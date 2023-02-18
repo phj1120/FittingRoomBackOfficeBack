@@ -22,4 +22,12 @@ public class ProductFileDTO {
         this.prfName = prfName;
         this.prfUuid = prfUuid;
     }
+
+    public ProductFileDTO(String prfName, String prfUuid, ProductFileType prfType, Long prNo) {
+        this.prfName = prfName;
+        this.prfUuid = prfUuid;
+        this.prfType = prfType;
+        this.prNo = prNo;
+        this.prfStatus = true;
+    }
 }
