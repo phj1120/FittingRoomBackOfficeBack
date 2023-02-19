@@ -28,18 +28,15 @@ public class StoreController {
 
     private final StoreService storeService;
 
+    //판매자가 신청한 hostory request list 불러오기
     @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/status")
     public PageResultDTO<RequestHistoryDTO> getStoreList( RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
 
-        log.info("========================================");
-        log.info("========================================");
-        log.info("========================================");
-        log.info(requestHistoryPageRequestDTO);
-
         return storeService.getStoreList(requestHistoryPageRequestDTO);
     }
 
+    //판매자 상태현황 상태 가져오기(영업중,휴업중)
     @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/status/{id}")
     public ResultDTO<SellerDTO> getStoreStatus(@PathVariable("id") Long seNo) {
@@ -48,12 +45,10 @@ public class StoreController {
                 .data(storeService.getStoreStatus(seNo)).build();
     }
 
+    //판매자 영업 상태 변경 수정 (대기중 인 건만 가능)
     @PreAuthorize("hasRole('SELLER')")
     @PutMapping("/status")
     public ResultDTO<Long> updateRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
-        log.info("=====================================");
-        log.info("=====================================");
-        log.info("=====================================");
         log.info(requestHistoryDTO);
         return ResultDTO.<Long>builder()
                 .data(storeService.updateRequestHistorySeller(requestHistoryDTO)).build();
@@ -67,6 +62,7 @@ public class StoreController {
                 .data(storeService.getRequestHistoryDetailSeller(rhNo)).build();
     }
 
+    //판매자 영상 상태 변경 시청
     @PreAuthorize("hasRole('SELLER')")
     @PostMapping("/request")
     public ResultDTO<Long> insertRequestHistorySeller(@AuthenticationPrincipal CustomUserDetail user

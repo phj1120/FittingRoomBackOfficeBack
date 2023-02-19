@@ -6,9 +6,12 @@ import org.plateer.fittingroombo.common.dto.PageResultDTO;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
+import org.plateer.fittingroombo.common.security.dto.CustomUserDetail;
 import org.plateer.fittingroombo.common.util.ImageUtil;
 import org.plateer.fittingroombo.seller.dto.*;
 import org.plateer.fittingroombo.seller.service.SellerService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class SellerController {
     private final SellerService sellerService;
     private final ImageUtil imageUtil;
 
+    //판매자 회원가입
     @PostMapping("/register")
     public ResultDTO<Long> insertSeller( SellerRegisterDTO sellerRegisterDTO){
         log.info(sellerRegisterDTO);
@@ -67,4 +71,19 @@ public class SellerController {
         Long rhNo = sellerService.insertRequestHistorySeller(requestHistoryDTO);
         return ResultDTO.<Long>builder().data(rhNo).build();
     }
+
+    // Status 목록 구하기
+    @PreAuthorize("hasRole('SELLER')")
+    @GetMapping("profile")
+    public ResultDTO<SellerProfileDTO> getProfileSeller(@AuthenticationPrincipal CustomUserDetail user) {
+        return ResultDTO.<SellerProfileDTO>builder().data(sellerService.getProfileSeller(user.getUserNo())).build();
+    }
+
+    @PreAuthorize("hasRole('SELLER')")
+    @PutMapping("profile")
+    public ResultDTO<Long> modifyProfileSeller(@RequestBody SellerDTO sellerDTO) {
+        return ResultDTO.<Long>builder().data(sellerService.modifyProfileSeller(sellerDTO)).build();
+    }
+
+
 }
