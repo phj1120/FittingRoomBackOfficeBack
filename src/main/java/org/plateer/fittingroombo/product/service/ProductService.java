@@ -62,10 +62,12 @@ public class ProductService {
         // product 추가
         productMapper.insertProduct(productDTO);
 
-        Long prNo = productDTO.getPrNo();
         // images 추가
+        Long prNo = productDTO.getPrNo();
+        if (productDTO.getBottomFiles().isEmpty() && productDTO.getTopFiles().isEmpty()) {
+            return prNo;
+        }
         productMapper.insertProductFiles(productDTO.getFilesAfterSetPrNo(prNo));
-
         return prNo;
     }
 
@@ -76,11 +78,12 @@ public class ProductService {
         // product 수정
         productMapper.updateProduct(productDTO);
 
-        Long prNo = productDTO.getPrNo();
-
         // images 추가
+        Long prNo = productDTO.getPrNo();
+        if (productDTO.getBottomFiles().isEmpty() && productDTO.getTopFiles().isEmpty()) {
+            return prNo;
+        }
         productMapper.insertProductFiles(productDTO.getFilesAfterSetPrNo(prNo));
-
         return prNo;
     }
 
