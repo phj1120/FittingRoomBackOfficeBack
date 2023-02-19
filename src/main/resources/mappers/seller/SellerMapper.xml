@@ -106,6 +106,30 @@
             se_no = #{ seNo }
     </select>
 
+    <select id="getProfileSeller" resultType="SellerProfileDTO">
+        SELECT
+        ts.*,
+        tr.ro_name
+        FROM
+        tbl_seller ts , tbl_room tr
+        WHERE
+        ts.se_no= #{seNo}
+        AND tr.ro_no = ts.pm_no
+    </select>
+
+    <update id="modifyProfileSeller">
+        update tbl_seller
+        <set>
+            se_name = #{seName},
+            se_manager = #{seManager},
+            se_password = #{sePassword},
+            se_email = #{seEmail},
+            se_phone = #{sePhone},
+            se_address = #{seAddress}
+        </set>
+        where se_no = #{seNo}
+    </update>
+
     <insert id="insertSeller">
         insert into tbl_seller (se_name, se_manager, se_id, se_password, se_email, se_phone, se_address, se_status, pm_no, se_create_dt)
         values(#{ seName }, #{ seManager }, #{ seId }, #{ sePassword }, #{ seEmail }, #{ sePhone }, #{ seAddress }, #{ seStatus }, #{ pmNo }, now())
@@ -123,6 +147,8 @@
         WHERE
             se_id = #{ memberId }
     </select>
+
+
 
     <update id="updateSellerStatus">
         UPDATE
@@ -143,4 +169,6 @@
         WHERE
             se_no = #{ seNo }
     </update>
+
+
 </mapper>

@@ -1,11 +1,8 @@
 package org.plateer.fittingroombo.seller.mapper;
 
-import org.plateer.fittingroombo.seller.dto.SellerDTO;
-import org.plateer.fittingroombo.seller.dto.SellerFileDTO;
-import org.plateer.fittingroombo.seller.dto.SellerRegisterDTO;
+import org.plateer.fittingroombo.seller.dto.*;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.seller.dto.SellerDTO;
-import org.plateer.fittingroombo.seller.dto.SellerPageRequestDTO;
 
 import java.util.List;
 
@@ -25,6 +22,12 @@ public interface SellerMapper {
 
     // 특정 판매자 조회
     SellerDTO getSeller( Long seNo );
+
+    //판매자 프로필 조회
+    SellerProfileDTO getProfileSeller(Long seNo );
+
+    //판매자 프로필 수정
+    Long modifyProfileSeller(SellerDTO sellerDTO);
 
      Long insertSeller(SellerRegisterDTO sellerRegisterDTO);
 
