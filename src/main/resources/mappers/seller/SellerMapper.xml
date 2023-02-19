@@ -59,7 +59,7 @@
             tbl_seller ts
         WHERE
                 pm_no = #{ id }
-            AND se_status NOT IN ('탈퇴', '대기')
+            AND se_status NOT IN ('탈퇴', '대기', '거부')
             <if test="type != null and keyword != null">
                 <include refid="search"></include>
             </if>
@@ -86,13 +86,15 @@
             tbl_seller ts
         WHERE
                 pm_no = #{ id }
-            AND se_status NOT IN ('탈퇴', '대기')
+            AND se_status NOT IN ('탈퇴', '대기', '거부')
             <if test="type != null and keyword != null">
                 <include refid="search"></include>
             </if>
             <if test="status != null">
                 <include refid="status"></include>
             </if>
+        ORDER BY
+            SE_NO DESC
         LIMIT
             #{skip}, #{size}
     </select>

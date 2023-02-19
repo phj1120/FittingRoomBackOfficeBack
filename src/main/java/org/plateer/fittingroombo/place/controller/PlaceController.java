@@ -4,10 +4,13 @@ package org.plateer.fittingroombo.place.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
+import org.plateer.fittingroombo.common.security.dto.CustomUserDetail;
 import org.plateer.fittingroombo.place.dto.PlaceDTO;
 import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
 import org.plateer.fittingroombo.place.service.PlaceService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
