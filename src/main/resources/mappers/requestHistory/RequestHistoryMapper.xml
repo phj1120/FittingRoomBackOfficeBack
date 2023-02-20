@@ -3,37 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper">
-    <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
-        select
-        *
-        from
-        tbl_request_history
-        where
-        se_no = #{ id }
-        order by
-        rh_no desc
-        limit #{skip}, #{size}
-    </select>
-
-    <insert id="insertRequestHistorySeller" keyProperty="rhNo" useGeneratedKeys="true">
-        <selectKey keyProperty="rhNo" resultType="long" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
-        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{seNo})
-    </insert>
-
-    <update id="updateRequestHistorySeller">
-        update tbl_request_history
-        <set>
-            rh_content = #{rhContent},
-            rh_reason = #{rhReason},
-            rh_start_dt = #{rhStartDt}
-        </set>
-        where rh_no = #{rhNo}
-
-    </update>
-
     <select id="getRequestHistoryDetailSeller" resultType="RequestHistoryDTO">
         select
             rh_content, rh_reason, rh_start_dt
@@ -126,10 +95,10 @@
             and rh_content != '가입'
         order by
             rh_no desc
+    </select>
 
     <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
         select
-<<<<<<< HEAD
             *
         from
             tbl_request_history
@@ -139,18 +108,6 @@
             rh_no desc
         limit
             #{skip}, #{size}
-=======
-          *
-        from
-          tbl_request_history
-        where
-          se_no = #{ id }
-        order by
-          rh_no desc
-        limit 
-          #{skip}, #{size}
-
->>>>>>> 26dd5cc3258ac3cd60f8a6f3e0e4d9aed03dd2b5
     </select>
 
     <insert id="insertRequestHistoryPlace">
