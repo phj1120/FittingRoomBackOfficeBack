@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 판매자 controller
- * 작성자 : 주호승
+ * 판매자 Controller
+ * 작성자 : 주호승, 정승현
  * 일시 : 2023-02-17
- * 버전 : v1
+ * 버전 : v2
  **/
 @RestController
 @Log4j2
@@ -42,20 +42,26 @@ public class SellerController {
     }
 
     // 대기중인 판매자 요청 현황
+    @PreAuthorize("hasRole('PLACE')")
     @GetMapping("status")
-    public PageResultDTO<SellerRequestDTO> getRoomSellerStatus(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+    public PageResultDTO<SellerRequestDTO> getRoomSellerStatus(@AuthenticationPrincipal CustomUserDetail user, RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+        requestHistoryPageRequestDTO.setId(user.getUserNo());
         return sellerService.getRoomSellerStatus(requestHistoryPageRequestDTO);
     }
 
     // 장소자에게 입점한 판매자 목록
+    @PreAuthorize("hasRole('PLACE')")
     @GetMapping("list")
-    public PageResultDTO<SellerDTO> getPlaceSellerList(SellerPageRequestDTO sellerPageRequestDTO) {
+    public PageResultDTO<SellerDTO> getPlaceSellerList(@AuthenticationPrincipal CustomUserDetail user, SellerPageRequestDTO sellerPageRequestDTO) {
+        sellerPageRequestDTO.setId(user.getUserNo());
         return sellerService.getPlaceSellerList(sellerPageRequestDTO);
     }
 
-    // 장소제공자에게 요청한 요청 기록
+    // 장소제공자에게 요청한 요청 기록 ( 판매자 요청 기록 메뉴 )
+    @PreAuthorize("hasRole('PLACE')")
     @GetMapping("history")
-    public PageResultDTO<RequestHistoryDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+    public PageResultDTO<SellerRequestDTO> getRoomSellerHistory(@AuthenticationPrincipal CustomUserDetail user, RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+        requestHistoryPageRequestDTO.setId(user.getUserNo());
         return sellerService.getRoomSellerHistory(requestHistoryPageRequestDTO);
     }
 
@@ -66,6 +72,7 @@ public class SellerController {
     }
 
     // Seller Request 응답하기
+    @PreAuthorize("hasRole('PLACE')")
     @PostMapping("answer")
     public ResultDTO<Long> insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
         Long rhNo = sellerService.insertRequestHistorySeller(requestHistoryDTO);

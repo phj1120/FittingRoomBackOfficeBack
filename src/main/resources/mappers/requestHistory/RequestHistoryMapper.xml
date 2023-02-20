@@ -3,6 +3,58 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper">
+    <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
+        select
+        *
+        from
+        tbl_request_history
+        where
+        se_no = #{ id }
+        order by
+        rh_no desc
+        limit #{skip}, #{size}
+    </select>
+
+    <insert id="insertRequestHistorySeller" keyProperty="rhNo" useGeneratedKeys="true">
+        <selectKey keyProperty="rhNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
+        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},#{rhCreateDt},#{pmNo},#{seNo})
+    </insert>
+
+    <update id="updateRequestHistorySeller">
+        update tbl_request_history
+        <set>
+            rh_content = #{rhContent},
+            rh_reason = #{rhReason},
+            rh_start_dt = #{rhStartDt}
+        </set>
+        where rh_no = #{rhNo}
+
+    </update>
+
+    <select id="getRequestHistoryDetailSeller" resultType="RequestHistoryDTO">
+        select rh_content, rh_reason, rh_start_dt
+        from tbl_request_history
+        where rh_no = #{rhNo}
+        
+          -->
+
+    <sql id="search">
+        <if test="type != null">
+            AND rh_content LIKE CONCAT('%', #{ type }, '%')
+        </if>
+        <if test="status != null">
+            AND rh_status LIKE CONCAT('%', #{ status }, '%')
+        </if>
+        <if test="toDate != null and fromDate != null">
+            AND rh_create_dt between #{ toDate } and #{ fromDate }
+        </if>
+        <if test="toDate == null and fromDate != null">
+            AND rh_create_dt LIKE CONCAT(#{ fromDate }, '%')
+        </if>
+    </sql>
 
     <select id="getCount" resultType="int">
         select
@@ -23,12 +75,16 @@
 
     <select id="getRoomSellerCount" resultType="int">
         select
-            count(*)
+            COUNT(*)
         from
-            tbl_request_history
+            tbl_request_history A
+            LEFT JOIN tbl_seller B on A.se_no = B.se_no
         where
-                pm_no = #{ id }
-            and se_no is not null
+                A.pm_no = #{ id }
+            and A.se_no is not null
+            <if test="type != null or status != null or toDate != null or fromDate != null">
+                <include refid="search"></include>
+            </if>
     </select>
 
     <select id="getSellerRequestCount" resultType="int">
@@ -52,25 +108,40 @@
                 pm_no = #{ id }
             and se_no is null
         order by
-            pm_no desc
+            rh_no desc
         limit #{skip}, #{size}
     </select>
 
+    <select id="getRequestHistoryPlace" resultType="RequestHistoryDTO">
+        select
+            *
+        from
+            tbl_request_history
+        where
+                pm_no = #{ pmNo }
+            and se_no is null
+            and rh_status = '대기'
+            and rh_content != '가입'
+        order by
+            rh_no desc
+
     <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
         select
-        *
+          *
         from
-        tbl_request_history
+          tbl_request_history
         where
-        se_no = #{ id }
+          se_no = #{ id }
         order by
-        rh_no desc
-        limit #{skip}, #{size}
+          rh_no desc
+        limit 
+          #{skip}, #{size}
+
     </select>
 
     <insert id="insertRequestHistoryPlace">
         insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt, pm_no)
-        values(#{rhStatus}, #{rhContent}, #{rhReason}, #{rhStartDt}, #{rhCreateDt}, #{pmNo})
+        values(#{rhStatus}, #{rhContent}, #{rhReason}, #{rhStartDt}, now(), #{pmNo})
 
         <selectKey keyProperty="rhNo" resultType="Long" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -81,11 +152,12 @@
         update
             tbl_request_history
         set
-            rh_content = #{rhContent},
-            rh_reason = #{rhReason},
-            rh_start_dt = #{rhStartDt}
+            rh_content = #{ rhContent },
+            rh_reason = #{ rhReason },
+            rh_start_dt = #{ rhStartDt }
         where
-            rh_no = #{rhNo}
+                rh_no = #{ rhNo }
+            and pm_no = #{ pmNo }
     </update>
 
     <insert id="insertRequestHistorySeller">
@@ -129,14 +201,18 @@
             #{skip}, #{size}
     </select>
 
-    <select id="getRoomSellerRequestHistoryAllList" resultType="RequestHistoryDTO">
+    <select id="getRoomSellerRequestHistoryAllList" resultType="SellerRequestDTO">
         select
             *
         from
-            tbl_request_history
+            tbl_request_history A
+            LEFT JOIN tbl_seller B on A.se_no = B.se_no
         where
-                pm_no = #{ id }
-            and se_no is not null
+                A.pm_no = #{ id }
+            and A.se_no is not null
+            <if test="type != null or status != null or toDate != null or fromDate != null">
+                <include refid="search"></include>
+            </if>
         order by
             rh_create_dt desc
         limit

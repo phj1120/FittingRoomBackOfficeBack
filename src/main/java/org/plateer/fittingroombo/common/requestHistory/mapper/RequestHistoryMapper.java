@@ -36,12 +36,15 @@ public interface RequestHistoryMapper {
 
     // Request 수정
     Long updateRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO);
-    
+
+    // Reqeust 대기인것만 조회 ( 장소제공자 -> 슈퍼관리자 )
+    List<RequestHistoryDTO> getRequestHistoryPlace(Long pmNo);
+
     // 특정 장소제공자애게 요청 후 대기 상태인 Request 현황
     List<SellerRequestDTO> getRoomSellerRequestHistoryList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 
     // 특정 장소제공자에게 요청 된 기록 리스트
-    List<RequestHistoryDTO> getRoomSellerRequestHistoryAllList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+    List<SellerRequestDTO> getRoomSellerRequestHistoryAllList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
     
     // 승인 및 거절 처리 후 새로운 등록
     Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO);

@@ -1,5 +1,6 @@
 package org.plateer.fittingroombo.place.service;
 
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.place.dto.PlaceDTO;
 import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
 

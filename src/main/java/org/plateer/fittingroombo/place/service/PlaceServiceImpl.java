@@ -2,6 +2,8 @@ package org.plateer.fittingroombo.place.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
+import org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper;
 import org.plateer.fittingroombo.place.dto.PlaceDTO;
 import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
 import org.plateer.fittingroombo.place.mapper.PlaceMapper;
@@ -16,6 +18,7 @@ import java.util.List;
 @Transactional
 public class PlaceServiceImpl implements PlaceService {
     private final PlaceMapper placeMapper;
+    private final RequestHistoryMapper requestHistoryMapper;
 
     @Override
     public List<PlaceRoomDTO> getPlaceRoomList() {

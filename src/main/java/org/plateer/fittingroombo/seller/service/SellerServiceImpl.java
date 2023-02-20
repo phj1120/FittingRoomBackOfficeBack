@@ -38,11 +38,11 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public PageResultDTO<RequestHistoryDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
-        List<RequestHistoryDTO> dtoList = requestHistoryMapper.getRoomSellerRequestHistoryAllList(requestHistoryPageRequestDTO);
+    public PageResultDTO<SellerRequestDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+        List<SellerRequestDTO> dtoList = requestHistoryMapper.getRoomSellerRequestHistoryAllList(requestHistoryPageRequestDTO);
         int total = requestHistoryMapper.getRoomSellerCount(requestHistoryPageRequestDTO);
 
-        PageResultDTO<RequestHistoryDTO> pageResultDTO = PageResultDTO.<RequestHistoryDTO>withAll().dtoList(dtoList).total(total).pageRequestDTO(requestHistoryPageRequestDTO).build();
+        PageResultDTO<SellerRequestDTO> pageResultDTO = PageResultDTO.<SellerRequestDTO>withAll().dtoList(dtoList).total(total).pageRequestDTO(requestHistoryPageRequestDTO).build();
         return pageResultDTO;
     }
 

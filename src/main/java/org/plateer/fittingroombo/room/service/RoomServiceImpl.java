@@ -3,6 +3,7 @@ package org.plateer.fittingroombo.room.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.PageResultDTO;
+import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
 import org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper;
@@ -36,6 +37,17 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Long insertRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO) {
         requestHistoryMapper.insertRequestHistoryPlace(requestHistoryDTO);
+        return requestHistoryDTO.getRhNo();
+    }
+
+    @Override
+    public List<RequestHistoryDTO> getRequestHistoryPlace(Long pmNo) {
+        return requestHistoryMapper.getRequestHistoryPlace(pmNo);
+    }
+
+    @Override
+    public Long updateRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO) {
+        requestHistoryMapper.updateRequestHistoryPlace( requestHistoryDTO );
         return requestHistoryDTO.getRhNo();
     }
 }

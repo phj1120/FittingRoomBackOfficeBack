@@ -14,7 +14,7 @@ public interface SellerService {
     
     PageResultDTO<SellerRequestDTO> getRoomSellerStatus(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 
-    PageResultDTO<RequestHistoryDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
+    PageResultDTO<SellerRequestDTO> getRoomSellerHistory(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO);
 
     PageResultDTO<SellerDTO> getPlaceSellerList(SellerPageRequestDTO sellerPageRequestDTO);
 
