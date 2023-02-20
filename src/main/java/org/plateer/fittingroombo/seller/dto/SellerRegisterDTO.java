@@ -20,7 +20,7 @@ public class SellerRegisterDTO {
     private String seName;
     private String seManager;
     private String seId;
-    private String sePassword;
+    private String se;
     private String seEmail;
     private String sePhone;
     private String seAddress;
