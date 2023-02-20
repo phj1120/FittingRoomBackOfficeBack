@@ -25,8 +25,6 @@ public class JWTUtil {
     @Value("${org.plateer.jwt.secret}")
     private String key;
 
-    // 권한 필요한 요청 /auth/api/
-    // 권한 필요 없는 요청 /api/
     @Value("${org.platter.filter.uri.exclude.tokenCheckFilter}")
     private List<String> tokenCheckFilterExcludeUris;
 

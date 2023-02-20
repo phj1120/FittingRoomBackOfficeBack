@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
 
 import java.time.LocalDateTime;
@@ -98,7 +99,7 @@ public class ProductDTO {
     /**
      * 상품 수정
      **/
-    public ProductDTO(ProductInsertDTO productInsertDTO,List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
+    public ProductDTO(ProductInsertDTO productInsertDTO, List<ProductFileDTO> topFiles, List<ProductFileDTO> bottomFiles) {
         this.prBrand = productInsertDTO.getPrBrand();
         this.prName = productInsertDTO.getPrName();
         this.prPrice = productInsertDTO.getPrPrice();
@@ -107,5 +108,30 @@ public class ProductDTO {
         this.prcNo = productInsertDTO.getPrcNo();
         this.topFiles = topFiles;
         this.bottomFiles = bottomFiles;
+    }
+
+    public void setFiles(List<ProductFileDTO> productFileList) {
+        for (ProductFileDTO productFileDTO : productFileList) {
+            if (ProductFileType.TOP.equals(productFileDTO.getPrfType())) {
+                this.topFiles.add(productFileDTO);
+                continue;
+            }
+            this.bottomFiles.add(productFileDTO);
+        }
+    }
+
+    public List<ProductFileDTO> getFilesAfterSetPrNo(Long prNo) {
+        List<ProductFileDTO> files = new ArrayList<>();
+        for (ProductFileDTO productFileDTO : this.bottomFiles) {
+            productFileDTO.setPrNo(prNo);
+            files.add(productFileDTO);
+        }
+
+        for (ProductFileDTO productFileDTO : this.topFiles) {
+            productFileDTO.setPrNo(prNo);
+            files.add(productFileDTO);
+        }
+
+        return files;
     }
 }
