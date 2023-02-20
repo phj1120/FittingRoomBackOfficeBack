@@ -31,6 +31,7 @@ public class SellerController {
     private final SellerService sellerService;
     private final ImageUtil imageUtil;
 
+    //판매자 회원가입
     @PostMapping("/register")
     public ResultDTO<Long> insertSeller( SellerRegisterDTO sellerRegisterDTO){
         log.info(sellerRegisterDTO);
@@ -77,4 +78,19 @@ public class SellerController {
         Long rhNo = sellerService.insertRequestHistorySeller(requestHistoryDTO);
         return ResultDTO.<Long>builder().data(rhNo).build();
     }
+
+    // Status 목록 구하기
+    @PreAuthorize("hasRole('SELLER')")
+    @GetMapping("profile")
+    public ResultDTO<SellerProfileDTO> getProfileSeller(@AuthenticationPrincipal CustomUserDetail user) {
+        return ResultDTO.<SellerProfileDTO>builder().data(sellerService.getProfileSeller(user.getUserNo())).build();
+    }
+
+    @PreAuthorize("hasRole('SELLER')")
+    @PutMapping("profile")
+    public ResultDTO<Long> modifyProfileSeller(@RequestBody SellerDTO sellerDTO) {
+        return ResultDTO.<Long>builder().data(sellerService.modifyProfileSeller(sellerDTO)).build();
+    }
+
+
 }

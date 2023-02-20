@@ -23,6 +23,7 @@ public interface ProductMapper {
     int getProductListCount(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO);
 
     int updateProduct(ProductDTO productDTO);
+
     int deleteProduct(Long prNo);
 
     int updateProductStatusAtOnce(UpdateProductStatusRequestDTO updateProductStatusRequestDTO); // 상품 상태 일괄 변경
@@ -35,8 +36,11 @@ public interface ProductMapper {
     int updateSellProduct(SellProductDTO sellProductDTO);
 
     int deleteSellProductBySpNo(Long spNo);
+
     int deleteSellProductByPrNo(Long prNo);
+
     // 상품 사진
+    int insertProductFiles(List<ProductFileDTO> productFileDTOList);
     int insertProductTopFile(ProductFileDTO productFileDTO);
 
     int insertProductBottomFile(ProductFileDTO productFileDTO);
@@ -46,8 +50,6 @@ public interface ProductMapper {
     int deleteProductFile(Long prNo); // 상품 번호
 
     int deleteProductFileAtOnce(List<Long> prNos); // 상품 번호
-
-    List<ProductFileDTO> selectFiles(ProductFileType productFileType, Long prNo);
 
     List<ProductCategoryDTO> getProductCategoryList();
 }

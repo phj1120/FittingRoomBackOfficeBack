@@ -9,6 +9,7 @@ import org.plateer.fittingroombo.place.mapper.PlaceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
@@ -26,7 +27,7 @@ public class RequestHistoryMapperTest {
                     .rhStatus(i % 2 == 0 ? "대기" : "탈퇴")
                     .rhContent("가입")
                     .rhReason("사유" + i)
-                    .rhCreateDt(LocalDateTime.now())
+                    .rhCreateDt(LocalDate.now())
                     .pmNo(1L)
                     .build();
             requestHistoryMapper.insertRequestHistoryPlace(requestHistoryDTO);
@@ -38,7 +39,7 @@ public class RequestHistoryMapperTest {
 
     @Test
     void updateRequestPlace() {
-        RequestHistoryDTO requestHistoryDTO = new RequestHistoryDTO(20L, "탈퇴", "일이 힘들어서요", LocalDateTime.now().plusDays(1));
+        RequestHistoryDTO requestHistoryDTO = new RequestHistoryDTO(20L, "탈퇴", "일이 힘들어서요", LocalDate.now().plusDays(1));
         requestHistoryMapper.updateRequestHistoryPlace(requestHistoryDTO);
     }
 }

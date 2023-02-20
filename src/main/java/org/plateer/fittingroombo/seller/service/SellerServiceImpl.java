@@ -56,6 +56,16 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public SellerProfileDTO getProfileSeller(Long seNo) {
+        return sellerMapper.getProfileSeller(seNo);
+    }
+
+    @Override
+    public Long modifyProfileSeller(SellerDTO sellerDTO) {
+        return sellerMapper.modifyProfileSeller(sellerDTO);
+    }
+
+    @Override
     public List<SellerDTO> getStatusTypeList() {
         return sellerMapper.getStatusTypeList();
     }
@@ -70,7 +80,6 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Long insertSeller(SellerRegisterDTO sellerRegisterDTO) {
-        sellerRegisterDTO.setSeCreateDt(LocalDateTime.now());
         sellerRegisterDTO.setSeStatus("대기");
         SellerFileDTO sellerFileDTO = sellerRegisterDTO.getSaveImage();
         sellerMapper.insertSeller(sellerRegisterDTO);
