@@ -31,8 +31,10 @@ public class PlaceRoomDTO {
 
     // 담당자 이름
     private String pmName;
+
     // 피팅룸 전화번호
     private String pmPhone;
+
     // 피팅룸 담당자 ID
     private Long pmNo;
 
