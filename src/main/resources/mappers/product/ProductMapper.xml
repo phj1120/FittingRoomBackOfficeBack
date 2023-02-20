@@ -247,7 +247,9 @@
         FROM
             tbl_sell_product
         WHERE
-            pr_no = #{prNo}
+                pr_no = #{prNo}
+            AND sp_status != 'DELETE'
+
     </select>
 
     <insert id="insertSellProduct">
