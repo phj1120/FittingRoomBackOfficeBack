@@ -3,15 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper">
-<!--  
-
-    <select id="getCount" resultType="int">
-        select count(*)
-        from tbl_request_history
-        where
-        se_no = #{ id }
-    </select>
-
     <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
         select
         *
@@ -44,11 +35,13 @@
     </update>
 
     <select id="getRequestHistoryDetailSeller" resultType="RequestHistoryDTO">
-        select rh_content, rh_reason, rh_start_dt
-        from tbl_request_history
-        where rh_no = #{rhNo}
-        
-          -->
+        select
+            rh_content, rh_reason, rh_start_dt
+        from
+            tbl_request_history
+        where
+            rh_no = #{rhNo}
+    </select>
 
     <sql id="search">
         <if test="type != null">
@@ -73,6 +66,13 @@
         where
                 pm_no = #{ id }
             and se_no is null
+    </select>
+
+    <select id="getSellerCount" resultType="int">
+        select count(*)
+        from tbl_request_history
+        where
+        se_no = #{ id }
     </select>
 
     <select id="getRoomSellerCount" resultType="int">
@@ -126,6 +126,18 @@
             and rh_content != '가입'
         order by
             rh_no desc
+
+    <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
+        select
+            *
+        from
+            tbl_request_history
+        where
+            se_no = #{ id }
+        order by
+            rh_no desc
+        limit
+            #{skip}, #{size}
     </select>
 
     <insert id="insertRequestHistoryPlace">
@@ -158,6 +170,8 @@
         </selectKey>
     </insert>
 
+
+
     <update id="updateRequestHistorySeller">
         update
             tbl_request_history
@@ -168,6 +182,8 @@
         where
             rh_no = #{rhNo}
     </update>
+
+
 
     <select id="getRoomSellerRequestHistoryList" resultType="SellerRequestDTO">
         select
