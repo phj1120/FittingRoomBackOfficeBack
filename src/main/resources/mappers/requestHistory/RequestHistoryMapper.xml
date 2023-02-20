@@ -129,6 +129,7 @@
 
     <select id="getStoreRequestHistoryList" resultType="RequestHistoryDTO">
         select
+<<<<<<< HEAD
             *
         from
             tbl_request_history
@@ -138,6 +139,18 @@
             rh_no desc
         limit
             #{skip}, #{size}
+=======
+          *
+        from
+          tbl_request_history
+        where
+          se_no = #{ id }
+        order by
+          rh_no desc
+        limit 
+          #{skip}, #{size}
+
+>>>>>>> 26dd5cc3258ac3cd60f8a6f3e0e4d9aed03dd2b5
     </select>
 
     <insert id="insertRequestHistoryPlace">

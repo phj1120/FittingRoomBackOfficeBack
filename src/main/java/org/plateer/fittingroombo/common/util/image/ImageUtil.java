@@ -2,6 +2,7 @@ package org.plateer.fittingroombo.common.util.image;
 
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
+import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductInsertDTO;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
@@ -46,30 +47,28 @@ public class ImageUtil {
     // 이미지 저장 후 저장 결과 반환 - TOP
     public List<ProductFileDTO> saveTopImages(ProductInsertDTO productInsertDTO) {
         List<MultipartFile> topFiles = productInsertDTO.getTopFiles();
-
         Integer thumbnailIndex = productInsertDTO.getThumbnailIndex();
 
         initFolder();   // 폴더가 없다면 생성
 
         List<ProductFileDTO> productFiles = new ArrayList<>();
-
         for (int i = 0; i < topFiles.size(); i++) {
             MultipartFile file = topFiles.get(i);
             try {
                 ProductFileDTO productFileDTO = saveImage(file);
                 productFileDTO.setPrfType(ProductFileType.TOP);
-
+                // 대표 이미지 여부
+                productFileDTO.setPrfStatus(i == thumbnailIndex);
                 productFiles.add(productFileDTO);
             } catch (IllegalArgumentException e) {
                 log.info("error");
             }
         }
-        productFiles.get(thumbnailIndex).setPrfStatus(true);
 
         return productFiles;
     }
 
-//    이미지 저장 후 저장 결과 반환 - BOTTOM
+    //    이미지 저장 후 저장 결과 반환 - BOTTOM
     public List<ProductFileDTO> saveBottomImages(ProductInsertDTO productInsertDTO) {
         List<MultipartFile> bottomFiles = productInsertDTO.getBottomFiles();
 
@@ -82,6 +81,7 @@ public class ImageUtil {
             try {
                 ProductFileDTO productFileDTO = saveImage(file);
                 productFileDTO.setPrfType(ProductFileType.BOTTOM);
+                productFileDTO.setPrfStatus(false);
 
                 productFiles.add(productFileDTO);
             } catch (IllegalArgumentException e) {

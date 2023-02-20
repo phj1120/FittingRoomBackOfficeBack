@@ -4,6 +4,20 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.plateer.fittingroombo.product.mapper.ProductMapper">
 
+    <select id="getProductFileList" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
+        SELECT
+            prf_no,
+            prf_name,
+            prf_uuid,
+            prf_type,
+            prf_status,
+            pr_no
+        FROM
+            tbl_product_file
+        WHERE
+            pr_no = #{prNo}
+    </select>
+
     <select id="selectFiles" resultType="org.plateer.fittingroombo.product.dto.ProductFileDTO">
         SELECT
             prf_no,
@@ -182,6 +196,14 @@
     </update>
 
     <!--파일 추가-->
+    <insert id="insertProductFiles">
+        INSERT INTO tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
+        VALUES
+        <foreach collection="productFileDTOList" item="productFileDTO"  separator=",">
+            (#{productFileDTO.prfName}, #{productFileDTO.prfUuid}, #{productFileDTO.prfType}, #{productFileDTO.prfStatus}, #{productFileDTO.prNo})
+        </foreach>
+    </insert>
+
     <insert id="insertProductTopFile">
         <!--   TODO select key 로 최근 insert 된 아이디를 가져와 상품 번호에 넣어주는 것 아니라, java 에서 상품 번호 넣어주는 방향으로 수정 할 것      -->
         <selectKey keyProperty="prNo" resultType="long" order="AFTER">

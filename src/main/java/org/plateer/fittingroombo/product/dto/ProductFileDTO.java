@@ -15,11 +15,18 @@ public class ProductFileDTO {
     private String prfName;
     private String prfUuid;
     private ProductFileType prfType;
-    private Boolean prfStatus; // Y: 활성 /. N: 비활성
+    private Boolean prfStatus; // Y: 대표 이미지 / N: 일반 이미지
     private Long prNo;
 
     public ProductFileDTO(String prfName, String prfUuid) {
         this.prfName = prfName;
         this.prfUuid = prfUuid;
+    }
+
+    public ProductFileDTO(String prfName, String prfUuid, ProductFileType prfType, Long prNo) {
+        this.prfName = prfName;
+        this.prfUuid = prfUuid;
+        this.prfType = prfType;
+        this.prNo = prNo;
     }
 }

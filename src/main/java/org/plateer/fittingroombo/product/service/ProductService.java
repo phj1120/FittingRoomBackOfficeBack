@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 상품 관리 Service
@@ -26,22 +27,23 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public ProductDTO getProduct(Long prNo) {
-        // TODO 상품 없을 때, NULL 예외 처리
+        // 상품 조회
         ProductDTO productDTO = productMapper.getProduct(prNo);
+        if (Objects.isNull(productDTO)) {
+            throw new IllegalArgumentException("존재하지 않는 상품");
+        }
 
-        List<ProductFileDTO> productTopFiles = productMapper.selectFiles(ProductFileType.TOP, prNo);
-        productDTO.setTopFiles(productTopFiles);
+        // 파일 조회
+        List<ProductFileDTO> productFileList = productMapper.getProductFileList(prNo);
+        productDTO.setFiles(productFileList);
 
-        List<ProductFileDTO> productBottomFiles = productMapper.selectFiles(ProductFileType.BOTTOM, prNo);
-        productDTO.setBottomFiles(productBottomFiles);
-
+        // 판매 상품 조회
         List<SellProductDTO> sellProductList = productMapper.getSellProductList(prNo);
         productDTO.setOptions(sellProductList);
 
         return productDTO;
     }
 
-    // TODO 페이징 결과 추가
     public PageResultDTO<ProductDTO> getProductList(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO) {
         List<ProductDTO> productList = productMapper.getProductList(seNo, productPageSearchRequestDTO);
         int total = productMapper.getProductListCount(seNo, productPageSearchRequestDTO);
@@ -61,38 +63,28 @@ public class ProductService {
         productMapper.insertProduct(productDTO);
 
         // images 추가
-        // TOP
-        productDTO.getTopFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductTopFile(productFileDTO);
-        });
-        // BOTTOM
-        productDTO.getBottomFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductBottomFile(productFileDTO);
-        });
-
-        return productDTO.getPrNo();
+        Long prNo = productDTO.getPrNo();
+        if (productDTO.getBottomFiles().isEmpty() && productDTO.getTopFiles().isEmpty()) {
+            return prNo;
+        }
+        productMapper.insertProductFiles(productDTO.getFilesAfterSetPrNo(prNo));
+        return prNo;
     }
 
     /**
      * 상품 수정
      **/
     public Long updateProduct(ProductDTO productDTO) {
-        // 새로운 파일 추가
-        productDTO.getTopFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductTopFile(productFileDTO);
-        }); // TOP
-        productDTO.getBottomFiles().stream().forEach(productFileDTO -> {
-            productFileDTO.setPrNo(productDTO.getPrNo());
-            productMapper.insertProductBottomFile(productFileDTO);
-        }); // BOTTOM
-
         // product 수정
         productMapper.updateProduct(productDTO);
 
-        return productDTO.getPrNo();
+        // images 추가
+        Long prNo = productDTO.getPrNo();
+        if (productDTO.getBottomFiles().isEmpty() && productDTO.getTopFiles().isEmpty()) {
+            return prNo;
+        }
+        productMapper.insertProductFiles(productDTO.getFilesAfterSetPrNo(prNo));
+        return prNo;
     }
 
 
