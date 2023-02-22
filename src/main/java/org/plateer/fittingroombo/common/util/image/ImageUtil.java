@@ -2,6 +2,8 @@ package org.plateer.fittingroombo.common.util.image;
 
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnails;
+import org.plateer.fittingroombo.place.dto.PlaceFileDTO;
+import org.plateer.fittingroombo.place.dto.PlaceRegisterDTO;
 import org.plateer.fittingroombo.product.dto.ProductDTO;
 import org.plateer.fittingroombo.product.dto.ProductFileDTO;
 import org.plateer.fittingroombo.product.dto.ProductInsertDTO;
@@ -42,6 +44,30 @@ public class ImageUtil {
         } catch (NullPointerException npe) {
             throw new IllegalArgumentException("[존재하지 않는 파일]: " + imagePath);
         }
+    }
+
+    // 이미지 저장 후 저장 결과 반환 - Room
+    public List<PlaceFileDTO> saveRoomImages(PlaceRegisterDTO placeRegisterDTO) {
+        List<MultipartFile> files = placeRegisterDTO.getImages();
+        Integer thumbnail = placeRegisterDTO.getThumbnail();
+
+        initFolder();   // 폴더가 없다면 생성
+
+        List<PlaceFileDTO> placeFiles = new ArrayList<>();
+        for (int i = 0; i < files.size(); i++) {
+            MultipartFile file = files.get(i);
+            try {
+                PlaceFileDTO placeFileDTO = savePlaceImage(file);
+
+                // 대표 이미지 여부
+                placeFileDTO.setRfThumbnail( i == thumbnail );
+                placeFiles.add(placeFileDTO);
+            } catch (IllegalArgumentException e) {
+                log.info("error");
+            }
+        }
+
+        return placeFiles;
     }
 
     // 이미지 저장 후 저장 결과 반환 - TOP
@@ -90,6 +116,33 @@ public class ImageUtil {
         }
 
         return productFiles;
+    }
+
+    // 이미지 저장 후 저장 된 이름 반환
+    private PlaceFileDTO savePlaceImage(MultipartFile file) {
+        validImage(file);   // 이미지 파일이 아니면 에러처리
+
+        // UUID 생성
+        String uuid = generateStoredName(file);
+        log.info("uuid : " + uuid);
+
+        try {
+            String imagePath = basePath + "/" + uuid;
+
+            FileSystemResource resource = new FileSystemResource(imagePath);
+            resource.getOutputStream().write(file.getBytes());
+
+            // 썸네일 사이즈 조절 및 생성
+            Thumbnails.of(new File(imagePath))
+                    .forceSize(160, 160)
+                    .toFile(new File(basePath + "/s_" + uuid));
+
+            log.info("[Save] : {} -> {}", file.getOriginalFilename(), uuid);
+
+            return new PlaceFileDTO(file.getOriginalFilename(), uuid);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("파일 저장 실패");
+        }
     }
 
     // 이미지 저장 후 저장 된 이름 반환

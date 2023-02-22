@@ -8,6 +8,7 @@
     <typeAliases>
         <typeAlias alias="PlaceDTO" type="org.plateer.fittingroombo.place.dto.PlaceDTO"/>
         <typeAlias alias="PlaceRoomDTO" type="org.plateer.fittingroombo.place.dto.PlaceRoomDTO"/>
+        <typeAlias alias="PlaceRegisterDTO" type="org.plateer.fittingroombo.place.dto.PlaceRegisterDTO"/>
         <typeAlias alias="RoomDTO" type="org.plateer.fittingroombo.room.dto.RoomDTO"/>
         <typeAlias alias="SellerDTO" type="org.plateer.fittingroombo.seller.dto.SellerDTO"/>
         <typeAlias alias="SellerRequestDTO" type="org.plateer.fittingroombo.seller.dto.SellerRequestDTO"/>

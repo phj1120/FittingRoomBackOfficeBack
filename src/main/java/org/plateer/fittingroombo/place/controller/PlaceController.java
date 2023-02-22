@@ -6,7 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import org.plateer.fittingroombo.common.dto.ResultDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.security.dto.CustomUserDetail;
+import org.plateer.fittingroombo.common.util.image.ImageUtil;
 import org.plateer.fittingroombo.place.dto.PlaceDTO;
+import org.plateer.fittingroombo.place.dto.PlaceFileDTO;
+import org.plateer.fittingroombo.place.dto.PlaceRegisterDTO;
 import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
 import org.plateer.fittingroombo.place.service.PlaceService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +25,9 @@ import java.util.List;
 @RequestMapping("api/place")
 public class PlaceController {
     private final PlaceService placeService;
-    
+    private final ImageUtil imageUtil;
+
+
     // 영업중인 장소 리스트
     @PreAuthorize("hasRole('PLACE')")
     @GetMapping("list")
@@ -45,8 +50,13 @@ public class PlaceController {
     }
 
     // 장소제공자 회원가입
-    @PostMapping
-    public ResultDTO<Long> insertPlace(@RequestBody PlaceDTO placeDTO) {
-        return ResultDTO.<Long>builder().data(1L).build();
+    @PostMapping("register")
+    public ResultDTO<Long> insertPlace(PlaceRegisterDTO placeRegisterDTO) {
+        List<PlaceFileDTO> placeFileDTOList = imageUtil.saveRoomImages(placeRegisterDTO);
+        placeRegisterDTO.setRoomImages(placeFileDTOList);
+
+        Long pmNo = placeService.insertPlace(placeRegisterDTO);
+
+        return ResultDTO.<Long>builder().data(pmNo).build();
     }
 }
