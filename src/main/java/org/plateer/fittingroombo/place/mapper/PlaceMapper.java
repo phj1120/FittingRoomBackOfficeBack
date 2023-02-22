@@ -3,6 +3,8 @@ package org.plateer.fittingroombo.place.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.plateer.fittingroombo.place.dto.PlaceDTO;
+import org.plateer.fittingroombo.place.dto.PlaceFileDTO;
+import org.plateer.fittingroombo.place.dto.PlaceRegisterDTO;
 import org.plateer.fittingroombo.place.dto.PlaceRoomDTO;
 import org.plateer.fittingroombo.room.dto.RoomDTO;
 import org.plateer.fittingroombo.room.dto.RoomPageRequestDTO;
@@ -22,7 +24,7 @@ public interface PlaceMapper {
     PlaceDTO getPlaceById( String memberId );
 
     // 장소제공자 회원가입
-    void insertPlace( PlaceDTO placeDTO );
+    void insertPlace(PlaceRegisterDTO placeRegisterDTO);
 
     // 장소제공자 정보 수정
     void updatePlaceInfo( PlaceDTO placeDTO );
@@ -36,4 +38,6 @@ public interface PlaceMapper {
 
     // 장소제공자를 통한 특정 ROOM 정보 ( 탈퇴 아닌 경우 )
     PlaceRoomDTO getPlaceRoom( Long pmNo );
+
+    void insertPlaceFile(List<PlaceFileDTO> placeFileDTOList, Long roNo);
 }

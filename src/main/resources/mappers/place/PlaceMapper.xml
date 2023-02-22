@@ -29,7 +29,7 @@
             tbl_place_member tpm
         WHERE
                 pm_id = #{ memberId }
-            AND pm_status != '탈퇴'
+            AND pm_status NOT IN ('탈퇴', '대기')
     </select>
 
     <update id="updatePlaceInfo">
@@ -93,8 +93,20 @@
             AND tpm.pm_status != '탈퇴'
     </select>
 
-    <insert id="insertPlace" useGeneratedKeys="true">
+    <insert id="insertPlace">
         insert into tbl_place_member (pm_name, pm_birth, pm_id, pm_password, pm_email, pm_phone, pm_status, pm_create_dt, ro_no)
-        values(#{pmName}, #{pmBirth}, #{pmId}, #{pmPassword}, #{pmEmail}, #{pmPhone}, #{pmStatus}, #{pmCreateDt}, #{rNo})
+        values(#{pmName}, #{pmBirth}, #{pmId}, #{pmPassword}, #{pmEmail}, #{pmPhone}, #{pmStatus}, now(), #{roNo})
+
+        <selectKey keyProperty="pmNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertPlaceFile">
+        INSERT INTO tbl_place_file (rf_name, rf_uuid, rf_thumbnail, ro_no)
+        VALUES
+        <foreach collection="placeFileDTOList" item="placeFileDTO"  separator=",">
+            (#{ placeFileDTO.rfName }, #{ placeFileDTO.rfUuid }, #{ placeFileDTO.rfThumbnail }, #{ roNo })
+        </foreach>
     </insert>
 </mapper>
