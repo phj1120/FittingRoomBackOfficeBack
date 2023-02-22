@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -38,4 +41,9 @@ public class PlaceRegisterDTO {
     private LocalDateTime pmCreateDt;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime pmModifyDt;
+
+    // 장소 사진
+    private List<MultipartFile> images = new ArrayList<>(); // 이미지 파일
+    private List<PlaceFileDTO> roomImages = new ArrayList<>(); // 이미지
+    private Integer thumbnail; // 대표사진
 }

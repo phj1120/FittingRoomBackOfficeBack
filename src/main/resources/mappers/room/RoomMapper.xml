@@ -5,7 +5,7 @@
 <mapper namespace="org.plateer.fittingroombo.room.mapper.RoomMapper">
     <insert id="insertRoom">
         insert into tbl_room (ro_name, ro_address, ro_detail_address, ro_postcode, ro_create_dt)
-        values(#{roName}, #{roAddress}, #{roDetailAddress}, #{roPostcode}, #{roCreateDt})
+        values(#{roName}, #{roAddress}, #{roDetailAddress}, #{roPostcode}, now())
 
         <selectKey resultType="Long" keyProperty="roNo" order="AFTER">
             SELECT LAST_INSERT_ID()
