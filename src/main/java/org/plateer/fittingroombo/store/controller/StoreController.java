@@ -67,12 +67,8 @@ public class StoreController {
     @PostMapping("/request")
     public ResultDTO<Long> insertRequestHistorySeller(@AuthenticationPrincipal CustomUserDetail user
                                                       ,@RequestBody RequestHistoryDTO requestHistoryDTO) {
-        log.info("=============================================");
-        log.info("=============================================");
-        log.info("=============================================");
 
         requestHistoryDTO.setSeNo(user.getUserNo());
-        log.info(requestHistoryDTO);
         return ResultDTO.<Long>builder()
                 .data(storeService.insertRequestHistorySeller(requestHistoryDTO)).build();
     }

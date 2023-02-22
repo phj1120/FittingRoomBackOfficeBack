@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.order.mapper.OrderMapper">
+
+
+    <insert id="insertModifyReservation">
+        insert into tbl_order (or_status,or_create_dt,ca_no)
+        select
+        '변경' as or_status,
+        now() as or_create,
+        a.ca_no
+        from  tbl_order a, tbl_reservation b
+        where
+        b.re_no = #{reNo}
+        AND a.or_no = b.or_no
+    </insert>
+
+</mapper>
