@@ -13,5 +13,13 @@
         <typeAlias alias="SellerRequestDTO" type="org.plateer.fittingroombo.seller.dto.SellerRequestDTO"/>
         <typeAlias alias="SellerProfileDTO" type="org.plateer.fittingroombo.seller.dto.SellerProfileDTO"/>
         <typeAlias alias="RequestHistoryDTO" type="org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO"/>
+
+        <typeAlias alias="ReservationDTO" type="org.plateer.fittingroombo.reservation.dto.ReservationDTO"/>
+        <typeAlias alias="GetReservationListDTO" type="org.plateer.fittingroombo.reservation.dto.GetReservationListDTO"/>
+        <typeAlias alias="GetReservationItemListDTO" type="org.plateer.fittingroombo.reservation.dto.GetReservationItemListDTO"/>
+        <typeAlias alias="CartDTO" type="org.plateer.fittingroombo.cart.dto.CartDTO"/>
+        <typeAlias alias="CartProductDTO" type="org.plateer.fittingroombo.cart.dto.CartProductDTO"/>
+        <typeAlias alias="CartProductListDTO" type="org.plateer.fittingroombo.cart.dto.CartProductListDTO"/>
+
     </typeAliases>
 </configuration>
