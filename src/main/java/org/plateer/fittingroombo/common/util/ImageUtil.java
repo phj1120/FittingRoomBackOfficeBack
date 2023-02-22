@@ -88,7 +88,7 @@ public class ImageUtil {
 
             Thumbnails.of(new File(imagePath))
                     .forceSize(160, 160)
-                    .toFile(new File(basePath + "/s_" + storedName));
+                    .toFile(new File(basePath + "/" + storedName));
 
             log.info("[Save] : {} -> {}", file.getOriginalFilename(), storedName);
 
