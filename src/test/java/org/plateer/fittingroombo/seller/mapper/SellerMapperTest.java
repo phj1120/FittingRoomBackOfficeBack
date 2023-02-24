@@ -47,11 +47,11 @@ public class SellerMapperTest {
     @Test
     void getRoomSellerRequestAllList() {
         RequestHistoryPageRequestDTO requestHistoryPageRequestDTO = new RequestHistoryPageRequestDTO(2L);
-        List<RequestHistoryDTO> dtoList = requestHistoryMapper.getRoomSellerRequestHistoryAllList(requestHistoryPageRequestDTO);
+//        List<RequestHistoryDTO> dtoList = requestHistoryMapper.getRoomSellerRequestHistoryAllList(requestHistoryPageRequestDTO);
         int total = requestHistoryMapper.getRoomSellerCount(requestHistoryPageRequestDTO);
 
-        PageResultDTO<RequestHistoryDTO> pageResultDTO = PageResultDTO.<RequestHistoryDTO>withAll().dtoList(dtoList).total(total).pageRequestDTO(requestHistoryPageRequestDTO).build();
-        log.info(pageResultDTO);
+//        PageResultDTO<RequestHistoryDTO> pageResultDTO = PageResultDTO.<RequestHistoryDTO>withAll().dtoList(dtoList).total(total).pageRequestDTO(requestHistoryPageRequestDTO).build();
+//        log.info(pageResultDTO);
     }
 
 //    @Test

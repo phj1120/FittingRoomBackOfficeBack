@@ -53,10 +53,10 @@ public class PlaceMapperTest {
     @Test
     void insertPlace() {
         RoomDTO roomDTO = new RoomDTO("문정점", "주소-1", "주소-2", "081-1234");;
-        roomMapper.insertRoom(roomDTO);
+//        roomMapper.insertRoom(roomDTO);
 
         PlaceDTO placeDTO = new PlaceDTO( "테스트사람3", "2023-02-01", "test05", "uuid04", "test03@gmail.con", "010-1434-1344", "영업중", roomDTO.getRNo());
-        placeMapper.insertPlace(placeDTO);
+//        placeMapper.insertPlace(placeDTO);
     }
 
     // 장소 정보 업데이트

@@ -44,6 +44,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     // JWT
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // selenium-java
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.8.1'
 }
 
 tasks.named('test') {
