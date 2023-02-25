@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.reservation.mapper.ReservationMapper">
+
+
+    <insert id="insertTest">
+        insert into tbl_reservation (re_modify_dt, re_dt, re_price, re_status,re_create_dt,or_no)
+        values(null, #{reDt}, #{rePrice},#{reStatus} , now(), #{orNo})
+
+    </insert>
+
+    <select id="getReservationList" resultType="GetReservationListDTO">
+        SELECT f.re_no AS re_no, f.re_dt AS re_dt,  (SELECT co_name FROM tbl_consumer WHERE co_no = d.co_no) AS co_name
+        ,e.or_status AS or_status , d.ca_no AS ca_no
+        FROM tbl_product a , tbl_sell_product b, tbl_cart_product c, tbl_cart d, tbl_order e, tbl_reservation f
+        WHERE a.se_no =#{id}
+        AND a.pr_no = b.pr_no
+        and c.sp_no = b.sp_no
+        AND d.ca_no = c.ca_no
+        AND d.ca_no = e.ca_no
+        AND e.ca_no NOT IN (SELECT ca_no FROM tbl_order WHERE or_status = '거절')
+        AND e.or_no = f.or_no
+        GROUP BY c.ca_no
+        order by f.re_dt desc
+        limit #{skip}, #{size}
+    </select>
+
+    <select id="getReservationCount" resultType="int">
+        SELECT COUNT(*)
+        FROM(
+        SELECT  e.ca_no
+        FROM tbl_product a , tbl_sell_product b, tbl_cart_product c, tbl_cart d, tbl_order e, tbl_reservation f
+        WHERE a.se_no =13
+        AND a.pr_no = b.pr_no
+        and c.sp_no = b.sp_no
+        AND d.ca_no = c.ca_no
+        AND d.ca_no = e.ca_no
+        AND e.ca_no NOT IN (SELECT ca_no FROM tbl_order WHERE or_status = '거절')
+        AND e.or_no = f.or_no
+        GROUP BY e.ca_no
+        ) A
+    </select>
+    <update id="modifyCartProductStatus">
+        update
+            tbl_cart_product
+        <set>
+            cp_status = true
+        </set>
+        where cp_no = #{cpNo}
+    </update>
+
+    <update id="modifyReservationStatus">
+        update
+        tbl_reservation
+        <set>
+            re_status = '대기'
+        </set>
+        where re_no = #{reNo}
+    </update>
+</mapper>

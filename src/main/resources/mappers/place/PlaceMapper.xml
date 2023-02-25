@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.place.mapper.PlaceMapper">
+    <select id="getPlaceList" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
+        SELECT
+            *
+        FROM
+            tbl_place_member tpm
+        WHERE
+            pm_status != '탈퇴'
+    </select>
+
+    <select id="getPlace" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
+        SELECT
+            *
+        FROM
+            tbl_place_member tpm
+        WHERE
+                pm_no = #{ pmNo }
+            AND pm_status != '탈퇴'
+    </select>
+
+    <select id="getPlaceById" resultType="org.plateer.fittingroombo.place.dto.PlaceDTO">
+        SELECT
+            *
+        FROM
+            tbl_place_member tpm
+        WHERE
+                pm_id = #{ memberId }
+            AND pm_status NOT IN ('탈퇴', '대기')
+    </select>
+
+    <update id="updatePlaceInfo">
+        UPDATE
+            tbl_place_member
+        SET
+            pm_password = #{ pmPassword },
+            pm_email = #{ pmEmail },
+            pm_phone = #{ pmPhone },
+            pm_modify_dt = #{ pmModifyDt }
+        WHERE
+            pm_no = #{ pmNo }
+    </update>
+
+    <update id="updatePlaceStatus">
+        UPDATE
+            tbl_place_member
+        SET
+            pm_status = #{ pmStatus },
+            pm_modify_dt = #{ pmModifyDt }
+        WHERE
+            pm_no = #{ pmNo }
+    </update>
+
+    <select id="getPlaceRoomList" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
+        SELECT
+            tr.ro_no,
+            tr.ro_name,
+            tr.ro_address,
+            tr.ro_detail_address,
+            tr.ro_postcode,
+            tr.ro_create_dt,
+            tpm.pm_name,
+            tpm.pm_status,
+            tpm.pm_phone,
+            tpm.pm_no
+        FROM
+            tbl_place_member tpm
+            LEFT JOIN tbl_room tr on tpm.ro_no = tr.ro_no
+        WHERE
+            pm_status != '탈퇴'
+    </select>
+
+    <select id="getPlaceRoom" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
+        SELECT
+            tr.ro_no,
+            tr.ro_name,
+            tr.ro_address,
+            tr.ro_detail_address,
+            tr.ro_postcode,
+            tr.ro_create_dt,
+            tpm.pm_name,
+            tpm.pm_status,
+            tpm.pm_phone,
+            tpm.pm_no
+        FROM
+            tbl_place_member tpm
+            LEFT JOIN tbl_room tr on tpm.ro_no = tr.ro_no
+        WHERE
+                tpm.pm_no = #{ pmNo }
+            AND tpm.pm_status != '탈퇴'
+    </select>
+
+    <insert id="insertPlace">
+        insert into tbl_place_member (pm_name, pm_birth, pm_id, pm_password, pm_email, pm_phone, pm_status, pm_create_dt, ro_no)
+        values(#{pmName}, #{pmBirth}, #{pmId}, #{pmPassword}, #{pmEmail}, #{pmPhone}, #{pmStatus}, now(), #{roNo})
+
+        <selectKey keyProperty="pmNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertPlaceFile">
+        INSERT INTO tbl_place_file (rf_name, rf_uuid, rf_thumbnail, ro_no)
+        VALUES
+        <foreach collection="placeFileDTOList" item="placeFileDTO"  separator=",">
+            (#{ placeFileDTO.rfName }, #{ placeFileDTO.rfUuid }, #{ placeFileDTO.rfThumbnail }, #{ roNo })
+        </foreach>
+    </insert>
+</mapper>

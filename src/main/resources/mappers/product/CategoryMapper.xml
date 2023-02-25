@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.product.mapper.CategoryMapper">
+
+    <select id="getProductCategory"
+            resultType="org.plateer.fittingroombo.product.dto.ProductCategoryDTO">
+        SELECT *
+        FROM tbl_product_category tpc
+        <choose>
+            <when test="prcNo==null">
+                where tpc.prc_no_p is null
+            </when>
+            <otherwise>
+                WHERE tpc.prc_no = #{prcNo};
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insertProductCategory"
+            useGeneratedKeys="true"
+            keyProperty="prcNo">
+        insert into tbl_product_category(prc_name, prc_depth, prc_position, prc_create_dt,prc_no_p)
+        values(#{prcName}, #{prcDepth}, #{prcPosition}, #{prcCreateDt}, #{prcNoP})
+    </insert>
+</mapper>

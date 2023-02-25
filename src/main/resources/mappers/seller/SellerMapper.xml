@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plateer.fittingroombo.seller.mapper.SellerMapper">
+          <!--
+
+    <insert id="insertSeller" keyProperty="seNo" useGeneratedKeys="true">
+        <selectKey keyProperty="seNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tbl_seller
+        (se_name, se_manager, se_id, se_password,se_email,se_phone,se_address,se_status, se_create_dt, pm_no)
+        values
+        (#{seName},#{seManager},#{seId},#{sePassword},#{seEmail},#{sePhone},#{seAddress},#{seStatus},#{seCreateDt},#{pmNo})
+    </insert>
+    
+    -->
+
+    <insert id="insertSellerFile" keyProperty="sfNo" useGeneratedKeys="true">
+        insert into tbl_seller_file
+        (sf_name, sf_uuid, se_no)
+        values
+        (#{sfName},#{sfUuid},#{seNo})
+    </insert>
+
+    <sql id="search">
+        AND
+        <foreach item="item" collection="type" open="(" close=")" separator="OR">
+            <if test="item.name() == 'STORE'">
+                se_name LIKE CONCAT('%', #{ keyword }, '%')
+            </if>
+            <if test="item.name() == 'MANAGER'">
+                se_manager LIKE CONCAT('%', #{ keyword }, '%')
+            </if>
+        </foreach>
+    </sql>
+
+    <sql id="status">
+        AND
+        <foreach item="item" collection="status" open="(" close=")" separator="OR">
+            <if test="item.name() == 'ALL'">
+                    se_status LIKE CONCAT('%영업%')
+                OR  se_status LIKE CONCAT('%휴업%')
+            </if>
+            <if test="item.name() == 'RUNNING'">
+                se_status LIKE CONCAT('%영업%')
+            </if>
+            <if test="item.name() == 'STOP'">
+                se_status LIKE CONCAT('%휴업%')
+            </if>
+        </foreach>
+    </sql>
+
+    <select id="getCount" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            tbl_seller ts
+        WHERE
+                pm_no = #{ id }
+            AND se_status NOT IN ('탈퇴', '대기', '거부')
+            <if test="type != null and keyword != null">
+                <include refid="search"></include>
+            </if>
+            <if test="status != null">
+                <include refid="status"></include>
+            </if>
+    </select>
+
+    <select id="getStatusTypeList" resultType="SellerDTO">
+        SELECT
+            se_status
+        FROM
+            tbl_seller
+        WHERE
+            se_status IS NOT NULL
+        GROUP BY
+            se_status
+    </select>
+
+    <select id="getPlaceSellerList" resultType="SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+                pm_no = #{ id }
+            AND se_status NOT IN ('탈퇴', '대기', '거부')
+            <if test="type != null and keyword != null">
+                <include refid="search"></include>
+            </if>
+            <if test="status != null">
+                <include refid="status"></include>
+            </if>
+        ORDER BY
+            SE_NO DESC
+        LIMIT
+            #{skip}, #{size}
+    </select>
+
+    <select id="getSeller" resultType="SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+            se_no = #{ seNo }
+    </select>
+
+    <select id="getProfileSeller" resultType="SellerProfileDTO">
+        SELECT
+        ts.*,
+        tr.ro_name
+        FROM
+        tbl_seller ts , tbl_room tr
+        WHERE
+        ts.se_no= #{seNo}
+        AND tr.ro_no = ts.pm_no
+    </select>
+
+    <update id="modifyProfileSeller">
+        update tbl_seller
+        <set>
+            se_name = #{seName},
+            se_manager = #{seManager},
+            se_password = #{sePassword},
+            se_email = #{seEmail},
+            se_phone = #{sePhone},
+            se_address = #{seAddress}
+        </set>
+        where se_no = #{seNo}
+    </update>
+
+    <insert id="insertSeller">
+        insert into tbl_seller (se_name, se_manager, se_id, se_password, se_email, se_phone, se_address, se_status, pm_no, se_create_dt)
+        values(#{ seName }, #{ seManager }, #{ seId }, #{ sePassword }, #{ seEmail }, #{ sePhone }, #{ seAddress }, #{ seStatus }, #{ pmNo }, now())
+
+        <selectKey keyProperty="seNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getSellerById" resultType="SellerDTO">
+        SELECT
+            *
+        FROM
+            tbl_seller ts
+        WHERE
+            se_id = #{ memberId }
+    </select>
+
+
+
+    <update id="updateSellerStatus">
+        UPDATE
+            tbl_seller ts
+        SET
+            <if test="rhStatus == '승인'">
+                se_status = '영업'
+            </if>
+            <if test="rhStatus == '거절'">
+                se_status = '거부'
+            </if>
+            <if test="rhStatus == '대기'">
+                se_status = '대기'
+            </if>
+            <if test="rhStatus == '탈퇴'">
+                se_status = '탈퇴'
+            </if>
+        WHERE
+            se_no = #{ seNo }
+    </update>
+
+
+</mapper>
