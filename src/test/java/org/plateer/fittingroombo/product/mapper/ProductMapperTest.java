@@ -1,11 +1,11 @@
 package org.plateer.fittingroombo.product.mapper;
 
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
-import org.plateer.fittingroombo.product.dto.ProductDTO;
-import org.plateer.fittingroombo.product.dto.ProductFileDTO;
-import org.plateer.fittingroombo.product.dto.ProductPageSearchRequestDTO;
-import org.plateer.fittingroombo.product.dto.SellProductDTO;
+import org.plateer.fittingroombo.common.util.crawling.Crawling;
+import org.plateer.fittingroombo.product.dto.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 import org.plateer.fittingroombo.product.dto.enums.ProductSearchType;
 import org.plateer.fittingroombo.product.dto.enums.ProductStatus;
@@ -29,10 +29,14 @@ import java.util.stream.IntStream;
  **/
 @SpringBootTest
 @Transactional
+@Log4j2
 class ProductMapperTest {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    Crawling crawling;
 
     @Test
     void getProduct() {
@@ -51,22 +55,31 @@ class ProductMapperTest {
     }
 
     @Test
-    @Rollback
-    void insertProduct() {
-        ProductDTO productDTO = ProductDTO.builder()
-                .prName("오바사이즈 맨투맨 블루")
-                .prBrand("드로우핏")
-                .prPrice(50000L)
-                .prcNo(1L) // 카테고리 번호
-                .seNo(1L) // 판매자 번호
-                .build();
+    @Rollback(false)
+    void insertProduct() throws Exception {
+        int[] seNo = {213, 233, 247, 258, 283, 287, 290, 298};
+        List<ProductCrawlingDTO> dtoList = crawling.crawlingProduct();
 
-        productMapper.insertProduct(productDTO);
-        System.out.println(productDTO);
+        dtoList.forEach(product -> {
+            product.setPrStatus("ACTIVE");
+            product.setSeNo(new Long(seNo[(int)(Math.random() * 8)]));
+
+            productMapper.insertCrawlingProduct(product);
+
+            String[] fileName = product.getPrFileName().split("_");
+            ProductFileDTO productFileDTO = ProductFileDTO.builder()
+                    .prfName(fileName[0])
+                    .prfUuid(fileName[1])
+                    .prfType(ProductFileType.TOP)
+                    .prfStatus(true)
+                    .prNo(product.getPrNo())
+                    .build();
+
+            productMapper.insertCrowlingProductFile(productFileDTO);
+        });
     }
 
     @Test
-    @Rollback
     void deleteProduct() {
         Long prNo = 19L;
         ProductStatus prStatus = ProductStatus.ACTIVE;
@@ -169,5 +182,12 @@ class ProductMapperTest {
         List<ProductFileDTO> productFileList = productMapper.getProductFileList(67L);
 
         System.out.println(productFileList);
+    }
+
+    @Test
+    void getProductFileUUID() {
+        IntStream.rangeClosed(1, 7).forEach(i -> {
+            System.out.println(UUID.randomUUID());
+        });
     }
 }
