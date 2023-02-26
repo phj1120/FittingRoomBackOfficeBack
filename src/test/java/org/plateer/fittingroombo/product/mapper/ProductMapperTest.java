@@ -186,7 +186,7 @@ class ProductMapperTest {
 
     @Test
     void getProductFileUUID() {
-        IntStream.rangeClosed(1, 7).forEach(i -> {
+        IntStream.rangeClosed(1, 9).forEach(i -> {
             System.out.println(UUID.randomUUID());
         });
     }
