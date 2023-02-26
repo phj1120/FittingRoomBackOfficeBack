@@ -11,7 +11,7 @@
         WHERE a.se_no = #{seNo}
         AND a.pr_no = b.pr_no
         AND b.sp_no = c.sp_no
-        AND c.ca_no = #{caNo};
+        AND c.ca_no = #{caNo}
     </select>
 
 </mapper>

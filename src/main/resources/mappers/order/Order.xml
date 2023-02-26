@@ -6,9 +6,12 @@
 
 
     <insert id="insertModifyReservation">
+        <selectKey keyProperty="orNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         insert into tbl_order (or_status,or_create_dt,ca_no)
         select
-        '변경' as or_status,
+        '대기' as or_status,
         now() as or_create,
         a.ca_no
         from  tbl_order a, tbl_reservation b

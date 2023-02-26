@@ -13,14 +13,14 @@
 
     <select id="getReservationList" resultType="GetReservationListDTO">
         SELECT f.re_no AS re_no, f.re_dt AS re_dt,  (SELECT co_name FROM tbl_consumer WHERE co_no = d.co_no) AS co_name
-        ,e.or_status AS or_status , d.ca_no AS ca_no
+        ,e.or_status AS or_status , d.ca_no AS ca_no, e.or_no AS or_no
         FROM tbl_product a , tbl_sell_product b, tbl_cart_product c, tbl_cart d, tbl_order e, tbl_reservation f
         WHERE a.se_no =#{id}
         AND a.pr_no = b.pr_no
         and c.sp_no = b.sp_no
         AND d.ca_no = c.ca_no
         AND d.ca_no = e.ca_no
-        AND e.ca_no NOT IN (SELECT ca_no FROM tbl_order WHERE or_status = '거절')
+        AND e.ca_no NOT IN (SELECT ca_no FROM tbl_order WHERE or_status = '예약취소')
         AND e.or_no = f.or_no
         GROUP BY c.ca_no
         order by f.re_dt desc
@@ -37,7 +37,7 @@
         and c.sp_no = b.sp_no
         AND d.ca_no = c.ca_no
         AND d.ca_no = e.ca_no
-        AND e.ca_no NOT IN (SELECT ca_no FROM tbl_order WHERE or_status = '거절')
+        AND e.ca_no NOT IN (SELECT ca_no FROM tbl_order WHERE or_status = '예약취소')
         AND e.or_no = f.or_no
         GROUP BY e.ca_no
         ) A
@@ -55,7 +55,8 @@
         update
         tbl_reservation
         <set>
-            re_status = '대기'
+            re_status = '대기',
+            or_no = #{orNo}
         </set>
         where re_no = #{reNo}
     </update>

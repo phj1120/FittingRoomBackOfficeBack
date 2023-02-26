@@ -23,4 +23,6 @@ public class GetReservationListDTO {
     private String orStatus;
     private Long caNo;
 
+    private Long orNo;
+
 }

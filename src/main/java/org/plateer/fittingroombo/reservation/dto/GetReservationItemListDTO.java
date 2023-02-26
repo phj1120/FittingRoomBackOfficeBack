@@ -18,4 +18,6 @@ public class GetReservationItemListDTO {
     private Long reNo;
 
     private Long cpNo;
+
+    private Long orNo;
 }
