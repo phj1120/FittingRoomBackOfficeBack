@@ -1,15 +1,12 @@
 package org.plateer.fittingroombo.product.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.plateer.fittingroombo.product.dto.enums.ProductFileType;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 public class ProductFileDTO {
     private Long prfNo;
     private String prfName;

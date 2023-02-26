@@ -140,8 +140,19 @@
         <selectKey keyProperty="prNo" resultType="long" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
+
         INSERT INTO tbl_product(pr_brand, pr_name, pr_price, prc_no, se_no, pr_create_dt, pr_status)
         VALUES (#{prBrand}, #{prName}, #{prPrice}, #{prcNo}, #{seNo}, #{prCreateDt}, #{prStatus})
+    </insert>
+
+    <!--상품 추가 쿼리 ( Crawling ) -->
+    <insert id="insertCrawlingProduct">
+        INSERT INTO tbl_product(pr_brand, pr_name, pr_price, se_no, pr_create_dt, pr_status)
+        VALUES (#{prBrand}, #{prName}, #{prPrice}, #{seNo}, now(), #{prStatus})
+
+        <selectKey keyProperty="prNo" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <!--상품 수정-->
@@ -202,6 +213,12 @@
         <foreach collection="productFileDTOList" item="productFileDTO"  separator=",">
             (#{productFileDTO.prfName}, #{productFileDTO.prfUuid}, #{productFileDTO.prfType}, #{productFileDTO.prfStatus}, #{productFileDTO.prNo})
         </foreach>
+    </insert>
+
+    <!--파일 추가  (Crawling)-->
+    <insert id="insertCrowlingProductFile">
+        INSERT INTO tbl_product_file (prf_name, prf_uuid, prf_type, prf_status, pr_no)
+        VALUE (#{prfName}, #{prfUuid}, #{prfType}, #{prfStatus}, #{prNo})
     </insert>
 
     <insert id="insertProductTopFile">

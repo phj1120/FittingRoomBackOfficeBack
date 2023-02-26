@@ -16,6 +16,8 @@ public interface ProductMapper {
     // 상품
     int insertProduct(ProductDTO productDTO);
 
+    int insertCrawlingProduct(ProductCrawlingDTO productCrawlingDTO);
+
     ProductDTO getProduct(Long prNo);
 
     List<ProductDTO> getProductList(Long seNo, ProductPageSearchRequestDTO productPageSearchRequestDTO); // 판매자 번호
@@ -41,6 +43,9 @@ public interface ProductMapper {
 
     // 상품 사진
     int insertProductFiles(List<ProductFileDTO> productFileDTOList);
+
+    int insertCrowlingProductFile(ProductFileDTO productFileDTO);
+
     int insertProductTopFile(ProductFileDTO productFileDTO);
 
     int insertProductBottomFile(ProductFileDTO productFileDTO);

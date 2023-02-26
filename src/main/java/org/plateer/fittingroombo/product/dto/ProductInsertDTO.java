@@ -29,6 +29,8 @@ public class ProductInsertDTO {
 
     private Long prcNo; // 카테고리 번호
 
+    private Long seNo;
+
     private Integer thumbnailIndex; // 대표사진 인덱스
 
     private List<MultipartFile> topFiles = new ArrayList<>(); // 이미지
