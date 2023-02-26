@@ -127,7 +127,7 @@ public class ImageUtil {
         log.info("uuid : " + uuid);
 
         try {
-            String imagePath = basePath + "/room/" + uuid;
+            String imagePath = basePath + "/" + uuid;
 
             FileSystemResource resource = new FileSystemResource(imagePath);
             resource.getOutputStream().write(file.getBytes());
@@ -135,7 +135,7 @@ public class ImageUtil {
             // 썸네일 사이즈 조절 및 생성
             Thumbnails.of(new File(imagePath))
                     .forceSize(160, 160)
-                    .toFile(new File(basePath + "/room/s_" + uuid));
+                    .toFile(new File(basePath + "/s_" + uuid));
 
             log.info("[Save] : {} -> {}", file.getOriginalFilename(), uuid);
 

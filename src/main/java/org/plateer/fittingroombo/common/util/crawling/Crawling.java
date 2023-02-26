@@ -34,7 +34,7 @@ public class Crawling {
 
 
     public void crawlingRoom() throws Exception {
-        roomCrawling(basePath + "/room", "https://www.shutterstock.com/ko/search/%ec%98%b7%eb%a3%b8?c3apidt=p67951739674&cr=ec&gclid=Cj0KCQiAutyfBhCMARIsAMgcRJQIF6oh4FAR0Kftt6E1kRmTtBt7jIphAxvks5TZeBWzKjn9EoNSU30aAgcgEALw_wcB&gclsrc=aw.ds&kw=%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%82%AC%EC%9D%B4%ED%8A%B8&pl=PPC_GOO_KR_IG-645111431008&image_type=photo&mreleased=false");
+        roomCrawling(basePath , "https://www.shutterstock.com/ko/search/%ec%98%b7%eb%a3%b8?c3apidt=p67951739674&cr=ec&gclid=Cj0KCQiAutyfBhCMARIsAMgcRJQIF6oh4FAR0Kftt6E1kRmTtBt7jIphAxvks5TZeBWzKjn9EoNSU30aAgcgEALw_wcB&gclsrc=aw.ds&kw=%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%82%AC%EC%9D%B4%ED%8A%B8&pl=PPC_GOO_KR_IG-645111431008&image_type=photo&mreleased=false");
     }
 
     public List<String> crawlingSeller() {
