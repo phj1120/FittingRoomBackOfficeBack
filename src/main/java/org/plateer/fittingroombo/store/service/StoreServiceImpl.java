@@ -69,9 +69,6 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public RequestHistoryDTO getRequestHistoryDetailSeller(Long rhNo) {
         RequestHistoryDTO requestHistoryDTO = requestHistoryMapper.getRequestHistoryDetailSeller(rhNo);
-        log.info("=======================================");
-        log.info("=======================================");
-        log.info(requestHistoryDTO);
         return requestHistoryDTO;
     }
 
