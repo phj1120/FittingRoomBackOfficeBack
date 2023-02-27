@@ -165,7 +165,7 @@
                 A.pm_no = #{ id }
             and A.se_no is not null
             and A.rh_status = '대기'
-            and B.se_status = '대기'
+            and B.se_status not in ('탈퇴')
         order by
             A.rh_create_dt desc
         limit
