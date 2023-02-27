@@ -140,6 +140,15 @@
         </selectKey>
     </insert>
 
+    <insert id="modifyRequestHistorySeller">
+        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
+        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},now(),#{pmNo},#{seNo})
+
+        <selectKey keyProperty="rhNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
 
 
     <update id="updateRequestHistorySeller">

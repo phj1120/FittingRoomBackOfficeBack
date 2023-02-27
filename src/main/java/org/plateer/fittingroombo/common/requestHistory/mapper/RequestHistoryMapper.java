@@ -33,6 +33,7 @@ public interface RequestHistoryMapper {
 
     // Request 등록
     Long insertRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO);
+    Long modifyRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO);
 
     // Request 수정
     Long updateRequestHistoryPlace(RequestHistoryDTO requestHistoryDTO);

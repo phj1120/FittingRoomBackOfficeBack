@@ -7,6 +7,7 @@ import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryDTO;
 import org.plateer.fittingroombo.common.requestHistory.dto.RequestHistoryPageRequestDTO;
 import org.plateer.fittingroombo.common.requestHistory.mapper.RequestHistoryMapper;
 import org.plateer.fittingroombo.seller.dto.SellerDTO;
+import org.plateer.fittingroombo.seller.mapper.SellerMapper;
 import org.plateer.fittingroombo.store.mapper.StoreMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,8 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreMapper storeMapper;
     private final RequestHistoryMapper requestHistoryMapper;
+
+    private final SellerMapper sellerMapper;
 
     @Override
     public PageResultDTO<RequestHistoryDTO> getStoreList(RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
@@ -53,8 +56,20 @@ public class StoreServiceImpl implements StoreService {
     public Long insertRequestHistorySeller(RequestHistoryDTO requestHistoryDTO) {
         requestHistoryDTO.setRhCreateDt(LocalDate.now());
         requestHistoryDTO.setRhStatus("대기");
-        //로그인 붙으면 수정해야함.
-        //requestHistoryDTO.setSeNo(1L);
+        requestHistoryMapper.insertRequestHistorySeller(requestHistoryDTO);
+        Long rhNo = requestHistoryDTO.getRhNo();
+        return rhNo;
+    }
+    @Override
+    public Long modifyRequestHistorySeller(RequestHistoryDTO requestHistoryDTO) {
+        requestHistoryDTO.setRhCreateDt(LocalDate.now());
+        requestHistoryDTO.setRhStatus("대기");
+        Long pmNo = sellerMapper.getSellerByNo(requestHistoryDTO.getSeNo());
+        log.info("================================");
+        log.info("================================");
+        log.info("================================");
+        log.info(pmNo);
+        requestHistoryDTO.setPmNo(pmNo);
         requestHistoryMapper.insertRequestHistorySeller(requestHistoryDTO);
         Long rhNo = requestHistoryDTO.getRhNo();
         return rhNo;
