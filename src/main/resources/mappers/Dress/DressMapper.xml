@@ -16,7 +16,7 @@
             se_name = #{seName},
             se_manager = #{seManager},
             se_email = #{seEmail},
-            se_password = #{sePassword},
+            se_ = #{se},
             se_phone = #{sePhone},
             se_address = #{seAddress},
         </set>
