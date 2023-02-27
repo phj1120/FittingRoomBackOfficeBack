@@ -65,14 +65,23 @@ public class StoreController {
     }
 
     //판매자 영상 상태 변경 시청
-    @PreAuthorize("hasRole('SELLER')")
     @PostMapping("/request")
-    public ResultDTO<Long> insertRequestHistorySeller(@AuthenticationPrincipal CustomUserDetail user
-                                                      ,@RequestBody RequestHistoryDTO requestHistoryDTO) {
+    public ResultDTO<Long> insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+
+        requestHistoryDTO.setSeNo(requestHistoryDTO.getSeNo());
+        return ResultDTO.<Long>builder()
+                .data(storeService.insertRequestHistorySeller(requestHistoryDTO)).build();
+    }
+
+    //판매자 영상 상태 변경 시청
+    @PreAuthorize("hasRole('SELLER')")
+    @PostMapping("/modify")
+    public ResultDTO<Long> modifyRequestHistorySeller(@AuthenticationPrincipal CustomUserDetail user
+    ,@RequestBody RequestHistoryDTO requestHistoryDTO) {
 
         requestHistoryDTO.setSeNo(user.getUserNo());
         return ResultDTO.<Long>builder()
-                .data(storeService.insertRequestHistorySeller(requestHistoryDTO)).build();
+                .data(storeService.modifyRequestHistorySeller(requestHistoryDTO)).build();
     }
 
 

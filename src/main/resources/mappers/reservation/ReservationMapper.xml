@@ -32,7 +32,7 @@
         FROM(
         SELECT  e.ca_no
         FROM tbl_product a , tbl_sell_product b, tbl_cart_product c, tbl_cart d, tbl_order e, tbl_reservation f
-        WHERE a.se_no =13
+        WHERE a.se_no =#{id}
         AND a.pr_no = b.pr_no
         and c.sp_no = b.sp_no
         AND d.ca_no = c.ca_no

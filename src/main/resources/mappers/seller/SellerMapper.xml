@@ -150,6 +150,15 @@
             se_id = #{ memberId }
     </select>
 
+    <select id="getSellerByNo" resultType="Long">
+        SELECT
+        pm_no
+        FROM
+        tbl_seller
+        WHERE
+        se_no = #{ seNo }
+    </select>
+
 
 
     <update id="updateSellerStatus">
