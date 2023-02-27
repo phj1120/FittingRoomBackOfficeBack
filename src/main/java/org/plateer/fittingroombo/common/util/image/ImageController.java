@@ -22,8 +22,15 @@ public class ImageController {
     private final ImageUtil imageUtil;
 
     // 이미지 조회
-    @GetMapping(value = "/image/{imagePath}",
-            produces = {MediaType.IMAGE_JPEG_VALUE})
+    @GetMapping(value = "/image/thumbnail/{imagePath}", produces = {MediaType.IMAGE_JPEG_VALUE})
+    public Resource getThumbnailImage(@PathVariable("imagePath") String imagePath) {
+        Resource file = imageUtil.readThumbnailImage(imagePath);
+
+        return file;
+    }
+
+    // 이미지 조회
+    @GetMapping(value = "/image/{imagePath}", produces = {MediaType.IMAGE_JPEG_VALUE})
     public Resource getImage(@PathVariable("imagePath") String imagePath) {
         Resource file = imageUtil.readImage(imagePath);
 
