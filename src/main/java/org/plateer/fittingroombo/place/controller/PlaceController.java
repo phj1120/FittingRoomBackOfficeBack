@@ -36,9 +36,9 @@ public class PlaceController {
     }
 
     // 특정 장소의 현황
-    @GetMapping("{id}")
-    public ResultDTO<PlaceRoomDTO> getPlaceRoom(@PathVariable("id") Long pmNo) {
-        PlaceRoomDTO placeRoomDTO = placeService.getPlaceRoom(pmNo);
+    @GetMapping
+    public ResultDTO<PlaceRoomDTO> getPlaceRoom(@AuthenticationPrincipal CustomUserDetail user) {
+        PlaceRoomDTO placeRoomDTO = placeService.getPlaceRoom(user.getUserNo());
         return ResultDTO.<PlaceRoomDTO>builder().data(placeRoomDTO).build();
     }
 

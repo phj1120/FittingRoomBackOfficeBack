@@ -73,7 +73,7 @@
             pm_status != '탈퇴'
     </select>
 
-    <select id="getPlaceRoom" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
+    <select id="getPlaceRoom" resultType="PlaceRoomDTO">
         SELECT
             tr.ro_no,
             tr.ro_name,
