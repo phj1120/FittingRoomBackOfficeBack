@@ -48,7 +48,7 @@
         select
             COUNT(*)
         from
-            tbl_request_history A
+        (SELECT * FROM (SELECT * FROM tbl_request_history ORDER BY rh_create_dt DESC LIMIT 18446744073709551615) S1 GROUP BY S1.pm_no, S1.se_no, S1.rh_content) A
             LEFT JOIN tbl_seller B on A.se_no = B.se_no
         where
                 A.pm_no = #{ id }
@@ -168,13 +168,13 @@
         select
             *
         from
-            tbl_request_history A
+            (SELECT * FROM (SELECT * FROM tbl_request_history ORDER BY rh_create_dt DESC LIMIT 18446744073709551615) S1 GROUP BY S1.pm_no, S1.se_no, S1.rh_content) A
             LEFT JOIN tbl_seller B on A.se_no = B.se_no
         where
                 A.pm_no = #{ id }
             and A.se_no is not null
             and A.rh_status = '대기'
-            and B.se_status = '대기'
+            and B.se_status not in ('탈퇴')
         order by
             A.rh_create_dt desc
         limit
