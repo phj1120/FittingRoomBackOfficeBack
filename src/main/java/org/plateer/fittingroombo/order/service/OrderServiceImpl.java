@@ -12,9 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Log4j2
 public class OrderServiceImpl implements OrderService{
 
-    private final OrderMapper orderMapper;
-    @Override
-    public Long insertModifyReservation(Long reNo) {
-        return orderMapper.insertModifyReservation(reNo);
-    }
+
 }

@@ -29,7 +29,6 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public PageResultDTO<GetReservationListDTO> getReservationList(ReservationPageRequestDTO reservationPageRequestDTO) {
 
-        reservationPageRequestDTO.setId(13L);
         int total = reservationMapper.getReservationCount(reservationPageRequestDTO);
 
         List<GetReservationListDTO> dtoList = reservationMapper.getReservationList(reservationPageRequestDTO);
@@ -50,9 +49,8 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public Long modifyCartProductStatus(GetReservationItemListDTO getReservationItemListDTO) {
-        orderMapper.insertModifyReservation(getReservationItemListDTO.getReNo());
+        orderMapper.insertModifyReservation(getReservationItemListDTO);
         reservationMapper.modifyCartProductStatus(getReservationItemListDTO);
-
         return  reservationMapper.modifyReservationStatus(getReservationItemListDTO);
     }
 }

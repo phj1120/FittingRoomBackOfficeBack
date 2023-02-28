@@ -32,6 +32,8 @@ public interface SellerMapper {
      Long insertSeller(SellerRegisterDTO sellerRegisterDTO);
 
     SellerDTO getSellerById( String memberId );
+
+    Long getSellerByNo( Long seNo );
     
     Long updateSellerStatus(RequestHistoryDTO requestHistoryDTO);
 }

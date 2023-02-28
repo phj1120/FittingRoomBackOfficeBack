@@ -26,23 +26,26 @@ public class ReservationController {
 
     @PreAuthorize("hasRole('SELLER')")
     @GetMapping("list")
-    public PageResultDTO<GetReservationListDTO> getReservationList(
+    public PageResultDTO<GetReservationListDTO> getReservationList(@AuthenticationPrincipal CustomUserDetail user,
            ReservationPageRequestDTO reservationPageRequestDTO){
 
+        reservationPageRequestDTO.setId(user.getUserNo());
         return reservationService.getReservationList(reservationPageRequestDTO);
     }
 
     @PreAuthorize("hasRole('SELLER')")
     @GetMapping("detail")
-    public List<CartProductListDTO> getReservationDetail( GetReservationItemListDTO getReservationItemListDTO){
-
+    public List<CartProductListDTO> getReservationDetail(@AuthenticationPrincipal CustomUserDetail user,
+            GetReservationItemListDTO getReservationItemListDTO){
+        getReservationItemListDTO.setSeNo(user.getUserNo());
         return reservationService.getReservationDetail(getReservationItemListDTO);
     }
 
     @PreAuthorize("hasRole('SELLER')")
     @PutMapping("detail/modify")
-    public Long modifyReservationDetail(@RequestBody GetReservationItemListDTO getReservationItemListDTO){
-
+    public Long modifyReservationDetail(@AuthenticationPrincipal CustomUserDetail user,
+                                        @RequestBody GetReservationItemListDTO getReservationItemListDTO){
+        getReservationItemListDTO.setSeNo(user.getUserNo());
         return reservationService.modifyCartProductStatus(getReservationItemListDTO);
     }
 

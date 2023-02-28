@@ -48,7 +48,7 @@
         select
             COUNT(*)
         from
-            tbl_request_history A
+        (SELECT * FROM (SELECT * FROM tbl_request_history ORDER BY rh_create_dt DESC LIMIT 18446744073709551615) S1 GROUP BY S1.pm_no, S1.se_no, S1.rh_content) A
             LEFT JOIN tbl_seller B on A.se_no = B.se_no
         where
                 A.pm_no = #{ id }
@@ -140,6 +140,15 @@
         </selectKey>
     </insert>
 
+    <insert id="modifyRequestHistorySeller">
+        insert into tbl_request_history (rh_status, rh_content, rh_reason, rh_start_dt, rh_create_dt,pm_no,se_no)
+        values(#{rhStatus},#{rhContent},#{rhReason},#{rhStartDt},now(),#{pmNo},#{seNo})
+
+        <selectKey keyProperty="rhNo" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
 
 
     <update id="updateRequestHistorySeller">
@@ -159,13 +168,13 @@
         select
             *
         from
-            tbl_request_history A
+            (SELECT * FROM (SELECT * FROM tbl_request_history ORDER BY rh_create_dt DESC LIMIT 18446744073709551615) S1 GROUP BY S1.pm_no, S1.se_no, S1.rh_content) A
             LEFT JOIN tbl_seller B on A.se_no = B.se_no
         where
                 A.pm_no = #{ id }
             and A.se_no is not null
             and A.rh_status = '대기'
-            and B.se_status = '대기'
+            and B.se_status not in ('탈퇴')
         order by
             A.rh_create_dt desc
         limit

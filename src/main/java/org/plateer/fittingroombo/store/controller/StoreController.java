@@ -31,25 +31,27 @@ public class StoreController {
     //판매자가 신청한 hostory request list 불러오기
     @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/status")
-    public PageResultDTO<RequestHistoryDTO> getStoreList( RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
+    public PageResultDTO<RequestHistoryDTO> getStoreList(
+            @AuthenticationPrincipal CustomUserDetail user,RequestHistoryPageRequestDTO requestHistoryPageRequestDTO) {
 
+        requestHistoryPageRequestDTO.setId(user.getUserNo());
         return storeService.getStoreList(requestHistoryPageRequestDTO);
     }
 
     //판매자 상태현황 상태 가져오기(영업중,휴업중)
     @PreAuthorize("hasRole('SELLER')")
-    @GetMapping("/status/{id}")
-    public ResultDTO<SellerDTO> getStoreStatus(@PathVariable("id") Long seNo) {
+    @GetMapping("/status/info")
+    public ResultDTO<SellerDTO> getStoreStatus(@AuthenticationPrincipal CustomUserDetail user) {
 
      return  ResultDTO.<SellerDTO>builder()
-                .data(storeService.getStoreStatus(seNo)).build();
+                .data(storeService.getStoreStatus(user.getUserNo())).build();
     }
 
     //판매자 영업 상태 변경 수정 (대기중 인 건만 가능)
     @PreAuthorize("hasRole('SELLER')")
     @PutMapping("/status")
     public ResultDTO<Long> updateRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
-        log.info(requestHistoryDTO);
+
         return ResultDTO.<Long>builder()
                 .data(storeService.updateRequestHistorySeller(requestHistoryDTO)).build();
     }
@@ -63,14 +65,23 @@ public class StoreController {
     }
 
     //판매자 영상 상태 변경 시청
-    @PreAuthorize("hasRole('SELLER')")
     @PostMapping("/request")
-    public ResultDTO<Long> insertRequestHistorySeller(@AuthenticationPrincipal CustomUserDetail user
-                                                      ,@RequestBody RequestHistoryDTO requestHistoryDTO) {
+    public ResultDTO<Long> insertRequestHistorySeller(@RequestBody RequestHistoryDTO requestHistoryDTO) {
+
+        requestHistoryDTO.setSeNo(requestHistoryDTO.getSeNo());
+        return ResultDTO.<Long>builder()
+                .data(storeService.insertRequestHistorySeller(requestHistoryDTO)).build();
+    }
+
+    //판매자 영상 상태 변경 시청
+    @PreAuthorize("hasRole('SELLER')")
+    @PostMapping("/modify")
+    public ResultDTO<Long> modifyRequestHistorySeller(@AuthenticationPrincipal CustomUserDetail user
+    ,@RequestBody RequestHistoryDTO requestHistoryDTO) {
 
         requestHistoryDTO.setSeNo(user.getUserNo());
         return ResultDTO.<Long>builder()
-                .data(storeService.insertRequestHistorySeller(requestHistoryDTO)).build();
+                .data(storeService.modifyRequestHistorySeller(requestHistoryDTO)).build();
     }
 
 
