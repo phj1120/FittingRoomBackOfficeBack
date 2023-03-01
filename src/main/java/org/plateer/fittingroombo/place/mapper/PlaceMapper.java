@@ -40,4 +40,6 @@ public interface PlaceMapper {
     PlaceRoomDTO getPlaceRoom( Long pmNo );
 
     void insertPlaceFile(List<PlaceFileDTO> placeFileDTOList, Long roNo);
+
+    List<PlaceRoomDTO> getPlaceAllList();
 }

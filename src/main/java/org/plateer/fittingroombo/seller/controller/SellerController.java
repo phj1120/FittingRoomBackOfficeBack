@@ -33,7 +33,7 @@ public class SellerController {
 
     //판매자 회원가입
     @PostMapping("/register")
-    public ResultDTO<Long> insertSeller( SellerRegisterDTO sellerRegisterDTO){
+    public ResultDTO<Long> insertSeller(SellerRegisterDTO sellerRegisterDTO){
         log.info(sellerRegisterDTO);
         SellerFileDTO sellerFileDTO = imageUtil.saveBizImage(sellerRegisterDTO.getImage());
         sellerRegisterDTO.setSaveImage(sellerFileDTO);

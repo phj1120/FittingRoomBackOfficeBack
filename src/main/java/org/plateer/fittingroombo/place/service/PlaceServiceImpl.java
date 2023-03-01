@@ -23,6 +23,10 @@ public class PlaceServiceImpl implements PlaceService {
     private final PlaceMapper placeMapper;
     private final RoomMapper roomMapper;
 
+
+    @Override
+    public List<PlaceRoomDTO> getPlaceAllList() { return placeMapper.getPlaceAllList(); }
+
     @Override
     public List<PlaceRoomDTO> getPlaceRoomList() {
         return placeMapper.getPlaceRoomList();
