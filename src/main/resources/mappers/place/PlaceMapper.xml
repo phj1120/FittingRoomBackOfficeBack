@@ -54,7 +54,26 @@
             pm_no = #{ pmNo }
     </update>
 
-    <select id="getPlaceRoomList" resultType="org.plateer.fittingroombo.place.dto.PlaceRoomDTO">
+    <select id="getPlaceAllList" resultType="PlaceRoomDTO">
+        SELECT
+            tr.ro_no,
+            tr.ro_name,
+            tr.ro_address,
+            tr.ro_detail_address,
+            tr.ro_postcode,
+            tr.ro_create_dt,
+            tpm.pm_name,
+            tpm.pm_status,
+            tpm.pm_phone,
+            tpm.pm_no
+        FROM
+            tbl_place_member tpm
+            LEFT JOIN tbl_room tr on tpm.ro_no = tr.ro_no
+        WHERE
+            pm_status != '탈퇴'
+    </select>
+
+    <select id="getPlaceRoomList" resultType="PlaceRoomDTO">
         SELECT
             tr.ro_no,
             tr.ro_name,

@@ -28,6 +28,11 @@ public class PlaceController {
     private final ImageUtil imageUtil;
 
 
+    @GetMapping("list/all")
+    public List<PlaceRoomDTO> getPlaceAllList() {
+        return placeService.getPlaceAllList();
+    }
+
     // 영업중인 장소 리스트
     @PreAuthorize("hasRole('PLACE')")
     @GetMapping("list")
