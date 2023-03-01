@@ -15,4 +15,6 @@ public interface PlaceService {
     Long updatePlaceInfo(PlaceDTO placeDTO);
 
     Long insertPlace(PlaceRegisterDTO placeRegisterDTO);
+
+    List<PlaceRoomDTO> getPlaceAllList();
 }
