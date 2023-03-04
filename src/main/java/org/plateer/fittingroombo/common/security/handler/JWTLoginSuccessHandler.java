@@ -32,8 +32,8 @@ public class JWTLoginSuccessHandler implements AuthenticationSuccessHandler {
         // 사용자의 아이디를 담은 jwt 토큰 생성
         String memberId = authentication.getName();
         // TODO 테스트를 위해 시간 늘림
-        String access = jwtUtil.generateToken(Map.of("memberId", memberId), 1);
-        String refresh = jwtUtil.generateToken(Map.of("memberId", memberId), 30);
+        String access = jwtUtil.generateToken(Map.of("memberId", memberId), 100);
+        String refresh = jwtUtil.generateToken(Map.of("memberId", memberId), 300);
 
         // 응답 생성
         response.setContentType("application/json");
